@@ -4,9 +4,9 @@
   "runtime": ".NET 8.0.24",
   "runs": 1000,
   "crime": {
-    "call": 100,
+    "call": 0,
     "field": 0,
-    "calc": 400,
+    "calc": 100,
     "single": 0,
     "cache": 0,
     "time": 0
@@ -14,7 +14,7 @@
   "rescue": {
     "call": 0,
     "arg": 0,
-    "calc": 500,
-    "ret": 100
+    "calc": 200,
+    "ret": 0
   }
 }

@@ -1,20 +1,20 @@
 {
   "language": "swift",
-  "os": "macOS",
+  "os": "Linux",
   "runtime": "Swift",
   "runs": 1000,
   "crime": {
-    "call": 80,
-    "field": 0,
-    "calc": 0,
-    "single": 35,
-    "cache": 0,
-    "time": 20
+    "call": 81,
+    "field": 5,
+    "calc": 2,
+    "single": 15,
+    "cache": 1,
+    "time": 19
   },
   "rescue": {
-    "call": 20,
+    "call": 18,
     "arg": 0,
-    "calc": 20,
-    "ret": 20
+    "calc": 12,
+    "ret": 13
   }
 }

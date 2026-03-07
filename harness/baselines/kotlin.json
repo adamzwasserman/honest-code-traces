@@ -4,17 +4,17 @@
   "runtime": "OpenJDK 64-Bit Server VM 21.0.10",
   "runs": 1000,
   "crime": {
-    "call": 1208,
-    "field": 166,
-    "calc": 833,
-    "single": 375,
-    "cache": 458,
-    "time": 333
+    "call": 417,
+    "field": 83,
+    "calc": 583,
+    "single": 167,
+    "cache": 208,
+    "time": 166
   },
   "rescue": {
     "call": 42,
-    "arg": 83,
-    "calc": 1458,
-    "ret": 750
+    "arg": 42,
+    "calc": 792,
+    "ret": 375
   }
 }

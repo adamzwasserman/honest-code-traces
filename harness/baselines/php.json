@@ -4,17 +4,17 @@
     "runtime": "PHP 8.3.6",
     "runs": 1000,
     "crime": {
-        "call": 83,
-        "field": 83,
-        "calc": 125,
-        "single": 83,
-        "cache": 84,
-        "time": 83
+        "call": 125,
+        "field": 125,
+        "calc": 250,
+        "single": 187,
+        "cache": 167,
+        "time": 167
     },
     "rescue": {
-        "call": 42,
-        "arg": 42,
-        "calc": 167,
-        "ret": 208
+        "call": 83,
+        "arg": 83,
+        "calc": 375,
+        "ret": 333
     }
 }
