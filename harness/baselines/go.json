@@ -1,0 +1,20 @@
+{
+  "language": "go",
+  "os": "linux arm64",
+  "runtime": "go1.23.5",
+  "runs": 1000,
+  "crime": {
+    "cache": 1,
+    "calc": 3,
+    "call": 67,
+    "field": 0,
+    "single": 24,
+    "time": 60
+  },
+  "rescue": {
+    "arg": 0,
+    "calc": 10,
+    "call": 59,
+    "ret": 11
+  }
+}

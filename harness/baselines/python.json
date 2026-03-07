@@ -1,0 +1,20 @@
+{
+  "language": "python",
+  "os": "Linux 6.10.14-linuxkit",
+  "runtime": "CPython 3.12.3",
+  "runs": 1000,
+  "crime": {
+    "call": 42.0,
+    "field": 42.0,
+    "calc": 250.0,
+    "single": 83.0,
+    "cache": 83.0,
+    "time": 83.0
+  },
+  "rescue": {
+    "call": 42.0,
+    "arg": 42.0,
+    "calc": 333.0,
+    "ret": 209.0
+  }
+}

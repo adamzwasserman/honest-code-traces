@@ -106,6 +106,27 @@ Each harness:
 
 The crime scene uses real singletons, real mutable state, and real collection operations. The rescue uses real pure functions with immutable return values. Nothing is faked.
 
+## Baseline Results
+
+Captured in Docker on Apple M2 Pro / macOS 15.3 / arm64:
+
+| Operation | Java | TypeScript | Go | Python |
+|-----------|------|------------|-----|--------|
+| **Crime** | | | | |
+| call | 167 | 125 | 67 | 42 |
+| field | 42 | 84 | 0 | 42 |
+| calc | 2416 | 208 | 3 | 250 |
+| single | 41 | 83 | 24 | 83 |
+| cache | 42 | 125 | 1 | 83 |
+| time | 333 | 125 | 60 | 83 |
+| **Rescue** | | | | |
+| call | 42 | 83 | 59 | 42 |
+| arg | 42 | 83 | 0 | 42 |
+| calc | 542 | 250 | 10 | 333 |
+| ret | 292 | 167 | 11 | 209 |
+
+Raw JSON in `harness/baselines/`.
+
 ## Repository Structure
 
 ```
@@ -114,6 +135,7 @@ harness/
   typescript/harness.ts      # V8: prototype chain, hidden classes, Date.now()
   go/harness.go             # Go: interface dispatch, sync.Once, struct copying
   python/harness.py         # CPython: LOAD_ATTR bytecodes, GIL, __dict__ lookups
+  baselines/                # Captured results (JSON) from Docker runs
   README.md                 # Detailed operation descriptions
 
 ch02-classes-considered-harmful/
