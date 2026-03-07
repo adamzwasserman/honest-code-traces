@@ -2,6 +2,9 @@
 // operations and four rescue operations used in the honestcode.software
 // demo engine.
 //
+// Uses Stopwatch (monotonic) and batched operations (100 iterations per
+// measurement) to overcome timer granularity.
+//
 // Usage:
 //   dart run harness.dart
 
@@ -9,6 +12,7 @@ import 'dart:io';
 
 const warmup = 200;
 const runs = 1000;
+const batch = 100;
 
 // ═══════════════════════════════════════════════
 // CRIME SCENE: mutable class with singletons
@@ -49,41 +53,71 @@ class Order {
   int? updatedAt;
 }
 
-int ns() => DateTime.now().microsecondsSinceEpoch * 1000;
+int swNs(Stopwatch sw) => sw.elapsedMicroseconds * 1000;
 
 List<int> crimeRun() {
-  final order = Order();
   final items = [Item('Widget', 29.99), Item('Gadget', 39.99), Item('Doohickey', 19.99)];
+  final sw = Stopwatch();
 
-  var t0 = ns();
-  order.items.addAll(items);
-  final callNs = ns() - t0;
+  // call: append items
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    final order = Order();
+    order.items.addAll(items);
+  }
+  sw.stop();
+  final callNs = swNs(sw) ~/ batch;
 
-  t0 = ns();
-  order.couponCode = 'SAVE10';
-  order.discount = 0;
-  final fieldNs = ns() - t0;
+  // field: mutable field write
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    final order = Order();
+    order.couponCode = 'SAVE10';
+    order.discount = 0;
+  }
+  sw.stop();
+  final fieldNs = swNs(sw) ~/ batch;
 
-  t0 = ns();
-  order.total = order.items.fold(0.0, (sum, item) => sum + item.price);
-  final calcNs = ns() - t0;
+  // calc: computation
+  final order = Order();
+  order.items = items;
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    order.total = order.items.fold(0.0, (sum, item) => sum + item.price);
+  }
+  sw.stop();
+  final calcNs = swNs(sw) ~/ batch;
 
-  CouponRegistry.reset();
-  TaxService.reset();
-  t0 = ns();
+  // single: singleton lookup
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    CouponRegistry.reset();
+    TaxService.reset();
+    CouponRegistry.getInstance();
+    TaxService.getInstance();
+  }
+  sw.stop();
+  final singleNs = swNs(sw) ~/ batch ~/ 2;
+
+  // cache: lookup
   final registry = CouponRegistry.getInstance();
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    final rate = registry.lookup('SAVE10');
+    order.discount = order.total * rate;
+  }
+  sw.stop();
+  final cacheNs = swNs(sw) ~/ batch;
+
+  // time: timestamp
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    order.updatedAt = DateTime.now().microsecondsSinceEpoch;
+  }
+  sw.stop();
+  final timeNs = swNs(sw) ~/ batch;
+
   final taxService = TaxService.getInstance();
-  final singleNs = (ns() - t0) ~/ 2;
-
-  t0 = ns();
-  final rate = registry.lookup(order.couponCode!);
-  order.discount = order.total * rate;
-  final cacheNs = ns() - t0;
-
-  t0 = ns();
-  order.updatedAt = DateTime.now().microsecondsSinceEpoch;
-  final timeNs = ns() - t0;
-
   order.tax = taxService.calculate('NY', order.total - order.discount);
 
   return [callNs, fieldNs, calcNs, singleNs, cacheNs, timeNs];
@@ -109,23 +143,37 @@ List<int> rescueRun() {
   final items = [Item('Widget', 29.99), Item('Gadget', 39.99), Item('Doohickey', 19.99)];
   final taxRates = {'NY': 0.08, 'CA': 0.0725};
   final coupons = {'SAVE10': 0.10};
+  final sw = Stopwatch();
 
-  var t0 = ns();
-  var t1 = ns();
-  final callNs = t1 - t0;
+  // call: overhead
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) { sw.elapsedMicroseconds; }
+  sw.stop();
+  final callNs = swNs(sw) ~/ batch;
 
-  t0 = ns();
-  final region = 'NY';
-  final argNs = ns() - t0;
-  region; // prevent unused warning
+  // arg: passing
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) { 'NY'; }
+  sw.stop();
+  final argNs = swNs(sw) ~/ batch;
 
-  t0 = ns();
-  final result = calculateOrder(items, region, taxRates);
-  final calcNs = ns() - t0;
+  // calc: pure computation
+  late Map<String, double> result;
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    result = calculateOrder(items, 'NY', taxRates);
+  }
+  sw.stop();
+  final calcNs = swNs(sw) ~/ batch;
 
-  t0 = ns();
-  final finalResult = applyCoupon(result, 'SAVE10', coupons);
-  final retNs = ns() - t0;
+  // ret: return value
+  late Map<String, dynamic> finalResult;
+  sw.reset(); sw.start();
+  for (var i = 0; i < batch; i++) {
+    finalResult = applyCoupon(result, 'SAVE10', coupons);
+  }
+  sw.stop();
+  final retNs = swNs(sw) ~/ batch;
 
   assert((finalResult['grand_total'] as double) > 0);
 

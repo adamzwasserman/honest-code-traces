@@ -1,20 +1,20 @@
 {
   "language": "dart",
-  "os": "linux Linux 6.10.14-linuxkit #1 SMP Thu Mar 20 16:32:56 UTC 2025",
-  "runtime": "Dart 3.5.4",
+  "os": "macos Version 15.3.2 (Build 24D81)",
+  "runtime": "Dart 3.11.1",
   "runs": 1000,
   "crime": {
-    "call": 1000,
-    "field": 0,
-    "calc": 0,
-    "single": 0,
+    "call": 40,
+    "field": 10,
+    "calc": 40,
+    "single": 5,
     "cache": 0,
-    "time": 0
+    "time": 50
   },
   "rescue": {
-    "call": 0,
+    "call": 20,
     "arg": 0,
-    "calc": 2000,
-    "ret": 4000
+    "calc": 120,
+    "ret": 200
   }
 }
