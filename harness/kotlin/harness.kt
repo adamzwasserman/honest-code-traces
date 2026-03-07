@@ -8,7 +8,7 @@
  */
 import kotlin.system.measureNanoTime
 
-const val WARMUP = 200
+const val WARMUP = 5000  // JVM C2 JIT needs ~10K invocations
 const val RUNS = 1000
 
 // ═══════════════════════════════════════════════

@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Harness {
 
-    static final int WARMUP = 200;
+    static final int WARMUP = 5000;  // C2 JIT needs ~10K invocations; 5K warmup * 2 calls/iter ≈ 10K
     static final int RUNS = 1000;
 
     // ═══════════════════════════════════════════════

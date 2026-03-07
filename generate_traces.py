@@ -577,11 +577,12 @@ LANG_CODE = {
     },
 }
 
-# Surprise pairing: Java crime + Python rescue
+# Surprise pairing: TypeScript crime + Python rescue
+# V8 JIT with mutable classes loses to CPython VM with pure functions
 SURPRISE = {
-    "crimeLabel": "☠ Dishonest — Java Order class (JVM)",
-    "rescueLabel": "✦ Honest — Pure functions (Python)",
-    "crime_lang": "java",
+    "crimeLabel": "☠ Dishonest — TypeScript Order class (V8)",
+    "rescueLabel": "✦ Honest — Pure functions (Python, CPython)",
+    "crime_lang": "typescript",
     "rescue_lang": "python",
 }
 
@@ -643,11 +644,11 @@ def main():
             "rescueTotal": rescue_total,
         }
 
-    # Surprise: Java crime + Python rescue
-    java_crime, _ = load_baseline("java")
-    _, python_rescue = load_baseline("python")
-    surprise_crime = build_crime_steps(java_crime, LANG_CODE["java"]["crime"])
-    surprise_rescue = build_rescue_steps(python_rescue, LANG_CODE["python"]["rescue"])
+    # Surprise: TypeScript crime + Python rescue
+    ts_crime, _ = load_baseline(SURPRISE["crime_lang"])
+    _, python_rescue = load_baseline(SURPRISE["rescue_lang"])
+    surprise_crime = build_crime_steps(ts_crime, LANG_CODE[SURPRISE["crime_lang"]]["crime"])
+    surprise_rescue = build_rescue_steps(python_rescue, LANG_CODE[SURPRISE["rescue_lang"]]["rescue"])
 
     output["surprise"] = {
         "crimeLabel": SURPRISE["crimeLabel"],
