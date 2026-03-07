@@ -4,17 +4,17 @@
   "runtime": "CPython 3.12.3",
   "runs": 1000,
   "crime": {
-    "call": 125.0,
-    "field": 125.0,
-    "calc": 666.0,
-    "single": 208.0,
-    "cache": 167.0,
-    "time": 167.0
+    "call": 42.0,
+    "field": 42.0,
+    "calc": 291.0,
+    "single": 83.0,
+    "cache": 83.0,
+    "time": 83.0
   },
   "rescue": {
-    "call": 83.0,
-    "arg": 83.0,
-    "calc": 875.0,
-    "ret": 500.0
+    "call": 42.0,
+    "arg": 42.0,
+    "calc": 333.0,
+    "ret": 84.0
   }
 }

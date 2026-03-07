@@ -118,18 +118,13 @@ def crime_run():
 def calculate_order(items, region, tax_rates):
     total = sum(item["price"] for item in items)
     tax = total * tax_rates.get(region, 0)
-    return {"total": total, "tax": tax, "subtotal": total + tax}
+    return total, tax, total + tax
 
 
-def apply_coupon(order, code, coupons):
+def apply_coupon(total, subtotal, code, coupons):
     rate = coupons.get(code, 0)
-    discount = order["total"] * rate
-    return {
-        **order,
-        "coupon_code": code,
-        "discount": discount,
-        "grand_total": order["subtotal"] - discount,
-    }
+    discount = total * rate
+    return code, discount, subtotal - discount
 
 
 def rescue_run():
@@ -153,18 +148,18 @@ def rescue_run():
     region = "NY"
     arg_ns = ns() - t0
 
-    # calc: pure computation
+    # calc: pure computation (returns tuples, not dicts)
     t0 = ns()
-    result = calculate_order(items, region, tax_rates)
+    total, tax, subtotal = calculate_order(items, region, tax_rates)
     calc_ns = ns() - t0
 
-    # ret: return value construction
+    # ret: apply coupon (returns tuple, no allocation beyond that)
     t0 = ns()
-    final = apply_coupon(result, "SAVE10", coupons)
+    code, discount, grand_total = apply_coupon(total, subtotal, "SAVE10", coupons)
     ret_ns = ns() - t0
 
     # prevent dead code elimination
-    assert final["grand_total"] > 0
+    assert grand_total > 0
 
     return [call_ns, arg_ns, calc_ns, ret_ns]
 

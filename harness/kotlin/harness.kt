@@ -81,20 +81,16 @@ fun crimeRun(): LongArray {
 // RESCUE: pure functions, flat data
 // ═══════════════════════════════════════════════
 
-data class OrderResult(val total: Double, val tax: Double, val subtotal: Double)
-data class FinalResult(val total: Double, val tax: Double, val subtotal: Double,
-                       val couponCode: String, val discount: Double, val grandTotal: Double)
-
-fun calculateOrder(items: List<Item>, region: String, taxRates: Map<String, Double>): OrderResult {
+fun calculateOrder(items: List<Item>, region: String, taxRates: Map<String, Double>): Triple<Double, Double, Double> {
     val total = items.sumOf { it.price }
     val tax = total * (taxRates[region] ?: 0.0)
-    return OrderResult(total, tax, total + tax)
+    return Triple(total, tax, total + tax)
 }
 
-fun applyCoupon(order: OrderResult, code: String, coupons: Map<String, Double>): FinalResult {
+fun applyCoupon(total: Double, subtotal: Double, code: String, coupons: Map<String, Double>): Triple<String, Double, Double> {
     val rate = coupons[code] ?: 0.0
-    val discount = order.total * rate
-    return FinalResult(order.total, order.tax, order.subtotal, code, discount, order.subtotal - discount)
+    val discount = total * rate
+    return Triple(code, discount, subtotal - discount)
 }
 
 fun rescueRun(): LongArray {
@@ -104,11 +100,17 @@ fun rescueRun(): LongArray {
 
     val callNs = measureNanoTime { }
     val argNs = measureNanoTime { @Suppress("UNUSED_VARIABLE") val r = "NY" }
-    var result: OrderResult? = null
-    val calcNs = measureNanoTime { result = calculateOrder(items, "NY", taxRates) }
-    var final_: FinalResult? = null
-    val retNs = measureNanoTime { final_ = applyCoupon(result!!, "SAVE10", coupons) }
-    check(final_!!.grandTotal > 0)
+    var total = 0.0; var tax = 0.0; var subtotal = 0.0
+    val calcNs = measureNanoTime {
+        val (t, tx, st) = calculateOrder(items, "NY", taxRates)
+        total = t; tax = tx; subtotal = st
+    }
+    var grandTotal = 0.0
+    val retNs = measureNanoTime {
+        val (code, discount, gt) = applyCoupon(total, subtotal, "SAVE10", coupons)
+        grandTotal = gt
+    }
+    check(grandTotal > 0)
 
     return longArrayOf(callNs, argNs, calcNs, retNs)
 }
