@@ -1,4 +1,9 @@
 *.class
+*.jar
 node_modules/
 .DS_Store
 results/
+harness/cpp/harness
+harness/swift/harness
+harness/csharp/bin/
+harness/csharp/obj/

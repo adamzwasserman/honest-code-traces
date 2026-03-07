@@ -1,0 +1,183 @@
+// Trace harness: captures median nanosecond costs for the six crime
+// operations and four rescue operations used in the honestcode.software
+// demo engine.
+//
+// Usage:
+//   dart run harness.dart
+
+import 'dart:io';
+
+const warmup = 200;
+const runs = 1000;
+
+// ═══════════════════════════════════════════════
+// CRIME SCENE: mutable class with singletons
+// ═══════════════════════════════════════════════
+
+class CouponRegistry {
+  static CouponRegistry? _instance;
+  static CouponRegistry getInstance() {
+    _instance ??= CouponRegistry();
+    return _instance!;
+  }
+  static void reset() => _instance = null;
+  double lookup(String code) => code == 'SAVE10' ? 0.10 : 0;
+}
+
+class TaxService {
+  static TaxService? _instance;
+  static TaxService getInstance() {
+    _instance ??= TaxService();
+    return _instance!;
+  }
+  static void reset() => _instance = null;
+  double calculate(String region, double taxable) => taxable * 0.08;
+}
+
+class Item {
+  final String name;
+  final double price;
+  Item(this.name, this.price);
+}
+
+class Order {
+  List<Item> items = [];
+  double total = 0;
+  double discount = 0;
+  double tax = 0;
+  String? couponCode;
+  int? updatedAt;
+}
+
+int ns() => DateTime.now().microsecondsSinceEpoch * 1000;
+
+List<int> crimeRun() {
+  final order = Order();
+  final items = [Item('Widget', 29.99), Item('Gadget', 39.99), Item('Doohickey', 19.99)];
+
+  var t0 = ns();
+  order.items.addAll(items);
+  final callNs = ns() - t0;
+
+  t0 = ns();
+  order.couponCode = 'SAVE10';
+  order.discount = 0;
+  final fieldNs = ns() - t0;
+
+  t0 = ns();
+  order.total = order.items.fold(0.0, (sum, item) => sum + item.price);
+  final calcNs = ns() - t0;
+
+  CouponRegistry.reset();
+  TaxService.reset();
+  t0 = ns();
+  final registry = CouponRegistry.getInstance();
+  final taxService = TaxService.getInstance();
+  final singleNs = (ns() - t0) ~/ 2;
+
+  t0 = ns();
+  final rate = registry.lookup(order.couponCode!);
+  order.discount = order.total * rate;
+  final cacheNs = ns() - t0;
+
+  t0 = ns();
+  order.updatedAt = DateTime.now().microsecondsSinceEpoch;
+  final timeNs = ns() - t0;
+
+  order.tax = taxService.calculate('NY', order.total - order.discount);
+
+  return [callNs, fieldNs, calcNs, singleNs, cacheNs, timeNs];
+}
+
+// ═══════════════════════════════════════════════
+// RESCUE: pure functions, flat data
+// ═══════════════════════════════════════════════
+
+Map<String, double> calculateOrder(List<Item> items, String region, Map<String, double> taxRates) {
+  final total = items.fold(0.0, (sum, item) => sum + item.price);
+  final tax = total * (taxRates[region] ?? 0);
+  return {'total': total, 'tax': tax, 'subtotal': total + tax};
+}
+
+Map<String, dynamic> applyCoupon(Map<String, double> order, String code, Map<String, double> coupons) {
+  final rate = coupons[code] ?? 0;
+  final discount = order['total']! * rate;
+  return {...order, 'coupon_code': code, 'discount': discount, 'grand_total': order['subtotal']! - discount};
+}
+
+List<int> rescueRun() {
+  final items = [Item('Widget', 29.99), Item('Gadget', 39.99), Item('Doohickey', 19.99)];
+  final taxRates = {'NY': 0.08, 'CA': 0.0725};
+  final coupons = {'SAVE10': 0.10};
+
+  var t0 = ns();
+  var t1 = ns();
+  final callNs = t1 - t0;
+
+  t0 = ns();
+  final region = 'NY';
+  final argNs = ns() - t0;
+  region; // prevent unused warning
+
+  t0 = ns();
+  final result = calculateOrder(items, region, taxRates);
+  final calcNs = ns() - t0;
+
+  t0 = ns();
+  final finalResult = applyCoupon(result, 'SAVE10', coupons);
+  final retNs = ns() - t0;
+
+  assert((finalResult['grand_total'] as double) > 0);
+
+  return [callNs, argNs, calcNs, retNs];
+}
+
+// ═══════════════════════════════════════════════
+// HARNESS
+// ═══════════════════════════════════════════════
+
+int median(List<int> values) {
+  values.sort();
+  return values[values.length ~/ 2];
+}
+
+void main() {
+  for (var i = 0; i < warmup; i++) { crimeRun(); rescueRun(); }
+
+  final crimeResults = List.generate(runs, (_) => crimeRun());
+  final rescueResults = List.generate(runs, (_) => rescueRun());
+
+  final crimeOps = ['call', 'field', 'calc', 'single', 'cache', 'time'];
+  final rescueOps = ['call', 'arg', 'calc', 'ret'];
+
+  final crime = <String, int>{};
+  for (var i = 0; i < crimeOps.length; i++) {
+    final col = crimeResults.map((r) => r[i]).toList();
+    crime[crimeOps[i]] = median(col);
+  }
+
+  final rescue = <String, int>{};
+  for (var i = 0; i < rescueOps.length; i++) {
+    final col = rescueResults.map((r) => r[i]).toList();
+    rescue[rescueOps[i]] = median(col);
+  }
+
+  print('{');
+  print('  "language": "dart",');
+  print('  "os": "${Platform.operatingSystem} ${Platform.operatingSystemVersion}",');
+  print('  "runtime": "Dart ${Platform.version.split(' ').first}",');
+  print('  "runs": $runs,');
+  print('  "crime": {');
+  for (var i = 0; i < crimeOps.length; i++) {
+    final comma = i < crimeOps.length - 1 ? ',' : '';
+    print('    "${crimeOps[i]}": ${crime[crimeOps[i]]}$comma');
+  }
+  print('  },');
+  print('  "rescue": {');
+  for (var i = 0; i < rescueOps.length; i++) {
+    final comma = i < rescueOps.length - 1 ? ',' : '';
+    print('    "${rescueOps[i]}": ${rescue[rescueOps[i]]}$comma');
+  }
+  print('  }');
+  print('}');
+}

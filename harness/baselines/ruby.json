@@ -1,0 +1,20 @@
+{
+  "language": "ruby",
+  "os": "aarch64-linux-gnu",
+  "runtime": "ruby 3.2.3",
+  "runs": 1000,
+  "crime": {
+    "call": 125,
+    "field": 125,
+    "calc": 209,
+    "single": 166,
+    "cache": 125,
+    "time": 125
+  },
+  "rescue": {
+    "call": 83,
+    "arg": 84,
+    "calc": 333,
+    "ret": 334
+  }
+}

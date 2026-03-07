@@ -1,0 +1,20 @@
+{
+    "language": "php",
+    "os": "Linux 6.10.14-linuxkit",
+    "runtime": "PHP 8.3.6",
+    "runs": 1000,
+    "crime": {
+        "call": 83,
+        "field": 83,
+        "calc": 125,
+        "single": 83,
+        "cache": 84,
+        "time": 83
+    },
+    "rescue": {
+        "call": 42,
+        "arg": 42,
+        "calc": 167,
+        "ret": 208
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "language": "cpp",
+  "os": "Linux",
+  "runtime": "g++ C++17",
+  "runs": 1000,
+  "crime": {
+    "call": 42,
+    "field": 42,
+    "calc": 41,
+    "single": 21,
+    "cache": 41,
+    "time": 42
+  },
+  "rescue": {
+    "call": 41,
+    "arg": 41,
+    "calc": 42,
+    "ret": 42
+  }
+}

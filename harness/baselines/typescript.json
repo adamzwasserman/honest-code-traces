@@ -4,17 +4,17 @@
   "runtime": "Node.js v22.22.1",
   "runs": 1000,
   "crime": {
-    "call": 125,
-    "field": 84,
-    "calc": 208,
-    "single": 83,
+    "call": 83,
+    "field": 83,
+    "calc": 166,
+    "single": 62,
     "cache": 125,
     "time": 125
   },
   "rescue": {
-    "call": 83,
-    "arg": 83,
-    "calc": 250,
-    "ret": 167
+    "call": 42,
+    "arg": 42,
+    "calc": 208,
+    "ret": 125
   }
 }

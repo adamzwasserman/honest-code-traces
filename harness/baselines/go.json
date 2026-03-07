@@ -4,17 +4,17 @@
   "runtime": "go1.23.5",
   "runs": 1000,
   "crime": {
-    "cache": 1,
-    "calc": 3,
-    "call": 67,
+    "cache": 0,
+    "calc": 2,
+    "call": 62,
     "field": 0,
     "single": 24,
-    "time": 60
+    "time": 50
   },
   "rescue": {
     "arg": 0,
-    "calc": 10,
-    "call": 59,
-    "ret": 11
+    "calc": 5,
+    "call": 49,
+    "ret": 5
   }
 }
