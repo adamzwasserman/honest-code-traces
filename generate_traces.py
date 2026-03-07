@@ -577,12 +577,12 @@ LANG_CODE = {
     },
 }
 
-# Surprise pairing: TypeScript crime + Python rescue
-# V8 JIT with mutable classes loses to CPython VM with pure functions
+# Surprise pairing: Swift crime + Python rescue
+# LLVM native-compiled classes lose to CPython bytecode VM with pure functions
 SURPRISE = {
-    "crimeLabel": "☠ Dishonest — TypeScript Order class (V8)",
-    "rescueLabel": "✦ Honest — Pure functions (Python, CPython)",
-    "crime_lang": "typescript",
+    "crimeLabel": "☠ Dishonest — Swift Order class (native, LLVM)",
+    "rescueLabel": "✦ Honest — Pure functions (Python, CPython VM)",
+    "crime_lang": "swift",
     "rescue_lang": "python",
 }
 
