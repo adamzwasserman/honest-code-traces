@@ -3553,8 +3553,8 @@
     "rescueTotal": 170
   },
   "surprise": {
-    "crimeLabel": "\u2620 Dishonest \u2014 Java Order class (JVM, compiled)",
-    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Python, interpreted)",
+    "crimeLabel": "\u2620 Dishonest \u2014 Java Order class (JVM)",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Python)",
     "crime": [
       {
         "code": "order.addItem(newItem);",

@@ -579,8 +579,8 @@ LANG_CODE = {
 
 # Surprise pairing: Java crime + Python rescue
 SURPRISE = {
-    "crimeLabel": "☠ Dishonest — Java Order class (JVM, compiled)",
-    "rescueLabel": "✦ Honest — Pure functions (Python, interpreted)",
+    "crimeLabel": "☠ Dishonest — Java Order class (JVM)",
+    "rescueLabel": "✦ Honest — Pure functions (Python)",
     "crime_lang": "java",
     "rescue_lang": "python",
 }
