@@ -2,108 +2,138 @@
 
 Instrumented source code and execution traces for every demo on [honestcode.software](https://honestcode.software).
 
-## What This Is
+This is the companion repository for the book [*Honest Code: Keep Your State Out of My Code*](https://adamzwasserman.gumroad.com/l/honest-code-ebook) by Adam Zachary Wasserman. The book teaches you to replace mutable state, singletons, and inheritance with pure functions, flat data, and composition. The demos on the companion site visualize those differences in real nanoseconds. This repo is how we get those numbers.
 
-Every interactive demo on the Honest Code companion site visualizes the execution difference between "dishonest" code (mutable state, singletons, hidden side effects) and "honest" code (pure functions, flat data, composition). The timing shown is proportional to real nanosecond costs per language runtime.
+## What This Measures
 
-This repository contains:
+Every demo on honestcode.software shows two versions of the same code side by side: the "crime scene" (classes, mutation, singletons) and the "rescue" (pure functions, flat data). The animation timing is proportional to real nanosecond costs captured from instrumented runs.
 
-- **Source code** for each chapter's crime scene and rescue
-- **Execution traces** (JSON) captured from real instrumented runs
-- **The trace generator** that scales baseline captures across 12 language runtimes
+We measure six operations on the crime side and four on the rescue side:
+
+**Crime (class-based, dishonest code):**
+
+| Operation | What it captures |
+|-----------|-----------------|
+| `call`    | Method dispatch (vtable, prototype chain, interface dispatch) |
+| `field`   | Mutable field write (heap allocation, GC pressure) |
+| `calc`    | Computation within a method (stream/reduce over collection) |
+| `single`  | Singleton/global lookup |
+| `cache`   | Cache check (hash table, concurrent map) |
+| `time`    | Timestamp capture (system call overhead) |
+
+**Rescue (function-based, honest code):**
+
+| Operation | What it captures |
+|-----------|-----------------|
+| `call`    | Function call overhead |
+| `arg`     | Argument passing |
+| `calc`    | Pure computation (same math, no dispatch) |
+| `ret`     | Return value construction |
+
+## Quick Start (Docker)
+
+Run all four harnesses and get JSON results:
+
+```bash
+docker build -t honest-traces .
+docker run --rm -v $(pwd)/results:/traces/results honest-traces
+```
+
+Results land in `results/`:
+
+```
+results/java.json
+results/python.json
+results/typescript.json
+results/go.json
+```
+
+## Quick Start (Local)
+
+Run any harness individually:
+
+```bash
+# Java (requires JDK 21+)
+cd harness/java && javac Harness.java && java Harness
+
+# Python (requires 3.12+)
+cd harness/python && python harness.py
+
+# TypeScript (requires Node 20+ and tsx)
+cd harness/typescript && npx tsx harness.ts
+
+# Go (requires 1.21+)
+cd harness/go && go run harness.go
+```
+
+Each prints JSON to stdout with median nanosecond costs per operation.
+
+## Output Format
+
+```json
+{
+  "language": "java",
+  "os": "Mac OS X 15.3.2",
+  "runtime": "OpenJDK 64-Bit Server VM 25.0.2",
+  "runs": 1000,
+  "crime": {
+    "call": 292,
+    "field": 42,
+    "calc": 2458,
+    "single": 41,
+    "cache": 83,
+    "time": 250
+  },
+  "rescue": {
+    "call": 41,
+    "arg": 42,
+    "calc": 125,
+    "ret": 292
+  }
+}
+```
+
+These values feed directly into the `makeCrimeTrace()` and `makeRescueTrace()` functions in the [landing page animation engine](https://honestcode.software).
+
+## Methodology
+
+Each harness:
+
+1. Implements the same Order scenario in its native idiom (mutable class for crime, pure functions for rescue)
+2. Warms up for 200 iterations (JIT compilation, cache priming)
+3. Runs 1000 measured iterations
+4. Reports the median nanosecond cost per operation
+
+The crime scene uses real singletons, real mutable state, and real collection operations. The rescue uses real pure functions with immutable return values. Nothing is faked.
 
 ## Repository Structure
 
 ```
+harness/
+  java/Harness.java         # JVM: vtable dispatch, stream API, synchronized singletons
+  typescript/harness.ts      # V8: prototype chain, hidden classes, Date.now()
+  go/harness.go             # Go: interface dispatch, sync.Once, struct copying
+  python/harness.py         # CPython: LOAD_ATTR bytecodes, GIL, __dict__ lookups
+  README.md                 # Detailed operation descriptions
+
 ch02-classes-considered-harmful/
-  crime/Order.java              # The mutable Order class
-  rescue/calculate_order.py     # Pure function equivalent
+  crime/Order.java          # The mutable Order class from the book
+  rescue/calculate_order.py # Pure function equivalent
   hero-demo/
-    generate_traces.py          # Scales Java/Python baselines to all 12 languages
-    traces/{lang}-crime.json    # Per-language crime traces
-    traces/{lang}-rescue.json   # Per-language rescue traces
-  traces/
-    crime.json                  # Raw Java capture (coming soon)
-    rescue.json                 # Raw Python capture (coming soon)
+    generate_traces.py      # Scales baselines to 12 languages for the landing page
+    traces/{lang}-crime.json
+    traces/{lang}-rescue.json
+
+ch01-all-languages-are-good/    # (coming soon)
+ch03-data-is-just-data/         # (coming soon)
+...
+ch13-the-monday-morning-chapter/
 ```
 
-Each chapter follows the same `crime/` + `rescue/` + `traces/` pattern.
+## The Book
 
-## Trace JSON Format
-
-Crime traces (class-based, dishonest):
-
-```json
-[
-  [nanoseconds, [["state_field_id", "value"], ...], singleton_lookup_count],
-  ...
-]
-```
-
-Rescue traces (function-based, honest):
-
-```json
-[
-  [nanoseconds, [["result_field_id", "value"], ...]],
-  ...
-]
-```
-
-Each entry represents one step in the execution. The visualization engine on honestcode.software replays these traces with timing proportional to the nanosecond values.
-
-## Per-Language Scaling Methodology
-
-The hero demo on the landing page shows the same crime/rescue pattern in 12 languages. Since we can't run identical code across all 12 runtimes, we:
-
-1. **Capture real baselines** in Java (crime) and Python (rescue) with `System.nanoTime()` / `time.perf_counter_ns()`
-2. **Scale nanosecond values** using published benchmark ratios for equivalent operations in each language
-
-The scaling factors account for:
-- **Method dispatch overhead**: vtable (C++/Java), witness table (Swift), interface dispatch (Go), prototype chain (JS)
-- **Field access cost**: direct (C++), managed heap (Java/C#), hash-table property (Python/Ruby/PHP)
-- **Singleton/global lookup**: varies from near-zero (compiled, cached) to hundreds of ns (interpreted, GIL)
-- **Function call overhead**: inlined (JIT languages) vs interpreted (CPython/YARV/Zend)
-
-Sources for scaling ratios:
-- [Computer Language Benchmarks Game](https://benchmarksgame-team.pages.debian.net/benchmarksgame/)
-- JMH microbenchmarks for JVM languages
-- V8/SpiderMonkey internal benchmarks for JS/TS
-- Language-specific profiling documentation
-
-See `ch02/hero-demo/generate_traces.py` for the exact factors and their documentation.
-
-## Hardware
-
-Baseline captures were run on:
-
-- **Machine**: (TBD — fill in when captures are done)
-- **OS**: (TBD)
-- **Runtimes**: OpenJDK 21, CPython 3.12
-
-## Reproducing Captures
-
-### Chapter 2: Classes Considered Harmful
-
-Crime scene (Java):
-```bash
-cd ch02-classes-considered-harmful/crime
-javac Order.java
-java -cp . Order > ../traces/crime.json
-```
-
-Rescue (Python):
-```bash
-cd ch02-classes-considered-harmful/rescue
-python calculate_order.py > ../traces/rescue.json
-```
-
-Generate all 12 language variants:
-```bash
-cd ch02-classes-considered-harmful/hero-demo
-python generate_traces.py
-# Outputs traces/{lang}-crime.json and traces/{lang}-rescue.json
-```
+[*Honest Code*](https://honestcode.software) covers 13 chapters on replacing dishonest patterns with honest ones. Every chapter has a crime scene and a rescue, with interactive demos on the companion site. A [free sampler](https://adamzwasserman.gumroad.com/l/honest-code-sampler) is available with the first two chapters and the cheat sheet.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
