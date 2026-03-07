@@ -5,16 +5,16 @@
   "runs": 1000,
   "crime": {
     "call": 42,
-    "field": 42,
-    "calc": 41,
+    "field": 41,
+    "calc": 0,
     "single": 21,
-    "cache": 41,
+    "cache": 0,
     "time": 42
   },
   "rescue": {
-    "call": 41,
-    "arg": 41,
-    "calc": 42,
-    "ret": 42
+    "call": 0,
+    "arg": 0,
+    "calc": 41,
+    "ret": 41
   }
 }

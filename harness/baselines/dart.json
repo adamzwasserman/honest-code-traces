@@ -12,9 +12,9 @@
     "time": 60
   },
   "rescue": {
-    "call": 70,
+    "call": 0,
     "arg": 0,
-    "calc": 280,
-    "ret": 510
+    "calc": 70,
+    "ret": 20
   }
 }

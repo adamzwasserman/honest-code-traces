@@ -63,37 +63,55 @@ static long Median(long[] values)
     return values[values.Length / 2];
 }
 
+const int Batch = 100;
+
+static long NsPerBatch(Stopwatch sw) => sw.Elapsed.Ticks * 100 / Batch;
+
 static long[] CrimeRun()
 {
-    var order = new Order();
     var items = new[] { new Item("Widget", 29.99), new Item("Gadget", 39.99), new Item("Doohickey", 19.99) };
     var sw = new Stopwatch();
 
-    sw.Restart(); order.Items.AddRange(items); sw.Stop();
-    long callNs = sw.Elapsed.Ticks * 100;
-
-    sw.Restart(); order.CouponCode = "SAVE10"; order.Discount = 0; sw.Stop();
-    long fieldNs = sw.Elapsed.Ticks * 100;
-
-    sw.Restart(); order.Total = order.Items.Sum(i => i.Price); sw.Stop();
-    long calcNs = sw.Elapsed.Ticks * 100;
-
-    CouponRegistry.Reset(); TaxService.Reset();
+    // call: addItem
     sw.Restart();
+    for (int b = 0; b < Batch; b++) { var o = new Order(); o.Items.AddRange(items); }
+    sw.Stop();
+    long callNs = NsPerBatch(sw);
+
+    // field: mutable field write
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { var o = new Order(); o.CouponCode = "SAVE10"; o.Discount = 0; }
+    sw.Stop();
+    long fieldNs = NsPerBatch(sw);
+
+    // calc: computation
+    var order = new Order();
+    order.Items.AddRange(items);
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { order.Total = order.Items.Sum(i => i.Price); }
+    sw.Stop();
+    long calcNs = NsPerBatch(sw);
+
+    // single: singleton lookup
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { CouponRegistry.Reset(); TaxService.Reset(); CouponRegistry.GetInstance(); TaxService.GetInstance(); }
+    sw.Stop();
+    long singleNs = NsPerBatch(sw) / 2;
+
+    // cache: lookup
     var registry = CouponRegistry.GetInstance();
-    var taxService = TaxService.GetInstance();
-    sw.Stop();
-    long singleNs = sw.Elapsed.Ticks * 100 / 2;
-
     sw.Restart();
-    var rate = registry.Lookup(order.CouponCode!);
-    order.Discount = order.Total * rate;
+    for (int b = 0; b < Batch; b++) { var rate = registry.Lookup(order.CouponCode ?? "SAVE10"); order.Discount = order.Total * rate; }
     sw.Stop();
-    long cacheNs = sw.Elapsed.Ticks * 100;
+    long cacheNs = NsPerBatch(sw);
 
-    sw.Restart(); order.UpdatedAt = Stopwatch.GetTimestamp(); sw.Stop();
-    long timeNs = sw.Elapsed.Ticks * 100;
+    // time: timestamp
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { order.UpdatedAt = Stopwatch.GetTimestamp(); }
+    sw.Stop();
+    long timeNs = NsPerBatch(sw);
 
+    var taxService = TaxService.GetInstance();
     order.Tax = taxService.Calculate("NY", order.Total - order.Discount);
 
     return new[] { callNs, fieldNs, calcNs, singleNs, cacheNs, timeNs };
@@ -106,36 +124,49 @@ static long[] RescueRun()
     var coupons = new Dictionary<string, double> { ["SAVE10"] = 0.10 };
     var sw = new Stopwatch();
 
-    sw.Restart(); sw.Stop();
-    long callNs = sw.Elapsed.Ticks * 100;
+    // call: overhead
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { sw.ElapsedTicks.ToString(); }
+    sw.Stop();
+    long callNs = NsPerBatch(sw);
 
-    sw.Restart(); var region = "NY"; sw.Stop();
-    long argNs = sw.Elapsed.Ticks * 100;
-    _ = region;
+    // arg: passing
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { _ = "NY"; }
+    sw.Stop();
+    long argNs = NsPerBatch(sw);
 
-    sw.Restart(); var result = CalculateOrder(items, "NY", taxRates); sw.Stop();
-    long calcNs = sw.Elapsed.Ticks * 100;
+    // calc: pure computation
+    (double, double, double) result = default;
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { result = CalculateOrder(items, "NY", taxRates); }
+    sw.Stop();
+    long calcNs = NsPerBatch(sw);
 
-    sw.Restart(); var final_ = ApplyCoupon(result, "SAVE10", coupons); sw.Stop();
-    long retNs = sw.Elapsed.Ticks * 100;
+    // ret: apply coupon
+    (string, double, double) final_ = default;
+    sw.Restart();
+    for (int b = 0; b < Batch; b++) { final_ = ApplyCoupon(result.Item1, result.Item3, "SAVE10", coupons); }
+    sw.Stop();
+    long retNs = NsPerBatch(sw);
 
-    if (final_.GrandTotal < 0) throw new Exception("impossible");
+    if (final_.Item3 < 0) throw new Exception("impossible");
 
     return new[] { callNs, argNs, calcNs, retNs };
 }
 
-static OrderResult CalculateOrder(Item[] items, string region, Dictionary<string, double> taxRates)
+static (double total, double tax, double subtotal) CalculateOrder(Item[] items, string region, Dictionary<string, double> taxRates)
 {
     var total = items.Sum(i => i.Price);
     var tax = total * (taxRates.TryGetValue(region, out var r) ? r : 0);
-    return new(total, tax, total + tax);
+    return (total, tax, total + tax);
 }
 
-static FinalResult ApplyCoupon(OrderResult order, string code, Dictionary<string, double> coupons)
+static (string code, double discount, double grandTotal) ApplyCoupon(double total, double subtotal, string code, Dictionary<string, double> coupons)
 {
     var rate = coupons.TryGetValue(code, out var r) ? r : 0;
-    var discount = order.Total * rate;
-    return new(order.Total, order.Tax, order.Subtotal, code, discount, order.Subtotal - discount);
+    var discount = total * rate;
+    return (code, discount, subtotal - discount);
 }
 
 // ═══════════════════════════════════════════════
@@ -144,8 +175,6 @@ static FinalResult ApplyCoupon(OrderResult order, string code, Dictionary<string
 
 record Item(string Name, double Price);
 
-record OrderResult(double Total, double Tax, double Subtotal);
-record FinalResult(double Total, double Tax, double Subtotal, string CouponCode, double Discount, double GrandTotal);
 
 class CouponRegistry
 {

@@ -4,17 +4,17 @@
   "runtime": ".NET 8.0.24",
   "runs": 1000,
   "crime": {
-    "call": 0,
-    "field": 0,
-    "calc": 100,
-    "single": 0,
-    "cache": 0,
-    "time": 0
+    "call": 65,
+    "field": 16,
+    "calc": 152,
+    "single": 17,
+    "cache": 10,
+    "time": 25
   },
   "rescue": {
-    "call": 0,
-    "arg": 0,
-    "calc": 200,
-    "ret": 0
+    "call": 38,
+    "arg": 5,
+    "calc": 173,
+    "ret": 17
   }
 }

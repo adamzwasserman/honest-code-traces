@@ -5,7 +5,7 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -19,14 +19,14 @@
       },
       {
         "code": "  recalculateTotal();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.total = items.stream()...",
-        "ns": 2416,
+        "ns": 6750,
         "op": "calc",
         "mutations": [
           [
@@ -38,28 +38,28 @@
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -78,28 +78,28 @@
       },
       {
         "code": "  recalculateTax();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -118,7 +118,7 @@
       },
       {
         "code": "  this.updatedAt = now();",
-        "ns": 333,
+        "ns": 541,
         "op": "time",
         "mutations": [
           [
@@ -130,7 +130,7 @@
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -149,28 +149,28 @@
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -189,21 +189,21 @@
       },
       {
         "code": "  recalculateTax();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -222,7 +222,7 @@
       },
       {
         "code": "  this.updatedAt = now();",
-        "ns": 333,
+        "ns": 541,
         "op": "time",
         "mutations": [
           [
@@ -236,19 +236,19 @@
     "rescue": [
       {
         "code": "var result = calculateOrder(",
-        "ns": 42,
+        "ns": 83,
         "op": "call",
         "results": []
       },
       {
         "code": "    items, \"NY\", taxRates);",
-        "ns": 42,
+        "ns": 83,
         "op": "arg",
         "results": []
       },
       {
         "code": "  var total = items.stream()...",
-        "ns": 500,
+        "ns": 625,
         "op": "calc",
         "results": [
           [
@@ -259,7 +259,7 @@
       },
       {
         "code": "  var tax = total * taxRates.get(region)",
-        "ns": 500,
+        "ns": 625,
         "op": "calc",
         "results": [
           [
@@ -270,7 +270,7 @@
       },
       {
         "code": "  return Map.of(\"total\", \"tax\", ...);",
-        "ns": 292,
+        "ns": 875,
         "op": "ret",
         "results": [
           [
@@ -281,7 +281,7 @@
       },
       {
         "code": "var final = applyCoupon(",
-        "ns": 42,
+        "ns": 83,
         "op": "call",
         "results": [
           [
@@ -292,13 +292,13 @@
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 42,
+        "ns": 83,
         "op": "arg",
         "results": []
       },
       {
         "code": "  var discount = result.total * rate;",
-        "ns": 500,
+        "ns": 625,
         "op": "calc",
         "results": [
           [
@@ -309,7 +309,7 @@
       },
       {
         "code": "  return new Result(total, discount, ...);",
-        "ns": 292,
+        "ns": 875,
         "op": "ret",
         "results": [
           [
@@ -319,8 +319,8 @@
         ]
       }
     ],
-    "crimeTotal": 7285,
-    "rescueTotal": 2252
+    "crimeTotal": 9715,
+    "rescueTotal": 3957
   },
   "typescript": {
     "crimeLabel": "\u2620 Dishonest \u2014 TypeScript Order class",
@@ -328,28 +328,28 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  this.items.push(item);",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  this.recalculateTotal();",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.total = this.items.reduce(..)",
-        "ns": 292,
+        "ns": 167,
         "op": "calc",
         "mutations": [
           [
@@ -361,35 +361,35 @@
       },
       {
         "code": "  this.recalculateDiscount();",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 104,
+        "ns": 62,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.discount = coupon.apply()",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [
           [
@@ -401,35 +401,35 @@
       },
       {
         "code": "  this.recalculateTax();",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 104,
+        "ns": 62,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.tax = taxable * rate;",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [
           [
@@ -441,7 +441,7 @@
       },
       {
         "code": "  this.updatedAt = new Date();",
-        "ns": 208,
+        "ns": 125,
         "op": "time",
         "mutations": [
           [
@@ -453,14 +453,14 @@
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  this.couponCode = code;",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [
           [
@@ -472,35 +472,35 @@
       },
       {
         "code": "  this.recalculateDiscount();",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 104,
+        "ns": 62,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.discount = coupon.apply()",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [
           [
@@ -512,28 +512,28 @@
       },
       {
         "code": "  this.recalculateTax();",
-        "ns": 167,
+        "ns": 125,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 104,
+        "ns": 62,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 125,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.tax = taxable * rate;",
-        "ns": 125,
+        "ns": 84,
         "op": "field",
         "mutations": [
           [
@@ -545,7 +545,7 @@
       },
       {
         "code": "  this.updatedAt = new Date();",
-        "ns": 208,
+        "ns": 125,
         "op": "time",
         "mutations": [
           [
@@ -559,7 +559,7 @@
     "rescue": [
       {
         "code": "const result = calculateOrder(",
-        "ns": 84,
+        "ns": 83,
         "op": "call",
         "results": []
       },
@@ -571,7 +571,7 @@
       },
       {
         "code": "  const total = items.reduce(...)",
-        "ns": 375,
+        "ns": 250,
         "op": "calc",
         "results": [
           [
@@ -582,7 +582,7 @@
       },
       {
         "code": "  const tax = total * taxRates[region]",
-        "ns": 375,
+        "ns": 250,
         "op": "calc",
         "results": [
           [
@@ -593,7 +593,7 @@
       },
       {
         "code": "  return { total, tax, subtotal };",
-        "ns": 291,
+        "ns": 167,
         "op": "ret",
         "results": [
           [
@@ -604,7 +604,7 @@
       },
       {
         "code": "const final = applyCoupon(",
-        "ns": 84,
+        "ns": 83,
         "op": "call",
         "results": [
           [
@@ -621,7 +621,7 @@
       },
       {
         "code": "  const discount = result.total * rate;",
-        "ns": 375,
+        "ns": 250,
         "op": "calc",
         "results": [
           [
@@ -632,7 +632,7 @@
       },
       {
         "code": "  return { ...result, discount, grand };",
-        "ns": 291,
+        "ns": 167,
         "op": "ret",
         "results": [
           [
@@ -642,8 +642,8 @@
         ]
       }
     ],
-    "crimeTotal": 4499,
-    "rescueTotal": 2041
+    "crimeTotal": 2919,
+    "rescueTotal": 1416
   },
   "csharp": {
     "crimeLabel": "\u2620 Dishonest \u2014 C# Order class",
@@ -651,28 +651,28 @@
     "crime": [
       {
         "code": "order.AddItem(newItem);",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  _items.Add(item);",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  RecalculateTotal();",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    _total = _items.Sum(i => i.Price);",
-        "ns": 100,
+        "ns": 152,
         "op": "calc",
         "mutations": [
           [
@@ -684,35 +684,35 @@
       },
       {
         "code": "  RecalculateDiscount();",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.Instance",
-        "ns": 0,
+        "ns": 17,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    _discount = coupon.Apply()",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [
           [
@@ -724,35 +724,35 @@
       },
       {
         "code": "  RecalculateTax();",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.Instance",
-        "ns": 0,
+        "ns": 17,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    _tax = taxable * rate;",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [
           [
@@ -764,7 +764,7 @@
       },
       {
         "code": "  _updatedAt = DateTime.UtcNow;",
-        "ns": 0,
+        "ns": 25,
         "op": "time",
         "mutations": [
           [
@@ -776,14 +776,14 @@
       },
       {
         "code": "order.ApplyCoupon(\"SAVE10\");",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  _couponCode = code;",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [
           [
@@ -795,35 +795,35 @@
       },
       {
         "code": "  RecalculateDiscount();",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.Instance",
-        "ns": 0,
+        "ns": 17,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    _discount = coupon.Apply()",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [
           [
@@ -835,28 +835,28 @@
       },
       {
         "code": "  RecalculateTax();",
-        "ns": 0,
+        "ns": 65,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.Instance",
-        "ns": 0,
+        "ns": 17,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0,
+        "ns": 10,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    _tax = taxable * rate;",
-        "ns": 0,
+        "ns": 16,
         "op": "field",
         "mutations": [
           [
@@ -868,7 +868,7 @@
       },
       {
         "code": "  _updatedAt = DateTime.UtcNow;",
-        "ns": 0,
+        "ns": 25,
         "op": "time",
         "mutations": [
           [
@@ -882,19 +882,19 @@
     "rescue": [
       {
         "code": "var result = CalculateOrder(",
-        "ns": 0,
+        "ns": 38,
         "op": "call",
         "results": []
       },
       {
         "code": "    items, \"NY\", taxRates);",
-        "ns": 0,
+        "ns": 5,
         "op": "arg",
         "results": []
       },
       {
         "code": "  var total = items.Sum(i => i.Price);",
-        "ns": 200,
+        "ns": 173,
         "op": "calc",
         "results": [
           [
@@ -905,7 +905,7 @@
       },
       {
         "code": "  var tax = total * taxRates[region];",
-        "ns": 200,
+        "ns": 173,
         "op": "calc",
         "results": [
           [
@@ -916,7 +916,7 @@
       },
       {
         "code": "  return new OrderResult(total, tax, ...);",
-        "ns": 0,
+        "ns": 17,
         "op": "ret",
         "results": [
           [
@@ -927,7 +927,7 @@
       },
       {
         "code": "var final = ApplyCoupon(",
-        "ns": 0,
+        "ns": 38,
         "op": "call",
         "results": [
           [
@@ -938,13 +938,13 @@
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 0,
+        "ns": 5,
         "op": "arg",
         "results": []
       },
       {
         "code": "  var discount = result.Total * rate;",
-        "ns": 200,
+        "ns": 173,
         "op": "calc",
         "results": [
           [
@@ -955,7 +955,7 @@
       },
       {
         "code": "  return new FinalResult(total, ...);",
-        "ns": 0,
+        "ns": 17,
         "op": "ret",
         "results": [
           [
@@ -965,8 +965,8 @@
         ]
       }
     ],
-    "crimeTotal": 100,
-    "rescueTotal": 600
+    "crimeTotal": 891,
+    "rescueTotal": 639
   },
   "python": {
     "crimeLabel": "\u2620 Dishonest \u2014 Python Order class",
@@ -981,7 +981,7 @@
       },
       {
         "code": "  self.items.append(item)",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [],
         "singletons": 0
@@ -995,7 +995,7 @@
       },
       {
         "code": "    self.total = sum(i.price for ...)",
-        "ns": 291,
+        "ns": 292,
         "op": "calc",
         "mutations": [
           [
@@ -1035,7 +1035,7 @@
       },
       {
         "code": "    self.discount = coupon.apply()",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [
           [
@@ -1075,7 +1075,7 @@
       },
       {
         "code": "    self.tax = taxable * rate",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [
           [
@@ -1087,7 +1087,7 @@
       },
       {
         "code": "  self.updated_at = datetime.now()",
-        "ns": 83,
+        "ns": 84,
         "op": "time",
         "mutations": [
           [
@@ -1106,7 +1106,7 @@
       },
       {
         "code": "  self.coupon_code = code",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [
           [
@@ -1146,7 +1146,7 @@
       },
       {
         "code": "    self.discount = coupon.apply()",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [
           [
@@ -1179,7 +1179,7 @@
       },
       {
         "code": "    self.tax = taxable * rate",
-        "ns": 42,
+        "ns": 83,
         "op": "field",
         "mutations": [
           [
@@ -1191,7 +1191,7 @@
       },
       {
         "code": "  self.updated_at = datetime.now()",
-        "ns": 83,
+        "ns": 84,
         "op": "time",
         "mutations": [
           [
@@ -1239,7 +1239,7 @@
       },
       {
         "code": "  return total, tax, subtotal",
-        "ns": 125,
+        "ns": 84,
         "op": "ret",
         "results": [
           [
@@ -1278,7 +1278,7 @@
       },
       {
         "code": "  return code, discount, grand_total",
-        "ns": 125,
+        "ns": 84,
         "op": "ret",
         "results": [
           [
@@ -1288,8 +1288,8 @@
         ]
       }
     ],
-    "crimeTotal": 1916,
-    "rescueTotal": 1417
+    "crimeTotal": 2165,
+    "rescueTotal": 1335
   },
   "kotlin": {
     "crimeLabel": "\u2620 Dishonest \u2014 Kotlin Order class",
@@ -1297,28 +1297,28 @@
     "crime": [
       {
         "code": "order.addItem(newItem)",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  items.add(item)",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  recalculateTotal()",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    total = items.sumOf { it.price }",
-        "ns": 583,
+        "ns": 750,
         "op": "calc",
         "mutations": [
           [
@@ -1330,35 +1330,35 @@
       },
       {
         "code": "  recalculateDiscount()",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 167,
+        "ns": 375,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount = coupon.apply()",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [
           [
@@ -1370,35 +1370,35 @@
       },
       {
         "code": "  recalculateTax()",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 167,
+        "ns": 375,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax = taxable * rate",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [
           [
@@ -1410,7 +1410,7 @@
       },
       {
         "code": "  updatedAt = Instant.now()",
-        "ns": 166,
+        "ns": 334,
         "op": "time",
         "mutations": [
           [
@@ -1422,14 +1422,14 @@
       },
       {
         "code": "order.applyCoupon(\"SAVE10\")",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  couponCode = code",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [
           [
@@ -1441,35 +1441,35 @@
       },
       {
         "code": "  recalculateDiscount()",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 167,
+        "ns": 375,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount = coupon.apply()",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [
           [
@@ -1481,28 +1481,28 @@
       },
       {
         "code": "  recalculateTax()",
-        "ns": 417,
+        "ns": 667,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 167,
+        "ns": 375,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 208,
+        "ns": 459,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax = taxable * rate",
-        "ns": 83,
+        "ns": 125,
         "op": "field",
         "mutations": [
           [
@@ -1514,7 +1514,7 @@
       },
       {
         "code": "  updatedAt = Instant.now()",
-        "ns": 166,
+        "ns": 334,
         "op": "time",
         "mutations": [
           [
@@ -1528,19 +1528,19 @@
     "rescue": [
       {
         "code": "val result = calculateOrder(",
-        "ns": 42,
+        "ns": 83,
         "op": "call",
         "results": []
       },
       {
         "code": "    items, \"NY\", taxRates)",
-        "ns": 42,
+        "ns": 83,
         "op": "arg",
         "results": []
       },
       {
         "code": "  val total = items.sumOf { it.price }",
-        "ns": 792,
+        "ns": 833,
         "op": "calc",
         "results": [
           [
@@ -1551,7 +1551,7 @@
       },
       {
         "code": "  val tax = total * taxRates[region]",
-        "ns": 792,
+        "ns": 833,
         "op": "calc",
         "results": [
           [
@@ -1562,7 +1562,7 @@
       },
       {
         "code": "  return Triple(total, tax, subtotal)",
-        "ns": 375,
+        "ns": 750,
         "op": "ret",
         "results": [
           [
@@ -1573,7 +1573,7 @@
       },
       {
         "code": "val final = applyCoupon(",
-        "ns": 42,
+        "ns": 83,
         "op": "call",
         "results": [
           [
@@ -1584,13 +1584,13 @@
       },
       {
         "code": "    result, \"SAVE10\", coupons)",
-        "ns": 42,
+        "ns": 83,
         "op": "arg",
         "results": []
       },
       {
         "code": "  val discount = result.total * rate",
-        "ns": 792,
+        "ns": 833,
         "op": "calc",
         "results": [
           [
@@ -1601,7 +1601,7 @@
       },
       {
         "code": "  return Triple(code, discount, grand)",
-        "ns": 375,
+        "ns": 750,
         "op": "ret",
         "results": [
           [
@@ -1611,8 +1611,8 @@
         ]
       }
     ],
-    "crimeTotal": 6456,
-    "rescueTotal": 3294
+    "crimeTotal": 11550,
+    "rescueTotal": 4331
   },
   "swift": {
     "crimeLabel": "\u2620 Dishonest \u2014 Swift Order class",
@@ -1620,21 +1620,21 @@
     "crime": [
       {
         "code": "order.addItem(newItem)",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  items.append(item)",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  recalculateTotal()",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -1653,35 +1653,35 @@
       },
       {
         "code": "  recalculateDiscount()",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.shared",
-        "ns": 15,
+        "ns": 35,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount = coupon.apply()",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [
           [
@@ -1693,35 +1693,35 @@
       },
       {
         "code": "  recalculateTax()",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.shared",
-        "ns": 15,
+        "ns": 35,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax = taxable * rate",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [
           [
@@ -1733,7 +1733,7 @@
       },
       {
         "code": "  updatedAt = Date()",
-        "ns": 19,
+        "ns": 26,
         "op": "time",
         "mutations": [
           [
@@ -1745,14 +1745,14 @@
       },
       {
         "code": "order.applyCoupon(\"SAVE10\")",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "  couponCode = code",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [
           [
@@ -1764,35 +1764,35 @@
       },
       {
         "code": "  recalculateDiscount()",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.shared",
-        "ns": 15,
+        "ns": 35,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount = coupon.apply()",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [
           [
@@ -1804,28 +1804,28 @@
       },
       {
         "code": "  recalculateTax()",
-        "ns": 81,
+        "ns": 154,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.shared",
-        "ns": 15,
+        "ns": 35,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 1,
+        "ns": 2,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax = taxable * rate",
-        "ns": 5,
+        "ns": 10,
         "op": "field",
         "mutations": [
           [
@@ -1837,7 +1837,7 @@
       },
       {
         "code": "  updatedAt = Date()",
-        "ns": 19,
+        "ns": 26,
         "op": "time",
         "mutations": [
           [
@@ -1851,7 +1851,7 @@
     "rescue": [
       {
         "code": "let result = calculateOrder(",
-        "ns": 18,
+        "ns": 23,
         "op": "call",
         "results": []
       },
@@ -1863,7 +1863,7 @@
       },
       {
         "code": "  let total = items.reduce(0) { ... }",
-        "ns": 12,
+        "ns": 32,
         "op": "calc",
         "results": [
           [
@@ -1874,7 +1874,7 @@
       },
       {
         "code": "  let tax = total * taxRates[region]",
-        "ns": 12,
+        "ns": 32,
         "op": "calc",
         "results": [
           [
@@ -1885,7 +1885,7 @@
       },
       {
         "code": "  return OrderResult(total, tax, ...)",
-        "ns": 13,
+        "ns": 39,
         "op": "ret",
         "results": [
           [
@@ -1896,7 +1896,7 @@
       },
       {
         "code": "let final = applyCoupon(",
-        "ns": 18,
+        "ns": 23,
         "op": "call",
         "results": [
           [
@@ -1913,7 +1913,7 @@
       },
       {
         "code": "  let discount = result.total * rate",
-        "ns": 12,
+        "ns": 32,
         "op": "calc",
         "results": [
           [
@@ -1924,7 +1924,7 @@
       },
       {
         "code": "  return FinalResult(total, discount, ...)",
-        "ns": 13,
+        "ns": 39,
         "op": "ret",
         "results": [
           [
@@ -1934,8 +1934,8 @@
         ]
       }
     ],
-    "crimeTotal": 704,
-    "rescueTotal": 98
+    "crimeTotal": 1346,
+    "rescueTotal": 220
   },
   "php": {
     "crimeLabel": "\u2620 Dishonest \u2014 PHP Order class",
@@ -1964,7 +1964,7 @@
       },
       {
         "code": "    $this->total = array_sum(...);",
-        "ns": 250,
+        "ns": 209,
         "op": "calc",
         "mutations": [
           [
@@ -1990,14 +1990,14 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -2030,14 +2030,14 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -2056,7 +2056,7 @@
       },
       {
         "code": "  $this->updatedAt = new DateTime();",
-        "ns": 167,
+        "ns": 125,
         "op": "time",
         "mutations": [
           [
@@ -2101,14 +2101,14 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -2141,7 +2141,7 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 167,
+        "ns": 166,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -2160,7 +2160,7 @@
       },
       {
         "code": "  $this->updatedAt = new DateTime();",
-        "ns": 167,
+        "ns": 125,
         "op": "time",
         "mutations": [
           [
@@ -2257,7 +2257,7 @@
         ]
       }
     ],
-    "crimeTotal": 4126,
+    "crimeTotal": 3994,
     "rescueTotal": 2123
   },
   "ruby": {
@@ -2820,7 +2820,7 @@
     "rescue": [
       {
         "code": "final result = calculateOrder(",
-        "ns": 70,
+        "ns": 0,
         "op": "call",
         "results": []
       },
@@ -2832,7 +2832,7 @@
       },
       {
         "code": "  final total = items.fold(0, ...);",
-        "ns": 280,
+        "ns": 70,
         "op": "calc",
         "results": [
           [
@@ -2843,7 +2843,7 @@
       },
       {
         "code": "  final tax = total * taxRates[region];",
-        "ns": 280,
+        "ns": 70,
         "op": "calc",
         "results": [
           [
@@ -2854,7 +2854,7 @@
       },
       {
         "code": "  return {\"total\": total, ...};",
-        "ns": 510,
+        "ns": 20,
         "op": "ret",
         "results": [
           [
@@ -2865,7 +2865,7 @@
       },
       {
         "code": "final withCoupon = applyCoupon(",
-        "ns": 70,
+        "ns": 0,
         "op": "call",
         "results": [
           [
@@ -2882,7 +2882,7 @@
       },
       {
         "code": "  final discount = result[\"total\"] * rate;",
-        "ns": 280,
+        "ns": 70,
         "op": "calc",
         "results": [
           [
@@ -2893,7 +2893,7 @@
       },
       {
         "code": "  return {...result, \"discount\": ...};",
-        "ns": 510,
+        "ns": 20,
         "op": "ret",
         "results": [
           [
@@ -2904,7 +2904,7 @@
       }
     ],
     "crimeTotal": 500,
-    "rescueTotal": 2000
+    "rescueTotal": 250
   },
   "cpp": {
     "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class",
@@ -2919,7 +2919,7 @@
       },
       {
         "code": "  items_.push_back(item);",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [],
         "singletons": 0
@@ -2933,7 +2933,7 @@
       },
       {
         "code": "    total_ = std::accumulate(...);",
-        "ns": 41,
+        "ns": 0,
         "op": "calc",
         "mutations": [
           [
@@ -2959,21 +2959,21 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [
           [
@@ -2999,21 +2999,21 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [
           [
@@ -3044,7 +3044,7 @@
       },
       {
         "code": "  couponCode_ = code;",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [
           [
@@ -3070,21 +3070,21 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [
           [
@@ -3110,14 +3110,14 @@
       },
       {
         "code": "      -> global lookup...",
-        "ns": 41,
+        "ns": 0,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 42,
+        "ns": 41,
         "op": "field",
         "mutations": [
           [
@@ -3143,19 +3143,19 @@
     "rescue": [
       {
         "code": "auto result = calculate_order(",
-        "ns": 41,
+        "ns": 0,
         "op": "call",
         "results": []
       },
       {
         "code": "    items, \"NY\", tax_rates);",
-        "ns": 41,
+        "ns": 0,
         "op": "arg",
         "results": []
       },
       {
         "code": "  auto total = std::accumulate(...);",
-        "ns": 42,
+        "ns": 41,
         "op": "calc",
         "results": [
           [
@@ -3166,7 +3166,7 @@
       },
       {
         "code": "  auto tax = total * tax_rates.at(region);",
-        "ns": 42,
+        "ns": 41,
         "op": "calc",
         "results": [
           [
@@ -3177,7 +3177,7 @@
       },
       {
         "code": "  return OrderResult{total, tax, ...};",
-        "ns": 42,
+        "ns": 41,
         "op": "ret",
         "results": [
           [
@@ -3188,7 +3188,7 @@
       },
       {
         "code": "auto final = apply_coupon(",
-        "ns": 41,
+        "ns": 0,
         "op": "call",
         "results": [
           [
@@ -3199,13 +3199,13 @@
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 41,
+        "ns": 0,
         "op": "arg",
         "results": []
       },
       {
         "code": "  auto discount = result.total * rate;",
-        "ns": 42,
+        "ns": 41,
         "op": "calc",
         "results": [
           [
@@ -3216,7 +3216,7 @@
       },
       {
         "code": "  return FinalResult{total, discount, ...};",
-        "ns": 42,
+        "ns": 41,
         "op": "ret",
         "results": [
           [
@@ -3226,8 +3226,8 @@
         ]
       }
     ],
-    "crimeTotal": 1042,
-    "rescueTotal": 374
+    "crimeTotal": 708,
+    "rescueTotal": 205
   },
   "go": {
     "crimeLabel": "\u2620 Dishonest \u2014 Go Order struct",
@@ -3235,7 +3235,7 @@
     "crime": [
       {
         "code": "order.AddItem(newItem)",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -3249,7 +3249,7 @@
       },
       {
         "code": "  o.recalculateTotal()",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -3268,14 +3268,14 @@
       },
       {
         "code": "  o.recalculateDiscount()",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    couponRegistry.GetInstance()",
-        "ns": 25,
+        "ns": 24,
         "op": "single",
         "mutations": [],
         "singletons": 1
@@ -3308,14 +3308,14 @@
       },
       {
         "code": "  o.recalculateTax()",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    taxService.GetInstance()",
-        "ns": 25,
+        "ns": 24,
         "op": "single",
         "mutations": [],
         "singletons": 1
@@ -3348,7 +3348,7 @@
       },
       {
         "code": "  o.UpdatedAt = time.Now()",
-        "ns": 60,
+        "ns": 59,
         "op": "time",
         "mutations": [
           [
@@ -3360,7 +3360,7 @@
       },
       {
         "code": "order.ApplyCoupon(\"SAVE10\")",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -3379,14 +3379,14 @@
       },
       {
         "code": "  o.recalculateDiscount()",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    couponRegistry.GetInstance()",
-        "ns": 25,
+        "ns": 24,
         "op": "single",
         "mutations": [],
         "singletons": 1
@@ -3419,14 +3419,14 @@
       },
       {
         "code": "  o.recalculateTax()",
-        "ns": 69,
+        "ns": 70,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    taxService.GetInstance()",
-        "ns": 25,
+        "ns": 24,
         "op": "single",
         "mutations": [],
         "singletons": 1
@@ -3452,7 +3452,7 @@
       },
       {
         "code": "  o.UpdatedAt = time.Now()",
-        "ns": 60,
+        "ns": 59,
         "op": "time",
         "mutations": [
           [
@@ -3549,7 +3549,7 @@
         ]
       }
     ],
-    "crimeTotal": 713,
+    "crimeTotal": 714,
     "rescueTotal": 170
   },
   "surprise": {
@@ -3558,7 +3558,7 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -3572,14 +3572,14 @@
       },
       {
         "code": "  recalculateTotal();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    this.total = items.stream()...",
-        "ns": 2416,
+        "ns": 6750,
         "op": "calc",
         "mutations": [
           [
@@ -3591,28 +3591,28 @@
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -3631,28 +3631,28 @@
       },
       {
         "code": "  recalculateTax();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -3671,7 +3671,7 @@
       },
       {
         "code": "  this.updatedAt = now();",
-        "ns": 333,
+        "ns": 541,
         "op": "time",
         "mutations": [
           [
@@ -3683,7 +3683,7 @@
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
@@ -3702,28 +3702,28 @@
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -3742,21 +3742,21 @@
       },
       {
         "code": "  recalculateTax();",
-        "ns": 458,
+        "ns": 167,
         "op": "call",
         "mutations": [],
         "singletons": 0
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 41,
+        "ns": 42,
         "op": "single",
         "mutations": [],
         "singletons": 1
       },
       {
         "code": "      -> global lookup...",
-        "ns": 83,
+        "ns": 42,
         "op": "cache",
         "mutations": [],
         "singletons": 0
@@ -3775,7 +3775,7 @@
       },
       {
         "code": "  this.updatedAt = now();",
-        "ns": 333,
+        "ns": 541,
         "op": "time",
         "mutations": [
           [
@@ -3823,7 +3823,7 @@
       },
       {
         "code": "  return total, tax, subtotal",
-        "ns": 125,
+        "ns": 84,
         "op": "ret",
         "results": [
           [
@@ -3862,7 +3862,7 @@
       },
       {
         "code": "  return code, discount, grand_total",
-        "ns": 125,
+        "ns": 84,
         "op": "ret",
         "results": [
           [
@@ -3872,7 +3872,7 @@
         ]
       }
     ],
-    "crimeTotal": 7285,
-    "rescueTotal": 1417
+    "crimeTotal": 9715,
+    "rescueTotal": 1335
   }
 }

@@ -127,16 +127,16 @@ List<int> crimeRun() {
 // RESCUE: pure functions, flat data
 // ═══════════════════════════════════════════════
 
-Map<String, double> calculateOrder(List<Item> items, String region, Map<String, double> taxRates) {
+(double total, double tax, double subtotal) calculateOrder(List<Item> items, String region, Map<String, double> taxRates) {
   final total = items.fold(0.0, (sum, item) => sum + item.price);
   final tax = total * (taxRates[region] ?? 0);
-  return {'total': total, 'tax': tax, 'subtotal': total + tax};
+  return (total, tax, total + tax);
 }
 
-Map<String, dynamic> applyCoupon(Map<String, double> order, String code, Map<String, double> coupons) {
+(String code, double discount, double grandTotal) applyCoupon(double total, double subtotal, String code, Map<String, double> coupons) {
   final rate = coupons[code] ?? 0;
-  final discount = order['total']! * rate;
-  return {...order, 'coupon_code': code, 'discount': discount, 'grand_total': order['subtotal']! - discount};
+  final discount = total * rate;
+  return (code, discount, subtotal - discount);
 }
 
 List<int> rescueRun() {
@@ -145,9 +145,9 @@ List<int> rescueRun() {
   final coupons = {'SAVE10': 0.10};
   final sw = Stopwatch();
 
-  // call: overhead
+  // call: function call overhead
   sw.reset(); sw.start();
-  for (var i = 0; i < batch; i++) { sw.elapsedMicroseconds; }
+  for (var i = 0; i < batch; i++) { items.length; }
   sw.stop();
   final callNs = swNs(sw) ~/ batch;
 
@@ -158,7 +158,7 @@ List<int> rescueRun() {
   final argNs = swNs(sw) ~/ batch;
 
   // calc: pure computation
-  late Map<String, double> result;
+  late (double, double, double) result;
   sw.reset(); sw.start();
   for (var i = 0; i < batch; i++) {
     result = calculateOrder(items, 'NY', taxRates);
@@ -166,16 +166,16 @@ List<int> rescueRun() {
   sw.stop();
   final calcNs = swNs(sw) ~/ batch;
 
-  // ret: return value
-  late Map<String, dynamic> finalResult;
+  // ret: apply coupon
+  late (String, double, double) finalResult;
   sw.reset(); sw.start();
   for (var i = 0; i < batch; i++) {
-    finalResult = applyCoupon(result, 'SAVE10', coupons);
+    finalResult = applyCoupon(result.$1, result.$3, 'SAVE10', coupons);
   }
   sw.stop();
   final retNs = swNs(sw) ~/ batch;
 
-  assert((finalResult['grand_total'] as double) > 0);
+  assert(finalResult.$3 > 0);
 
   return [callNs, argNs, calcNs, retNs];
 }

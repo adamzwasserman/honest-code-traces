@@ -4,17 +4,17 @@
   "runtime": "Swift",
   "runs": 1000,
   "crime": {
-    "call": 81,
-    "field": 5,
+    "call": 154,
+    "field": 10,
     "calc": 2,
-    "single": 15,
-    "cache": 1,
-    "time": 19
+    "single": 35,
+    "cache": 2,
+    "time": 26
   },
   "rescue": {
-    "call": 18,
+    "call": 23,
     "arg": 0,
-    "calc": 12,
-    "ret": 13
+    "calc": 32,
+    "ret": 39
   }
 }
