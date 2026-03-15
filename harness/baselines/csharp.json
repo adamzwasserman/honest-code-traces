@@ -7,14 +7,14 @@
     "call": 65,
     "field": 16,
     "calc": 152,
-    "single": 17,
+    "single": 18,
     "cache": 10,
-    "time": 25
+    "time": 26
   },
   "rescue": {
-    "call": 38,
+    "call": 44,
     "arg": 5,
-    "calc": 173,
-    "ret": 17
+    "calc": 176,
+    "ret": 18
   }
 }

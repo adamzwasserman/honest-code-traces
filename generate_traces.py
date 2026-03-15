@@ -577,12 +577,12 @@ LANG_CODE = {
     },
 }
 
-# Surprise pairing: Swift crime + Python rescue
-# LLVM native-compiled classes lose to CPython bytecode VM with pure functions
+# Surprise pairing: TypeScript crime + Python rescue
+# V8's JIT-compiled classes lose to CPython bytecode VM with pure functions
 SURPRISE = {
-    "crimeLabel": "☠ Dishonest — Swift Order class (native, LLVM)",
+    "crimeLabel": "☠ Dishonest — TypeScript Order class (V8 JIT)",
     "rescueLabel": "✦ Honest — Pure functions (Python, CPython VM)",
-    "crime_lang": "swift",
+    "crime_lang": "typescript",
     "rescue_lang": "python",
 }
 
@@ -644,7 +644,7 @@ def main():
             "rescueTotal": rescue_total,
         }
 
-    # Surprise: TypeScript crime + Python rescue
+    # Surprise cross-language pairing
     ts_crime, _ = load_baseline(SURPRISE["crime_lang"])
     _, python_rescue = load_baseline(SURPRISE["rescue_lang"])
     surprise_crime = build_crime_steps(ts_crime, LANG_CODE[SURPRISE["crime_lang"]]["crime"])

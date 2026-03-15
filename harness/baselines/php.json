@@ -6,15 +6,15 @@
     "crime": {
         "call": 125,
         "field": 125,
-        "calc": 209,
+        "calc": 250,
         "single": 187,
-        "cache": 166,
-        "time": 125
+        "cache": 167,
+        "time": 167
     },
     "rescue": {
         "call": 83,
         "arg": 83,
-        "calc": 375,
+        "calc": 334,
         "ret": 333
     }
 }

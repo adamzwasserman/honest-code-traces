@@ -4,8 +4,8 @@
   "runtime": "Swift",
   "runs": 1000,
   "crime": {
-    "call": 154,
-    "field": 10,
+    "call": 150,
+    "field": 9,
     "calc": 2,
     "single": 35,
     "cache": 2,

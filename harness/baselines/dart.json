@@ -4,17 +4,17 @@
   "runtime": "Dart 3.5.4",
   "runs": 1000,
   "crime": {
-    "call": 40,
-    "field": 10,
-    "calc": 40,
+    "call": 20,
+    "field": 0,
+    "calc": 20,
     "single": 0,
     "cache": 0,
-    "time": 60
+    "time": 30
   },
   "rescue": {
     "call": 0,
     "arg": 0,
-    "calc": 70,
-    "ret": 20
+    "calc": 30,
+    "ret": 10
   }
 }
