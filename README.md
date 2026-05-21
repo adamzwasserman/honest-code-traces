@@ -2,7 +2,7 @@
 
 Instrumented source code and execution traces for every demo on [honestcode.software](https://honestcode.software).
 
-This is the companion repository for the book [*Honest Code: Keep Your State Out of My Code*](https://adamzwasserman.gumroad.com/l/honest-code-ebook) by Adam Zachary Wasserman. The book teaches you to replace mutable state, singletons, and inheritance with pure functions, flat data, and composition. The demos on the companion site visualize those differences in real nanoseconds. This repo is how we get those numbers.
+This is the companion repository for the book [*Honest Code: Stop Fighting the Machine*](https://adamzwasserman.gumroad.com/l/honest-code-ebook) by Adam Zachary Wasserman. The book teaches you to replace mutable state, singletons, and inheritance with pure functions, flat data, and composition. The demos on the companion site visualize those differences in real nanoseconds. This repo is how we get those numbers.
 
 ## What This Measures
 
