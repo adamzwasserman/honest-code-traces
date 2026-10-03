@@ -66,8 +66,8 @@
  },
  "java": {
   "runs": 10,
-  "dishonest_full_ns": 239.5,
-  "honest_ns": 21.0,
+  "dishonest_full_ns": 194.7,
+  "honest_ns": 24.5,
   "dishonest_full_range": [
    189,
    424
@@ -75,12 +75,17 @@
   "honest_range": [
    17,
    22
-  ]
+  ],
+  "source": "JMH 1.37, 3 forks of 8 one-second iterations",
+  "hand_written_harness": {
+   "dishonest_full_ns": 239.5,
+   "honest_ns": 21.0
+  }
  },
  "kotlin": {
   "runs": 10,
-  "dishonest_full_ns": 194.0,
-  "honest_ns": 16.0,
+  "dishonest_full_ns": 195.6,
+  "honest_ns": 22.8,
   "dishonest_full_range": [
    177,
    215
@@ -88,12 +93,17 @@
   "honest_range": [
    15,
    18
-  ]
+  ],
+  "source": "JMH 1.37, 3 forks of 8 one-second iterations",
+  "hand_written_harness": {
+   "dishonest_full_ns": 194.0,
+   "honest_ns": 16.0
+  }
  },
  "csharp": {
   "runs": 10,
-  "dishonest_full_ns": 290.0,
-  "honest_ns": 44.0,
+  "dishonest_full_ns": 304.4,
+  "honest_ns": 49.6,
   "dishonest_full_range": [
    259,
    353
@@ -101,7 +111,12 @@
   "honest_range": [
    41,
    64
-  ]
+  ],
+  "source": "BenchmarkDotNet, tiered compilation off",
+  "hand_written_harness": {
+   "dishonest_full_ns": 290.0,
+   "honest_ns": 44.0
+  }
  },
  "swift": {
   "runs": 10,

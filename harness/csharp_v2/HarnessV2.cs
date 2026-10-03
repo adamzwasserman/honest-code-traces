@@ -116,7 +116,7 @@ public static class HarnessV2
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static double DishonestScenario(List<Item> items, bool stamp, bool prealloc)
+    internal static double DishonestScenario(List<Item> items, bool stamp, bool prealloc)
     {
         var order = new Order(stamp, prealloc);
         foreach (var it in items) order.AddItem(it);
@@ -152,7 +152,7 @@ public static class HarnessV2
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static double HonestScenario(
+    internal static double HonestScenario(
         List<Item> items, string region,
         Dictionary<string, double> taxRates, Dictionary<string, double> coupons)
     {

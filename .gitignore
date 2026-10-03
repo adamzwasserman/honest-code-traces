@@ -11,3 +11,6 @@ harness/csharp/obj/
 # AI-readable directory summaries (local context, not versioned)
 .agents.md
 AGENTS.md
+bin/
+obj/
+BenchmarkDotNet.Artifacts/
