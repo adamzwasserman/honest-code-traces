@@ -1,0 +1,25 @@
+{
+  "language": "csharp",
+  "runtime": "8.0.31",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 50000,
+  "stopwatch_frequency_hz": 1000000000,
+  "clock_read_pair_ns": 32,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 285,
+    "dishonest_no_timestamp": 155,
+    "dishonest_no_timestamp_prealloc": 148,
+    "honest": 49
+  },
+  "ratios": {
+    "full_over_honest": 5.82,
+    "no_timestamp_over_honest": 3.16,
+    "no_timestamp_prealloc_over_honest": 3.02
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 265, "p25": 271, "p50": 274, "p75": 275, "p95": 303},
+    "honest":         {"p05": 82, "p25": 84, "p50": 85, "p75": 88, "p95": 93}
+  },
+  "sink": 88632103.951
+}

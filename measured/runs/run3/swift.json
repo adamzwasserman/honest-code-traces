@@ -1,0 +1,23 @@
+{
+  "language": "swift",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 5000,
+  "clock_read_pair_ns": 37,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 518,
+    "dishonest_no_timestamp": 378,
+    "dishonest_no_timestamp_prealloc": 242,
+    "honest": 103
+  },
+  "ratios": {
+    "full_over_honest": 5.03,
+    "no_timestamp_over_honest": 3.67,
+    "no_timestamp_prealloc_over_honest": 2.35
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 447, "p25": 450, "p50": 456, "p75": 480, "p95": 515},
+    "honest":         {"p05": 127, "p25": 132, "p50": 139, "p75": 149, "p95": 268}
+  },
+  "sink": 72836205.888
+}

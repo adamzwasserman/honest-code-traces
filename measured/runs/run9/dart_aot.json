@@ -1,0 +1,36 @@
+{
+  "language": "dart",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 50000,
+  "stopwatch_frequency_hz": 1000000000,
+  "clock_read_pair_ns": 0,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 442,
+    "dishonest_no_timestamp": 156,
+    "dishonest_no_timestamp_prealloc": 155,
+    "honest": 106
+  },
+  "ratios": {
+    "full_over_honest": 4.17,
+    "no_timestamp_over_honest": 1.47,
+    "no_timestamp_prealloc_over_honest": 1.46
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost; Dart Stopwatch resolution is microseconds on most platforms, so single-iteration samples are coarse and the batched figure above is the one to quote",
+    "dishonest_full": {
+      "p05": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 1000,
+      "p95": 1000
+    },
+    "honest": {
+      "p05": 0,
+      "p25": 0,
+      "p50": 0,
+      "p75": 0,
+      "p95": 1000
+    }
+  },
+  "sink": 88632103.951
+}
