@@ -130,6 +130,8 @@ fun honestScenario(
 // Measurement
 // ─────────────────────────────────────────────
 
+fun interface Scenario { fun run(i: Int): Double }
+
 fun pct(v: LongArray, p: Double): Long {
     val s = v.clone()
     Arrays.sort(s)
@@ -141,12 +143,12 @@ fun dist(v: LongArray): String = String.format(
     pct(v, 0.05), pct(v, 0.25), pct(v, 0.50), pct(v, 0.75), pct(v, 0.95)
 )
 
-fun batched(f: (Int) -> Double): Long {
+fun batched(f: Scenario): Long {
     val out = LongArray(REPS)
     for (r in 0 until REPS) {
         val t0 = System.nanoTime()
         var acc = 0.0
-        for (i in 0 until BATCH) acc += f(i)
+        for (i in 0 until BATCH) acc += f.run(i)
         val dt = System.nanoTime() - t0
         sink += acc
         out[r] = dt / BATCH
@@ -154,11 +156,11 @@ fun batched(f: (Int) -> Double): Long {
     return pct(out, 0.50)
 }
 
-fun perIteration(f: (Int) -> Double): LongArray {
+fun perIteration(f: Scenario): LongArray {
     val s = LongArray(SAMPLES)
     for (i in 0 until SAMPLES) {
         val t0 = System.nanoTime()
-        sink += f(i)
+        sink += f.run(i)
         s[i] = System.nanoTime() - t0
     }
     return s
@@ -191,17 +193,17 @@ fun main() {
     val coupons = mapOf("SAVE10" to 0.10)
     val region = "NY"
 
-    val disFull = { i: Int -> dishonestScenario(inputs[i and 255], true, false) }
-    val disNoStamp = { i: Int -> dishonestScenario(inputs[i and 255], false, false) }
-    val disPrealloc = { i: Int -> dishonestScenario(inputs[i and 255], false, true) }
-    val hon = { i: Int -> honestScenario(inputs[i and 255], region, taxRates, coupons) }
+    val disFull = Scenario { i -> dishonestScenario(inputs[i and 255], true, false) }
+    val disNoStamp = Scenario { i -> dishonestScenario(inputs[i and 255], false, false) }
+    val disPrealloc = Scenario { i -> dishonestScenario(inputs[i and 255], false, true) }
+    val hon = Scenario { i -> honestScenario(inputs[i and 255], region, taxRates, coupons) }
 
     var warm = 0.0
     for (i in 0 until WARMUP) {
-        warm += disFull(i)
-        warm += disNoStamp(i)
-        warm += disPrealloc(i)
-        warm += hon(i)
+        warm += disFull.run(i)
+        warm += disNoStamp.run(i)
+        warm += disPrealloc.run(i)
+        warm += hon.run(i)
     }
     sink += warm
 
