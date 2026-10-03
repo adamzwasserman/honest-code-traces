@@ -16,6 +16,10 @@ SOURCE = HERE / "traces" / "landing-page.json"
 MEDIANS = HERE / "harness" / "medians_v2.json"
 OUTPUT = HERE / "traces" / "landing-page-v2.json"
 
+# A step measured at under 1 ns gets this width on screen. "ns" keeps the
+# measured value, and only the animation reads "animNs".
+NOMINAL_NS = 1.0
+
 
 def scale_steps(steps, target_total):
     old_total = sum(s["ns"] for s in steps)
@@ -24,6 +28,8 @@ def scale_steps(steps, target_total):
     drift = round(target_total - sum(s["ns"] for s in scaled), 2)
     widest = max(range(len(scaled)), key=lambda i: scaled[i]["ns"])
     scaled[widest]["ns"] = round(scaled[widest]["ns"] + drift, 2)
+    for step in scaled:
+        step["animNs"] = max(step["ns"], NOMINAL_NS)
     return scaled
 
 
@@ -51,14 +57,20 @@ def main():
             entry, measured["dishonest_full_ns"], measured["honest_ns"]
         )
     surprise = source["surprise"]
-    crime_lang, rescue_lang = "typescript", "python"
+    crime_lang, rescue_lang = "cpp", "typescript"
     output["surprise"] = {
         **surprise,
+        "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",
+        "rescueLabel": "\u2726 Honest \u2014 Pure functions (TypeScript, V8)",
         "crime": output[crime_lang]["crime"],
         "rescue": output[rescue_lang]["rescue"],
         "crimeTotal": output[crime_lang]["crimeTotal"],
         "rescueTotal": output[rescue_lang]["rescueTotal"],
     }
+    ts_honest = output["typescript"]["rescueTotal"]
+    compiled = ["cpp", "swift", "go", "java", "kotlin", "csharp"]
+    for lang in compiled:
+        assert output[lang]["crimeTotal"] > ts_honest, lang
     OUTPUT.write_text(json.dumps(output, indent=2))
     print(f"{'Language':<12}{'Crime':>9}{'Rescue':>9}{'Ratio':>8}   was")
     for lang, data in output.items():
@@ -68,6 +80,11 @@ def main():
             f"{data['crimeTotal'] / data['rescueTotal']:>7.1f}x"
             f"   {old['crimeTotal']}/{old['rescueTotal']} = {old['crimeTotal'] / old['rescueTotal']:.1f}x"
         )
+    print()
+    print(f"Honest TypeScript takes {ts_honest:.0f} ns. Dishonest code in:")
+    for lang in sorted(compiled, key=lambda k: output[k]["crimeTotal"]):
+        total = output[lang]["crimeTotal"]
+        print(f"  {lang:<8}{total:>6.0f} ns, {total / ts_honest:.1f}x slower")
 
 
 main()
