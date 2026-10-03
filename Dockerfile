@@ -30,6 +30,7 @@ RUN wget -q https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh && \
     rm /tmp/dotnet-install.sh
 ENV PATH="/usr/share/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Swift (needs libncurses, etc.)
 RUN apt-get install -y libncurses6 libcurl4-openssl-dev libxml2-dev && \
@@ -72,6 +73,13 @@ RUN cd harness/csharp && dotnet build -c Release --nologo -v q
 
 # Pre-compile Swift (may not be available)
 RUN cd harness/swift && (swiftc -O harness.swift -o harness 2>/dev/null || echo "Swift compile skipped")
+
+# Pre-compile the v2 harnesses
+RUN cd harness/java && javac HarnessV2.java
+RUN cd harness/kotlin && kotlinc harness_v2.kt -include-runtime -d harness_v2.jar 2>/dev/null
+RUN cd harness/cpp && g++ -O2 -std=c++17 harness_v2.cpp -o harness_v2
+RUN cd harness/csharp_v2 && dotnet build -c Release --nologo -v q
+RUN cd harness/swift && (swiftc -O harness_v2.swift -o harness_v2 2>/dev/null || echo "Swift v2 compile skipped")
 
 RUN mkdir -p results
 VOLUME ["/traces/results"]
