@@ -356,7 +356,8 @@
       }
     ],
     "crimeTotal": 194.7,
-    "rescueTotal": 24.5
+    "rescueTotal": 24.5,
+    "crimeNoTimestampNs": 58.1
   },
   "typescript": {
     "crimeLabel": "\u2620 Dishonest \u2014 TypeScript Order class",
@@ -715,7 +716,8 @@
       }
     ],
     "crimeTotal": 405.5,
-    "rescueTotal": 70.5
+    "rescueTotal": 70.5,
+    "crimeNoTimestampNs": 136.5
   },
   "csharp": {
     "crimeLabel": "\u2620 Dishonest \u2014 C# Order class",
@@ -1074,7 +1076,8 @@
       }
     ],
     "crimeTotal": 304.4,
-    "rescueTotal": 49.6
+    "rescueTotal": 49.6,
+    "crimeNoTimestampNs": 145.4
   },
   "python": {
     "crimeLabel": "\u2620 Dishonest \u2014 Python Order class",
@@ -1433,7 +1436,8 @@
       }
     ],
     "crimeTotal": 3868.0,
-    "rescueTotal": 656.0
+    "rescueTotal": 656.0,
+    "crimeNoTimestampNs": 3494.5
   },
   "kotlin": {
     "crimeLabel": "\u2620 Dishonest \u2014 Kotlin Order class",
@@ -1792,7 +1796,8 @@
       }
     ],
     "crimeTotal": 195.6,
-    "rescueTotal": 22.8
+    "rescueTotal": 22.8,
+    "crimeNoTimestampNs": 55.6
   },
   "swift": {
     "crimeLabel": "\u2620 Dishonest \u2014 Swift Order class",
@@ -2151,7 +2156,8 @@
       }
     ],
     "crimeTotal": 501.0,
-    "rescueTotal": 108.0
+    "rescueTotal": 108.0,
+    "crimeNoTimestampNs": 371.5
   },
   "php": {
     "crimeLabel": "\u2620 Dishonest \u2014 PHP Order class",
@@ -2510,7 +2516,8 @@
       }
     ],
     "crimeTotal": 2267.5,
-    "rescueTotal": 592.0
+    "rescueTotal": 592.0,
+    "crimeNoTimestampNs": 2020.0
   },
   "ruby": {
     "crimeLabel": "\u2620 Dishonest \u2014 Ruby Order class",
@@ -2869,7 +2876,8 @@
       }
     ],
     "crimeTotal": 4819.0,
-    "rescueTotal": 1112.0
+    "rescueTotal": 1112.0,
+    "crimeNoTimestampNs": 4168.5
   },
   "dart": {
     "crimeLabel": "\u2620 Dishonest \u2014 Dart Order class",
@@ -3228,7 +3236,8 @@
       }
     ],
     "crimeTotal": 467.5,
-    "rescueTotal": 64.5
+    "rescueTotal": 64.5,
+    "crimeNoTimestampNs": 113.0
   },
   "cpp": {
     "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class",
@@ -3587,7 +3596,8 @@
       }
     ],
     "crimeTotal": 292.0,
-    "rescueTotal": 16.5
+    "rescueTotal": 16.5,
+    "crimeNoTimestampNs": 149.5
   },
   "go": {
     "crimeLabel": "\u2620 Dishonest \u2014 Go Order struct",
@@ -3946,7 +3956,8 @@
       }
     ],
     "crimeTotal": 615.5,
-    "rescueTotal": 26.5
+    "rescueTotal": 26.5,
+    "crimeNoTimestampNs": 307.5
   },
   "surprise": {
     "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",

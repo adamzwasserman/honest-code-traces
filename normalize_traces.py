@@ -33,11 +33,12 @@ def scale_steps(steps, target_total):
     return scaled
 
 
-def normalize_language(entry, crime_total, rescue_total):
+def normalize_language(entry, crime_total, rescue_total, no_timestamp):
     crime = scale_steps(entry["crime"], crime_total)
     rescue = scale_steps(entry["rescue"], rescue_total)
     return {
         **entry,
+        "crimeNoTimestampNs": no_timestamp,
         "crime": crime,
         "rescue": rescue,
         "crimeTotal": crime_total,
@@ -54,7 +55,10 @@ def main():
             continue
         measured = medians[lang]
         output[lang] = normalize_language(
-            entry, measured["dishonest_full_ns"], measured["honest_ns"]
+            entry,
+            measured["dishonest_full_ns"],
+            measured["honest_ns"],
+            measured["dishonest_no_timestamp_ns"],
         )
     surprise = source["surprise"]
     crime_lang, rescue_lang = "cpp", "typescript"

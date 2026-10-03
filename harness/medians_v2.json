@@ -10,7 +10,8 @@
   "honest_range": [
    605,
    680
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 3494.5
  },
  "typescript": {
   "runs": 10,
@@ -23,7 +24,8 @@
   "honest_range": [
    62,
    87
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 136.5
  },
  "ruby": {
   "runs": 10,
@@ -36,7 +38,8 @@
   "honest_range": [
    1033,
    1203
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 4168.5
  },
  "php": {
   "runs": 10,
@@ -49,7 +52,8 @@
   "honest_range": [
    569,
    611
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 2020.0
  },
  "go": {
   "runs": 10,
@@ -62,7 +66,8 @@
   "honest_range": [
    23,
    28
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 307.5
  },
  "java": {
   "runs": 10,
@@ -80,7 +85,8 @@
   "hand_written_harness": {
    "dishonest_full_ns": 239.5,
    "honest_ns": 21.0
-  }
+  },
+  "dishonest_no_timestamp_ns": 58.1
  },
  "kotlin": {
   "runs": 10,
@@ -98,7 +104,8 @@
   "hand_written_harness": {
    "dishonest_full_ns": 194.0,
    "honest_ns": 16.0
-  }
+  },
+  "dishonest_no_timestamp_ns": 55.6
  },
  "csharp": {
   "runs": 10,
@@ -116,7 +123,8 @@
   "hand_written_harness": {
    "dishonest_full_ns": 290.0,
    "honest_ns": 44.0
-  }
+  },
+  "dishonest_no_timestamp_ns": 145.4
  },
  "swift": {
   "runs": 10,
@@ -129,7 +137,8 @@
   "honest_range": [
    96,
    113
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 371.5
  },
  "dart": {
   "runs": 10,
@@ -142,7 +151,8 @@
   "honest_range": [
    54,
    72
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 113.0
  },
  "dart_aot": {
   "runs": 10,
@@ -155,7 +165,8 @@
   "honest_range": [
    99,
    113
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 159.5
  },
  "cpp": {
   "runs": 10,
@@ -168,6 +179,7 @@
   "honest_range": [
    15,
    31
-  ]
+  ],
+  "dishonest_no_timestamp_ns": 149.5
  }
 }
