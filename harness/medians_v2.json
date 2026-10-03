@@ -1,0 +1,158 @@
+{
+ "python": {
+  "runs": 10,
+  "dishonest_full_ns": 3868.0,
+  "honest_ns": 656.0,
+  "dishonest_full_range": [
+   3655,
+   4258
+  ],
+  "honest_range": [
+   605,
+   680
+  ]
+ },
+ "typescript": {
+  "runs": 10,
+  "dishonest_full_ns": 405.5,
+  "honest_ns": 70.5,
+  "dishonest_full_range": [
+   364,
+   431
+  ],
+  "honest_range": [
+   62,
+   87
+  ]
+ },
+ "ruby": {
+  "runs": 10,
+  "dishonest_full_ns": 4819.0,
+  "honest_ns": 1112.0,
+  "dishonest_full_range": [
+   4698,
+   5214
+  ],
+  "honest_range": [
+   1033,
+   1203
+  ]
+ },
+ "php": {
+  "runs": 10,
+  "dishonest_full_ns": 2267.5,
+  "honest_ns": 592.0,
+  "dishonest_full_range": [
+   2150,
+   2423
+  ],
+  "honest_range": [
+   569,
+   611
+  ]
+ },
+ "go": {
+  "runs": 10,
+  "dishonest_full_ns": 615.5,
+  "honest_ns": 26.5,
+  "dishonest_full_range": [
+   582,
+   664
+  ],
+  "honest_range": [
+   23,
+   28
+  ]
+ },
+ "java": {
+  "runs": 10,
+  "dishonest_full_ns": 239.5,
+  "honest_ns": 21.0,
+  "dishonest_full_range": [
+   189,
+   424
+  ],
+  "honest_range": [
+   17,
+   22
+  ]
+ },
+ "kotlin": {
+  "runs": 10,
+  "dishonest_full_ns": 194.0,
+  "honest_ns": 16.0,
+  "dishonest_full_range": [
+   177,
+   215
+  ],
+  "honest_range": [
+   15,
+   18
+  ]
+ },
+ "csharp": {
+  "runs": 10,
+  "dishonest_full_ns": 290.0,
+  "honest_ns": 44.0,
+  "dishonest_full_range": [
+   259,
+   353
+  ],
+  "honest_range": [
+   41,
+   64
+  ]
+ },
+ "swift": {
+  "runs": 10,
+  "dishonest_full_ns": 501.0,
+  "honest_ns": 108.0,
+  "dishonest_full_range": [
+   435,
+   543
+  ],
+  "honest_range": [
+   96,
+   113
+  ]
+ },
+ "dart": {
+  "runs": 10,
+  "dishonest_full_ns": 467.5,
+  "honest_ns": 64.5,
+  "dishonest_full_range": [
+   426,
+   500
+  ],
+  "honest_range": [
+   54,
+   72
+  ]
+ },
+ "dart_aot": {
+  "runs": 10,
+  "dishonest_full_ns": 489.0,
+  "honest_ns": 104.0,
+  "dishonest_full_range": [
+   433,
+   524
+  ],
+  "honest_range": [
+   99,
+   113
+  ]
+ },
+ "cpp": {
+  "runs": 10,
+  "dishonest_full_ns": 292.0,
+  "honest_ns": 16.5,
+  "dishonest_full_range": [
+   258,
+   317
+  ],
+  "honest_range": [
+   15,
+   31
+  ]
+ }
+}
