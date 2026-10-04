@@ -44,6 +44,9 @@ object TaxService {
         taxable * (if (region == "NY") 0.08 else 0.0725)
 }
 
+// Order has separate, explicit calculation methods. Mutators only record
+// state. The caller must run calcTotal, calcDiscount and calcTax in that
+// order; calling one early reads stale values from the step before it.
 class Order(private val stamp: Boolean, prealloc: Boolean) {
     private val items: MutableList<Item> =
         if (prealloc) ArrayList(4) else ArrayList()
@@ -55,40 +58,39 @@ class Order(private val stamp: Boolean, prealloc: Boolean) {
 
     fun addItem(item: Item) {
         items.add(item)
-        recalculateTotal()
-        recalculateDiscount()
-        recalculateTax()
         if (stamp) updatedAt = System.currentTimeMillis()
     }
 
     fun applyCoupon(code: String) {
         couponCode = code
-        recalculateDiscount()
-        recalculateTax()
         if (stamp) updatedAt = System.currentTimeMillis()
     }
 
-    private fun recalculateTotal() {
+    fun calcTotal() {
         var t = 0.0
         for (i in items) t += i.price
         total = t
     }
 
-    private fun recalculateDiscount() {
+    fun calcDiscount() {
         discount = total * CouponRegistry.lookup(couponCode)
     }
 
-    private fun recalculateTax() {
+    fun calcTax() {
         tax = TaxService.calculate("NY", total - discount)
     }
 
     fun grandTotal(): Double = total - discount + tax
 }
 
+// Order matters: the calc methods run once, in dependency order, after all mutation.
 fun dishonestScenario(items: List<Item>, stamp: Boolean, prealloc: Boolean): Double {
     val order = Order(stamp, prealloc)
     for (it in items) order.addItem(it)
     order.applyCoupon("SAVE10")
+    order.calcTotal()
+    order.calcDiscount()
+    order.calcTax()
     return order.grandTotal()
 }
 
@@ -96,34 +98,34 @@ fun dishonestScenario(items: List<Item>, stamp: Boolean, prealloc: Boolean): Dou
 // Honest: pure functions, flat data
 // ─────────────────────────────────────────────
 
-data class OrderResult(val total: Double, val tax: Double, val subtotal: Double)
+data class OrderResult(val total: Double, val discount: Double, val subtotal: Double)
 data class FinalResult(
-    val total: Double, val tax: Double, val subtotal: Double,
-    val discount: Double, val grandTotal: Double
+    val total: Double, val discount: Double, val subtotal: Double,
+    val tax: Double, val grandTotal: Double
 )
 
-fun calculateOrder(
-    items: List<Item>, region: String, taxRates: Map<String, Double>
+fun applyCoupon(
+    items: List<Item>, code: String, coupons: Map<String, Double>
 ): OrderResult {
     var total = 0.0
     for (i in items) total += i.price
-    val tax = total * (taxRates[region] ?: 0.0)
-    return OrderResult(total, tax, total + tax)
+    val discount = total * (coupons[code] ?: 0.0)
+    return OrderResult(total, discount, total - discount)
 }
 
-fun applyCoupon(
-    o: OrderResult, code: String, coupons: Map<String, Double>
+fun calculateTax(
+    o: OrderResult, region: String, taxRates: Map<String, Double>
 ): FinalResult {
-    val discount = o.total * (coupons[code] ?: 0.0)
-    return FinalResult(o.total, o.tax, o.subtotal, discount, o.subtotal - discount)
+    val tax = o.subtotal * (taxRates[region] ?: 0.0)
+    return FinalResult(o.total, o.discount, o.subtotal, tax, o.subtotal + tax)
 }
 
 fun honestScenario(
     items: List<Item>, region: String,
     taxRates: Map<String, Double>, coupons: Map<String, Double>
 ): Double {
-    val result = calculateOrder(items, region, taxRates)
-    return applyCoupon(result, "SAVE10", coupons).grandTotal
+    val result = applyCoupon(items, "SAVE10", coupons)
+    return calculateTax(result, region, taxRates).grandTotal
 }
 
 // ─────────────────────────────────────────────

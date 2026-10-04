@@ -55,6 +55,9 @@ public class HarnessV2 {
         }
     }
 
+    // Order has separate, explicit calculation methods. Mutators only record
+    // state. The caller must run calcTotal, calcDiscount and calcTax in that
+    // order; calling one early reads stale values from the step before it.
     static class Order {
         private final List<Item> items;
         private double total, discount, tax;
@@ -69,40 +72,39 @@ public class HarnessV2 {
 
         void addItem(Item item) {
             items.add(item);
-            recalculateTotal();
-            recalculateDiscount();
-            recalculateTax();
             if (stamp) updatedAt = System.currentTimeMillis();
         }
 
         void applyCoupon(String code) {
             couponCode = code;
-            recalculateDiscount();
-            recalculateTax();
             if (stamp) updatedAt = System.currentTimeMillis();
         }
 
-        private void recalculateTotal() {
+        void calcTotal() {
             double t = 0;
             for (Item i : items) t += i.price();
             total = t;
         }
 
-        private void recalculateDiscount() {
+        void calcDiscount() {
             discount = total * CouponRegistry.getInstance().lookup(couponCode);
         }
 
-        private void recalculateTax() {
+        void calcTax() {
             tax = TaxService.getInstance().calculate("NY", total - discount);
         }
 
         double grandTotal() { return total - discount + tax; }
     }
 
+    // Order matters: the calc methods run once, in dependency order, after all mutation.
     static double dishonestScenario(List<Item> items, boolean stamp, boolean prealloc) {
         Order order = new Order(stamp, prealloc);
         for (Item it : items) order.addItem(it);
         order.applyCoupon("SAVE10");
+        order.calcTotal();
+        order.calcDiscount();
+        order.calcTax();
         return order.grandTotal();
     }
 
@@ -110,30 +112,30 @@ public class HarnessV2 {
     // Honest: pure functions, flat data
     // ─────────────────────────────────────────
 
-    record OrderResult(double total, double tax, double subtotal) {}
-    record FinalResult(double total, double tax, double subtotal,
-                       double discount, double grandTotal) {}
+    record OrderResult(double total, double discount, double subtotal) {}
+    record FinalResult(double total, double discount, double subtotal,
+                       double tax, double grandTotal) {}
 
-    static OrderResult calculateOrder(List<Item> items, String region,
-                                      Map<String, Double> taxRates) {
+    static OrderResult applyCoupon(List<Item> items, String code,
+                                   Map<String, Double> coupons) {
         double total = 0;
         for (Item i : items) total += i.price();
-        double tax = total * taxRates.getOrDefault(region, 0.0);
-        return new OrderResult(total, tax, total + tax);
+        double discount = total * coupons.getOrDefault(code, 0.0);
+        return new OrderResult(total, discount, total - discount);
     }
 
-    static FinalResult applyCoupon(OrderResult o, String code,
-                                   Map<String, Double> coupons) {
-        double discount = o.total() * coupons.getOrDefault(code, 0.0);
-        return new FinalResult(o.total(), o.tax(), o.subtotal(), discount,
-                               o.subtotal() - discount);
+    static FinalResult calculateTax(OrderResult o, String region,
+                                    Map<String, Double> taxRates) {
+        double tax = o.subtotal() * taxRates.getOrDefault(region, 0.0);
+        return new FinalResult(o.total(), o.discount(), o.subtotal(), tax,
+                               o.subtotal() + tax);
     }
 
     static double honestScenario(List<Item> items, String region,
                                  Map<String, Double> taxRates,
                                  Map<String, Double> coupons) {
-        OrderResult result = calculateOrder(items, region, taxRates);
-        return applyCoupon(result, "SAVE10", coupons).grandTotal();
+        OrderResult result = applyCoupon(items, "SAVE10", coupons);
+        return calculateTax(result, region, taxRates).grandTotal();
     }
 
     // ─────────────────────────────────────────

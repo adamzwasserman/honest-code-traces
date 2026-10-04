@@ -60,6 +60,9 @@ class TaxService:
         return taxable * (0.08 if region == "NY" else 0.0725)
 
 
+# Order has separate, explicit calculation methods. add_item and apply_coupon
+# only record data. The caller must run calc_total, calc_discount and calc_tax
+# in that order, because each reads the result of the one before it.
 class Order:
     __slots__ = ("_items", "_total", "_discount", "_tax", "_coupon_code",
                  "_updated_at", "_stamp")
@@ -75,30 +78,25 @@ class Order:
 
     def add_item(self, item):
         self._items.append(item)
-        self._recalculate_total()
-        self._recalculate_discount()
-        self._recalculate_tax()
         if self._stamp:
             self._updated_at = ns()
 
     def apply_coupon(self, code):
         self._coupon_code = code
-        self._recalculate_discount()
-        self._recalculate_tax()
         if self._stamp:
             self._updated_at = ns()
 
-    def _recalculate_total(self):
+    def calc_total(self):
         total = 0.0
         for i in self._items:
             total += i[1]
         self._total = total
 
-    def _recalculate_discount(self):
+    def calc_discount(self):
         registry = CouponRegistry.get_instance()
         self._discount = self._total * registry.lookup(self._coupon_code)
 
-    def _recalculate_tax(self):
+    def calc_tax(self):
         svc = TaxService.get_instance()
         self._tax = svc.calculate("NY", self._total - self._discount)
 
@@ -106,11 +104,16 @@ class Order:
         return self._total - self._discount + self._tax
 
 
+# Order matters: calc_total, then calc_discount, then calc_tax. Calling
+# calc_discount first would use a stale total.
 def dishonest_scenario(items, stamp):
     order = Order(stamp)
     for it in items:
         order.add_item(it)
     order.apply_coupon("SAVE10")
+    order.calc_total()
+    order.calc_discount()
+    order.calc_tax()
     return order.grand_total()
 
 
@@ -119,23 +122,23 @@ def dishonest_scenario(items, stamp):
 # ─────────────────────────────────────────────
 
 
-def calculate_order(items, region, tax_rates):
+def apply_coupon(items, code, coupons):
     total = 0.0
     for i in items:
         total += i[1]
-    tax = total * tax_rates.get(region, 0.0)
-    return (total, tax, total + tax)
-
-
-def apply_coupon(order, code, coupons):
-    total, tax, subtotal = order
     discount = total * coupons.get(code, 0.0)
-    return (total, tax, subtotal, discount, subtotal - discount)
+    return (total, discount, total - discount)
+
+
+def calculate_tax(order, region, tax_rates):
+    total, discount, subtotal = order
+    tax = subtotal * tax_rates.get(region, 0.0)
+    return (total, discount, subtotal, tax, subtotal + tax)
 
 
 def honest_scenario(items, region, tax_rates, coupons):
-    result = calculate_order(items, region, tax_rates)
-    final = apply_coupon(result, "SAVE10", coupons)
+    result = apply_coupon(items, "SAVE10", coupons)
+    final = calculate_tax(result, region, tax_rates)
     return final[4]
 
 

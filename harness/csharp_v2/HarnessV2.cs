@@ -68,6 +68,9 @@ public static class HarnessV2
             => taxable * (region == "NY" ? 0.08 : 0.0725);
     }
 
+    // Order has separate, explicit calculation methods. Mutators only record
+    // state. The caller must run CalcTotal, CalcDiscount and CalcTax in that
+    // order; calling one early reads stale values from the step before it.
     sealed class Order
     {
         readonly List<Item> _items;
@@ -85,42 +88,41 @@ public static class HarnessV2
         public void AddItem(Item item)
         {
             _items.Add(item);
-            RecalculateTotal();
-            RecalculateDiscount();
-            RecalculateTax();
             if (_stamp) _updatedAt = DateTime.UtcNow;
         }
 
         public void ApplyCoupon(string code)
         {
             _couponCode = code;
-            RecalculateDiscount();
-            RecalculateTax();
             if (_stamp) _updatedAt = DateTime.UtcNow;
         }
 
-        void RecalculateTotal()
+        public void CalcTotal()
         {
             double t = 0;
             foreach (var i in _items) t += i.Price;
             _total = t;
         }
 
-        void RecalculateDiscount()
+        public void CalcDiscount()
             => _discount = _total * CouponRegistry.Instance.Lookup(_couponCode);
 
-        void RecalculateTax()
+        public void CalcTax()
             => _tax = TaxService.Instance.Calculate("NY", _total - _discount);
 
         public double GrandTotal() => _total - _discount + _tax;
     }
 
+    // Order matters: the calc methods run once, in dependency order, after all mutation.
     [MethodImpl(MethodImplOptions.NoInlining)]
     internal static double DishonestScenario(List<Item> items, bool stamp, bool prealloc)
     {
         var order = new Order(stamp, prealloc);
         foreach (var it in items) order.AddItem(it);
         order.ApplyCoupon("SAVE10");
+        order.CalcTotal();
+        order.CalcDiscount();
+        order.CalcTax();
         return order.GrandTotal();
     }
 
@@ -128,27 +130,27 @@ public static class HarnessV2
     // Honest: pure functions, flat data
     // ─────────────────────────────────────────
 
-    public readonly record struct OrderResult(double Total, double Tax, double Subtotal);
+    public readonly record struct OrderResult(double Total, double Discount, double Subtotal);
     public readonly record struct FinalResult(
-        double Total, double Tax, double Subtotal, double Discount, double GrandTotal);
+        double Total, double Discount, double Subtotal, double Tax, double GrandTotal);
 
-    static OrderResult CalculateOrder(
-        List<Item> items, string region, Dictionary<string, double> taxRates)
+    static OrderResult ApplyCoupon(
+        List<Item> items, string code, Dictionary<string, double> coupons)
     {
         double total = 0;
         foreach (var i in items) total += i.Price;
-        taxRates.TryGetValue(region, out double rate);
-        double tax = total * rate;
-        return new OrderResult(total, tax, total + tax);
+        coupons.TryGetValue(code, out double rate);
+        double discount = total * rate;
+        return new OrderResult(total, discount, total - discount);
     }
 
-    static FinalResult ApplyCoupon(
-        OrderResult o, string code, Dictionary<string, double> coupons)
+    static FinalResult CalculateTax(
+        OrderResult o, string region, Dictionary<string, double> taxRates)
     {
-        coupons.TryGetValue(code, out double rate);
-        double discount = o.Total * rate;
-        return new FinalResult(o.Total, o.Tax, o.Subtotal, discount,
-                               o.Subtotal - discount);
+        taxRates.TryGetValue(region, out double rate);
+        double tax = o.Subtotal * rate;
+        return new FinalResult(o.Total, o.Discount, o.Subtotal, tax,
+                               o.Subtotal + tax);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
@@ -156,8 +158,8 @@ public static class HarnessV2
         List<Item> items, string region,
         Dictionary<string, double> taxRates, Dictionary<string, double> coupons)
     {
-        var result = CalculateOrder(items, region, taxRates);
-        return ApplyCoupon(result, "SAVE10", coupons).GrandTotal;
+        var result = ApplyCoupon(items, "SAVE10", coupons);
+        return CalculateTax(result, region, taxRates).GrandTotal;
     }
 
     // ─────────────────────────────────────────

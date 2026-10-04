@@ -52,6 +52,9 @@ class TaxService {
   }
 }
 
+// Order has separate explicit calculation methods. Mutators only record data.
+// The caller must run calcTotal, calcDiscount, calcTax in that order; calling
+// them out of order silently uses stale values.
 class Order {
   private items: Item[] = [];
   private total = 0;
@@ -64,31 +67,26 @@ class Order {
 
   addItem(item: Item): void {
     this.items.push(item);
-    this.recalculateTotal();
-    this.recalculateDiscount();
-    this.recalculateTax();
     if (this.stamp) this.updatedAt = Date.now();
   }
 
   applyCoupon(code: string): void {
     this.couponCode = code;
-    this.recalculateDiscount();
-    this.recalculateTax();
     if (this.stamp) this.updatedAt = Date.now();
   }
 
-  private recalculateTotal(): void {
+  calcTotal(): void {
     let t = 0;
     for (const i of this.items) t += i.price;
     this.total = t;
   }
 
-  private recalculateDiscount(): void {
+  calcDiscount(): void {
     const registry = CouponRegistry.getInstance();
     this.discount = this.total * registry.lookup(this.couponCode);
   }
 
-  private recalculateTax(): void {
+  calcTax(): void {
     const svc = TaxService.getInstance();
     this.tax = svc.calculate("NY", this.total - this.discount);
   }
@@ -98,12 +96,17 @@ class Order {
   }
 }
 
+// Order matters: add items, apply the coupon, then calculate total, discount
+// and tax in that order.
 function dishonestScenario(items: Item[], stamp: boolean): number {
   const order = new Order(stamp);
   for (let k = 0; k < items.length; k++) {
     order.addItem(items[k]);
   }
   order.applyCoupon("SAVE10");
+  order.calcTotal();
+  order.calcDiscount();
+  order.calcTax();
   return order.grandTotal();
 }
 
@@ -111,24 +114,24 @@ function dishonestScenario(items: Item[], stamp: boolean): number {
 // Honest: pure functions, flat data
 // ─────────────────────────────────────────────
 
-function calculateOrder(
-  items: Item[],
-  region: string,
-  taxRates: Record<string, number>,
-): { total: number; tax: number; subtotal: number } {
-  let total = 0;
-  for (const i of items) total += i.price;
-  const tax = total * (taxRates[region] ?? 0);
-  return { total, tax, subtotal: total + tax };
-}
-
 function applyCoupon(
-  order: { total: number; tax: number; subtotal: number },
+  items: Item[],
   code: string,
   coupons: Record<string, number>,
+): { total: number; discount: number; subtotal: number } {
+  let total = 0;
+  for (const i of items) total += i.price;
+  const discount = total * (coupons[code] ?? 0);
+  return { total, discount, subtotal: total - discount };
+}
+
+function calculateTax(
+  order: { total: number; discount: number; subtotal: number },
+  region: string,
+  taxRates: Record<string, number>,
 ) {
-  const discount = order.total * (coupons[code] ?? 0);
-  return { ...order, discount, grandTotal: order.subtotal - discount };
+  const tax = order.subtotal * (taxRates[region] ?? 0);
+  return { ...order, tax, grandTotal: order.subtotal + tax };
 }
 
 function honestScenario(
@@ -137,8 +140,8 @@ function honestScenario(
   taxRates: Record<string, number>,
   coupons: Record<string, number>,
 ): number {
-  const result = calculateOrder(items, region, taxRates);
-  return applyCoupon(result, "SAVE10", coupons).grandTotal;
+  const result = applyCoupon(items, "SAVE10", coupons);
+  return calculateTax(result, region, taxRates).grandTotal;
 }
 
 // ─────────────────────────────────────────────

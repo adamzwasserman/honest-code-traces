@@ -55,6 +55,9 @@ final class TaxService {
     }
 }
 
+// Order has separate, explicit calculation methods. addItem and applyCoupon
+// only record data. The caller must run calcTotal, calcDiscount and calcTax
+// in that order, because each reads the result of the one before it.
 final class Order {
     private array $items = [];
     private float $total = 0.0;
@@ -67,31 +70,26 @@ final class Order {
 
     public function addItem(array $item): void {
         $this->items[] = $item;
-        $this->recalculateTotal();
-        $this->recalculateDiscount();
-        $this->recalculateTax();
         if ($this->stamp) $this->updatedAt = microtime(true);
     }
 
     public function applyCoupon(string $code): void {
         $this->couponCode = $code;
-        $this->recalculateDiscount();
-        $this->recalculateTax();
         if ($this->stamp) $this->updatedAt = microtime(true);
     }
 
-    private function recalculateTotal(): void {
+    public function calcTotal(): void {
         $t = 0.0;
         foreach ($this->items as $i) $t += $i[1];
         $this->total = $t;
     }
 
-    private function recalculateDiscount(): void {
+    public function calcDiscount(): void {
         $registry = CouponRegistry::getInstance();
         $this->discount = $this->total * $registry->lookup($this->couponCode);
     }
 
-    private function recalculateTax(): void {
+    public function calcTax(): void {
         $svc = TaxService::getInstance();
         $this->tax = $svc->calculate('NY', $this->total - $this->discount);
     }
@@ -101,10 +99,15 @@ final class Order {
     }
 }
 
+// Order matters: calcTotal, then calcDiscount, then calcTax. Calling
+// calcDiscount first would use a stale total.
 function dishonestScenario(array $items, bool $stamp): float {
     $order = new Order($stamp);
     foreach ($items as $it) $order->addItem($it);
     $order->applyCoupon('SAVE10');
+    $order->calcTotal();
+    $order->calcDiscount();
+    $order->calcTax();
     return $order->grandTotal();
 }
 
@@ -112,23 +115,23 @@ function dishonestScenario(array $items, bool $stamp): float {
 // Honest: pure functions, flat data
 // ─────────────────────────────────────────────
 
-function calculateOrder(array $items, string $region, array $taxRates): array {
+function applyCoupon(array $items, string $code, array $coupons): array {
     $total = 0.0;
     foreach ($items as $i) $total += $i[1];
-    $tax = $total * ($taxRates[$region] ?? 0.0);
-    return [$total, $tax, $total + $tax];
+    $discount = $total * ($coupons[$code] ?? 0.0);
+    return [$total, $discount, $total - $discount];
 }
 
-function applyCoupon(array $order, string $code, array $coupons): array {
-    [$total, $tax, $subtotal] = $order;
-    $discount = $total * ($coupons[$code] ?? 0.0);
-    return [$total, $tax, $subtotal, $discount, $subtotal - $discount];
+function calculateTax(array $order, string $region, array $taxRates): array {
+    [$total, $discount, $subtotal] = $order;
+    $tax = $subtotal * ($taxRates[$region] ?? 0.0);
+    return [$total, $discount, $subtotal, $tax, $subtotal + $tax];
 }
 
 function honestScenario(array $items, string $region, array $taxRates,
                         array $coupons): float {
-    $result = calculateOrder($items, $region, $taxRates);
-    $final = applyCoupon($result, 'SAVE10', $coupons);
+    $result = applyCoupon($items, 'SAVE10', $coupons);
+    $final = calculateTax($result, $region, $taxRates);
     return $final[4];
 }
 

@@ -1,95 +1,80 @@
 """
-Generate canonical trace files for honestcode.software from harness baselines.
+Generate the canonical trace structure for honestcode.software.
 
-Each step in the output maps 1:1 to an animation frame on the website.
-The harness measures 6 crime categories (call, field, calc, single, cache, time)
-and 4 rescue categories (call, arg, calc, ret). This script maps each category
-to the specific steps it covers, producing the full step-by-step trace with
-code text and nanosecond timing.
+Each language has a walk-through of the order-dependent Order class (15 steps)
+and of the two pure functions (9 steps). The step widths come from per-operation
+costs in harness/baselines/*.json, which the old harness measured. They only set
+the proportions between steps: normalize_traces.py then scales each side to the
+measured totals in harness/medians_v2.json.
 
 Usage:
     uv run python generate_traces.py
-    # reads harness/baselines/*.json
-    # writes traces/landing-page.json
+    uv run python normalize_traces.py
 """
+
 import json
-import math
 from pathlib import Path
 
 BASELINES_DIR = Path(__file__).parent / "harness" / "baselines"
 OUTPUT = Path(__file__).parent / "traces" / "landing-page.json"
 
-# 27 crime steps: which harness category provides the timing for each step
-# These match the actual operations in the harness code
+# 15 crime steps: which baseline operation sets each step's width.
+# The class has separate calculation methods, so the caller must call them in
+# the right order: addItem, applyCoupon, calcTotal, calcDiscount, calcTax.
 CRIME_OPS = [
-    "call",    # addItem call
-    "field",   # items mutation
-    "call",    # recalculateTotal call
-    "calc",    # total calculation
-    "call",    # recalculateDiscount call
-    "single",  # singleton lookup
-    "cache",   # cache check
-    "cache",   # cache read
-    "field",   # discount field write
-    "call",    # recalculateTax call
-    "single",  # singleton lookup
-    "cache",   # cache check
-    "cache",   # cache read
-    "field",   # tax field write
-    "time",    # timestamp
-    "call",    # applyCoupon call
-    "field",   # couponCode mutation
-    "call",    # recalculateDiscount call
-    "single",  # singleton lookup
-    "cache",   # cache check
-    "cache",   # stale cache read
-    "field",   # discount field write
-    "call",    # recalculateTax call
-    "single",  # singleton lookup
-    "cache",   # cache check
-    "field",   # tax field write
-    "time",    # timestamp
+    "call",    # order.addItem(newItem)
+    "field",   # items.add(item)
+    "time",    # updatedAt = now()
+    "call",    # order.applyCoupon("SAVE10")
+    "field",   # couponCode = code
+    "time",    # updatedAt = now()
+    "call",    # order.calcTotal()
+    "calc",    # total = sum of prices
+    "call",    # order.calcDiscount()
+    "single",  # CouponRegistry singleton
+    "cache",   # lookup(couponCode)
+    "field",   # discount = total * rate
+    "call",    # order.calcTax()
+    "single",  # TaxService singleton
+    "field",   # tax = svc.calculate(region, taxable)
 ]
 
-# State mutations triggered by each crime step (index -> [[id, value]])
+# State mutations shown by each crime step (index -> [[id, value]])
 CRIME_MUTATIONS = {
-    3:  [["s-total", "89.97"]],
-    8:  [["s-discount", "0.00"]],
-    13: [["s-tax", "7.20"]],
-    14: [["s-updated", "14:23:07.4"]],
-    16: [["s-coupon", '"SAVE10"']],
-    21: [["s-discount", "9.00"]],
-    25: [["s-tax", "6.48"]],
-    26: [["s-updated", "14:23:07.5"]],
+    2:  [["s-updated", "14:23:07.4"]],
+    4:  [["s-coupon", '"SAVE10"']],
+    5:  [["s-updated", "14:23:07.5"]],
+    7:  [["s-total", "89.97"]],
+    11: [["s-discount", "9.00"]],
+    14: [["s-tax", "6.48"]],
 }
 
 # Singleton count per crime step
-CRIME_SINGLETONS = {5: 1, 10: 1, 18: 1, 23: 1}
+CRIME_SINGLETONS = {9: 1, 13: 1}
 
-# 9 rescue steps — ops must match code lines
+# 9 rescue steps: the discount first, then the tax, as two pure functions
 RESCUE_OPS = [
-    "call",  # calculateOrder(
-    "arg",   # items, region, taxRates)
-    "calc",  # total = sum/reduce(...)
-    "calc",  # tax = total * rate
-    "ret",   # return {total, tax, subtotal}
     "call",  # applyCoupon(
-    "arg",   # result, "SAVE10", coupons)
+    "arg",   # items, "SAVE10", coupons)
+    "calc",  # total = sum(...)
     "calc",  # discount = total * rate
-    "ret",   # return {discount, grand_total}
+    "ret",   # return total, discount, subtotal
+    "call",  # calculateTax(
+    "arg",   # result, region, taxRates)
+    "calc",  # tax = subtotal * rate
+    "ret",   # return the grand total
 ]
 
 # Results displayed by each rescue step
 RESCUE_RESULTS = {
+    1: [["r-coupon", '"SAVE10"']],
     2: [["r-total", "89.97"]],
-    3: [["r-tax", "7.20"]],
-    4: [["r-subtotal", "97.17"]],
-    5: [["r-coupon", '"SAVE10"']],
-    7: [["r-discount", "9.00"]],
+    3: [["r-discount", "9.00"]],
+    4: [["r-subtotal", "80.97"]],
+    7: [["r-tax", "6.48"]],
     8: [["r-grand", "87.45"]],
 }
 
-# Per-language code lines (27 crime, 9 rescue)
 LANG_CODE = {
     "java": {
         "crimeLabel": "☠ Dishonest — Java Order class",
@@ -97,43 +82,31 @@ LANG_CODE = {
         "crime": [
             "order.addItem(newItem);",
             "  this.items.add(item);",
-            "  recalculateTotal();",
-            "    this.total = items.stream()...",
-            "  recalculateDiscount();",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    this.discount = coupon.apply()",
-            "  recalculateTax();",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    this.tax = taxable * rate",
             "  this.updatedAt = now();",
             "order.applyCoupon(\"SAVE10\");",
             "  this.couponCode = code;",
-            "  recalculateDiscount();",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    this.discount = coupon.apply()",
-            "  recalculateTax();",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "    this.tax = taxable * rate",
             "  this.updatedAt = now();",
+            "order.calcTotal();",
+            "  this.total = items.stream()...",
+            "order.calcDiscount();",
+            "  CouponRegistry.getInstance()",
+            "    .lookup(couponCode)",
+            "  this.discount = total * rate;",
+            "order.calcTax();",
+            "  TaxService.getInstance()",
+            "  this.tax = svc.calculate(region, taxable);"
         ],
         "rescue": [
-            "var result = calculateOrder(",
-            "    items, \"NY\", taxRates);",
+            "var result = applyCoupon(",
+            "    items, \"SAVE10\", coupons);",
             "  var total = items.stream()...",
-            "  var tax = total * taxRates.get(region)",
-            '  return Map.of("total", "tax", ...);',
-            "var final = applyCoupon(",
-            '    result, "SAVE10", coupons);',
-            "  var discount = result.total * rate;",
-            "  return new Result(total, discount, ...);",
-        ],
+            "  var discount = total * rate;",
+            "  return new Priced(total, discount, ...);",
+            "var final = calculateTax(",
+            "    result, \"NY\", taxRates);",
+            "  var tax = subtotal * taxRates.get(region);",
+            "  return new Final(..., tax, grandTotal);"
+        ]
     },
     "typescript": {
         "crimeLabel": "☠ Dishonest — TypeScript Order class",
@@ -141,43 +114,31 @@ LANG_CODE = {
         "crime": [
             "order.addItem(newItem);",
             "  this.items.push(item);",
-            "  this.recalculateTotal();",
-            "    this.total = this.items.reduce(..)",
-            "  this.recalculateDiscount();",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    this.discount = coupon.apply()",
-            "  this.recalculateTax();",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    this.tax = taxable * rate;",
             "  this.updatedAt = new Date();",
-            'order.applyCoupon("SAVE10");',
+            "order.applyCoupon(\"SAVE10\");",
             "  this.couponCode = code;",
-            "  this.recalculateDiscount();",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    this.discount = coupon.apply()",
-            "  this.recalculateTax();",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "    this.tax = taxable * rate;",
             "  this.updatedAt = new Date();",
+            "order.calcTotal();",
+            "  this.total = this.items.reduce(...)",
+            "order.calcDiscount();",
+            "  CouponRegistry.getInstance()",
+            "    .lookup(this.couponCode)",
+            "  this.discount = this.total * rate;",
+            "order.calcTax();",
+            "  TaxService.getInstance()",
+            "  this.tax = svc.calculate(region, taxable);"
         ],
         "rescue": [
-            "const result = calculateOrder(",
-            '    items, "NY", taxRates);',
+            "const result = applyCoupon(",
+            "    items, \"SAVE10\", coupons);",
             "  const total = items.reduce(...)",
-            "  const tax = total * taxRates[region]",
-            "  return { total, tax, subtotal };",
-            "const final = applyCoupon(",
-            '    result, "SAVE10", coupons);',
-            "  const discount = result.total * rate;",
-            "  return { ...result, discount, grand };",
-        ],
+            "  const discount = total * rate;",
+            "  return { total, discount, subtotal };",
+            "const final = calculateTax(",
+            "    result, \"NY\", taxRates);",
+            "  const tax = subtotal * taxRates[region];",
+            "  return { ...result, tax, grandTotal };"
+        ]
     },
     "csharp": {
         "crimeLabel": "☠ Dishonest — C# Order class",
@@ -185,87 +146,63 @@ LANG_CODE = {
         "crime": [
             "order.AddItem(newItem);",
             "  _items.Add(item);",
-            "  RecalculateTotal();",
-            "    _total = _items.Sum(i => i.Price);",
-            "  RecalculateDiscount();",
-            "    CouponRegistry.Instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    _discount = coupon.Apply()",
-            "  RecalculateTax();",
-            "    TaxService.Instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    _tax = taxable * rate;",
-            "  _updatedAt = DateTime.UtcNow;",
-            'order.ApplyCoupon("SAVE10");',
-            "  _couponCode = code;",
-            "  RecalculateDiscount();",
-            "    CouponRegistry.Instance",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    _discount = coupon.Apply()",
-            "  RecalculateTax();",
-            "    TaxService.Instance",
-            "      -> global lookup...",
-            "    _tax = taxable * rate;",
-            "  _updatedAt = DateTime.UtcNow;",
+            "  UpdatedAt = DateTime.Now;",
+            "order.ApplyCoupon(\"SAVE10\");",
+            "  CouponCode = code;",
+            "  UpdatedAt = DateTime.Now;",
+            "order.CalcTotal();",
+            "  Total = _items.Sum(i => i.Price);",
+            "order.CalcDiscount();",
+            "  CouponRegistry.Instance",
+            "    .Lookup(CouponCode)",
+            "  Discount = Total * rate;",
+            "order.CalcTax();",
+            "  TaxService.Instance",
+            "  Tax = svc.Calculate(region, taxable);"
         ],
         "rescue": [
-            "var result = CalculateOrder(",
-            '    items, "NY", taxRates);',
+            "var result = ApplyCoupon(",
+            "    items, \"SAVE10\", coupons);",
             "  var total = items.Sum(i => i.Price);",
-            "  var tax = total * taxRates[region];",
-            "  return new OrderResult(total, tax, ...);",
-            "var final = ApplyCoupon(",
-            '    result, "SAVE10", coupons);',
-            "  var discount = result.Total * rate;",
-            "  return new FinalResult(total, ...);",
-        ],
+            "  var discount = total * rate;",
+            "  return new Priced(total, discount, ...);",
+            "var final = CalculateTax(",
+            "    result, \"NY\", taxRates);",
+            "  var tax = subtotal * taxRates[region];",
+            "  return new Final(..., tax, grandTotal);"
+        ]
     },
     "python": {
         "crimeLabel": "☠ Dishonest — Python Order class",
         "rescueLabel": "✦ Honest — Pure functions (Python)",
         "crime": [
             "order.add_item(new_item)",
-            "  self.items.append(item)",
-            "  self._recalculate_total()",
-            "    self.total = sum(i.price for ...)",
-            "  self._recalculate_discount()",
+            "    self._items.append(item)",
+            "    self._updated_at = now()",
+            "order.apply_coupon(\"SAVE10\")",
+            "    self._coupon_code = code",
+            "    self._updated_at = now()",
+            "order.calc_total()",
+            "    self._total = sum(i.price for i in self._items)",
+            "order.calc_discount()",
             "    CouponRegistry.get_instance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    self.discount = coupon.apply()",
-            "  self._recalculate_tax()",
+            "        .lookup(self._coupon_code)",
+            "    self._discount = self._total * rate",
+            "order.calc_tax()",
             "    TaxService.get_instance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    self.tax = taxable * rate",
-            "  self.updated_at = datetime.now()",
-            'order.apply_coupon("SAVE10")',
-            "  self.coupon_code = code",
-            "  self._recalculate_discount()",
-            "    CouponRegistry.get_instance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    self.discount = coupon.apply()",
-            "  self._recalculate_tax()",
-            "    TaxService.get_instance()",
-            "      -> global lookup...",
-            "    self.tax = taxable * rate",
-            "  self.updated_at = datetime.now()",
+            "    self._tax = svc.calculate(region, taxable)"
         ],
         "rescue": [
-            "result = calculate_order(",
-            '    items, "NY", tax_rates)',
-            '  total = sum(i["price"] for ...)',
-            "  tax = total * tax_rates[region]",
-            '  return total, tax, subtotal',
-            "final = apply_coupon(",
-            '    result, "SAVE10", coupons)',
-            '  discount = total * rate',
-            '  return code, discount, grand_total',
-        ],
+            "result = apply_coupon(",
+            "    items, \"SAVE10\", coupons)",
+            "    total = sum(price for ...)",
+            "    discount = total * rate",
+            "    return (total, discount, subtotal)",
+            "final = calculate_tax(",
+            "    result, \"NY\", tax_rates)",
+            "    tax = subtotal * tax_rates[region]",
+            "    return (..., tax, grand_total)"
+        ]
     },
     "kotlin": {
         "crimeLabel": "☠ Dishonest — Kotlin Order class",
@@ -273,43 +210,31 @@ LANG_CODE = {
         "crime": [
             "order.addItem(newItem)",
             "  items.add(item)",
-            "  recalculateTotal()",
-            "    total = items.sumOf { it.price }",
-            "  recalculateDiscount()",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    discount = coupon.apply()",
-            "  recalculateTax()",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    tax = taxable * rate",
-            "  updatedAt = Instant.now()",
-            'order.applyCoupon("SAVE10")',
+            "  updatedAt = now()",
+            "order.applyCoupon(\"SAVE10\")",
             "  couponCode = code",
-            "  recalculateDiscount()",
-            "    CouponRegistry.getInstance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    discount = coupon.apply()",
-            "  recalculateTax()",
-            "    TaxService.getInstance()",
-            "      -> global lookup...",
-            "    tax = taxable * rate",
-            "  updatedAt = Instant.now()",
+            "  updatedAt = now()",
+            "order.calcTotal()",
+            "  total = items.sumOf { it.price }",
+            "order.calcDiscount()",
+            "  CouponRegistry.instance",
+            "    .lookup(couponCode)",
+            "  discount = total * rate",
+            "order.calcTax()",
+            "  TaxService.instance",
+            "  tax = svc.calculate(region, taxable)"
         ],
         "rescue": [
-            "val result = calculateOrder(",
-            '    items, "NY", taxRates)',
+            "val result = applyCoupon(",
+            "    items, \"SAVE10\", coupons)",
             "  val total = items.sumOf { it.price }",
-            "  val tax = total * taxRates[region]",
-            '  return Triple(total, tax, subtotal)',
-            "val final = applyCoupon(",
-            '    result, "SAVE10", coupons)',
-            "  val discount = result.total * rate",
-            "  return Triple(code, discount, grand)",
-        ],
+            "  val discount = total * rate",
+            "  return Priced(total, discount, ...)",
+            "val final = calculateTax(",
+            "    result, \"NY\", taxRates)",
+            "  val tax = subtotal * taxRates[region]",
+            "  return Final(..., tax, grandTotal)"
+        ]
     },
     "swift": {
         "crimeLabel": "☠ Dishonest — Swift Order class",
@@ -317,43 +242,31 @@ LANG_CODE = {
         "crime": [
             "order.addItem(newItem)",
             "  items.append(item)",
-            "  recalculateTotal()",
-            "    total = items.reduce(0) { ... }",
-            "  recalculateDiscount()",
-            "    CouponRegistry.shared",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    discount = coupon.apply()",
-            "  recalculateTax()",
-            "    TaxService.shared",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    tax = taxable * rate",
             "  updatedAt = Date()",
-            'order.applyCoupon("SAVE10")',
+            "order.applyCoupon(\"SAVE10\")",
             "  couponCode = code",
-            "  recalculateDiscount()",
-            "    CouponRegistry.shared",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    discount = coupon.apply()",
-            "  recalculateTax()",
-            "    TaxService.shared",
-            "      -> global lookup...",
-            "    tax = taxable * rate",
             "  updatedAt = Date()",
+            "order.calcTotal()",
+            "  total = items.reduce(0) { $0 + $1.price }",
+            "order.calcDiscount()",
+            "  CouponRegistry.shared",
+            "    .lookup(couponCode)",
+            "  discount = total * rate",
+            "order.calcTax()",
+            "  TaxService.shared",
+            "  tax = svc.calculate(region, taxable)"
         ],
         "rescue": [
-            "let result = calculateOrder(",
-            '    items, region: "NY", rates: taxRates)',
-            "  let total = items.reduce(0) { ... }",
-            "  let tax = total * taxRates[region]",
-            "  return OrderResult(total, tax, ...)",
-            "let final = applyCoupon(",
-            '    result, "SAVE10", coupons)',
-            "  let discount = result.total * rate",
-            "  return FinalResult(total, discount, ...)",
-        ],
+            "let result = applyCoupon(",
+            "    items, \"SAVE10\", coupons)",
+            "  let total = items.reduce(0) { $0 + $1.price }",
+            "  let discount = total * rate",
+            "  return Priced(total: total, ...)",
+            "let final = calculateTax(",
+            "    result, \"NY\", taxRates)",
+            "  let tax = subtotal * taxRates[region]!",
+            "  return Final(..., tax: tax, ...)"
+        ]
     },
     "php": {
         "crimeLabel": "☠ Dishonest — PHP Order class",
@@ -361,43 +274,31 @@ LANG_CODE = {
         "crime": [
             "$order->addItem($newItem);",
             "  $this->items[] = $item;",
-            "  $this->recalculateTotal();",
-            "    $this->total = array_sum(...);",
-            "  $this->recalculateDiscount();",
-            "    CouponRegistry::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    $this->discount = $coupon->apply()",
-            "  $this->recalculateTax();",
-            "    TaxService::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    $this->tax = $taxable * $rate;",
-            "  $this->updatedAt = new DateTime();",
-            '$order->applyCoupon("SAVE10");',
+            "  $this->updatedAt = time();",
+            "$order->applyCoupon(\"SAVE10\");",
             "  $this->couponCode = $code;",
-            "  $this->recalculateDiscount();",
-            "    CouponRegistry::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    $this->discount = $coupon->apply()",
-            "  $this->recalculateTax();",
-            "    TaxService::getInstance()",
-            "      -> global lookup...",
-            "    $this->tax = $taxable * $rate;",
-            "  $this->updatedAt = new DateTime();",
+            "  $this->updatedAt = time();",
+            "$order->calcTotal();",
+            "  $this->total = array_sum(...);",
+            "$order->calcDiscount();",
+            "  CouponRegistry::getInstance()",
+            "    ->lookup($this->couponCode)",
+            "  $this->discount = $this->total * $rate;",
+            "$order->calcTax();",
+            "  TaxService::getInstance()",
+            "  $this->tax = $svc->calculate($region, $taxable);"
         ],
         "rescue": [
-            "$result = calculate_order(",
-            '    $items, "NY", $taxRates);',
+            "$result = applyCoupon(",
+            "    $items, \"SAVE10\", $coupons);",
             "  $total = array_sum(...);",
-            "  $tax = $total * $taxRates[$region];",
-            '  return ["total" => $total, ...];',
-            "$final = apply_coupon(",
-            '    $result, "SAVE10", $coupons);',
-            '  $discount = $result["total"] * $rate;',
-            "  return array_merge($result, ...);",
-        ],
+            "  $discount = $total * $rate;",
+            "  return [$total, $discount, $subtotal];",
+            "$final = calculateTax(",
+            "    $result, \"NY\", $taxRates);",
+            "  $tax = $subtotal * $taxRates[$region];",
+            "  return [..., $tax, $grandTotal];"
+        ]
     },
     "ruby": {
         "crimeLabel": "☠ Dishonest — Ruby Order class",
@@ -405,87 +306,63 @@ LANG_CODE = {
         "crime": [
             "order.add_item(new_item)",
             "  @items << item",
-            "  recalculate_total",
-            "    @total = @items.sum(&:price)",
-            "  recalculate_discount",
-            "    CouponRegistry.instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    @discount = coupon.apply",
-            "  recalculate_tax",
-            "    TaxService.instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    @tax = taxable * rate",
             "  @updated_at = Time.now",
-            'order.apply_coupon("SAVE10")',
+            "order.apply_coupon(\"SAVE10\")",
             "  @coupon_code = code",
-            "  recalculate_discount",
-            "    CouponRegistry.instance",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    @discount = coupon.apply",
-            "  recalculate_tax",
-            "    TaxService.instance",
-            "      -> global lookup...",
-            "    @tax = taxable * rate",
             "  @updated_at = Time.now",
+            "order.calc_total",
+            "  @total = @items.sum(&:price)",
+            "order.calc_discount",
+            "  CouponRegistry.instance",
+            "    .lookup(@coupon_code)",
+            "  @discount = @total * rate",
+            "order.calc_tax",
+            "  TaxService.instance",
+            "  @tax = svc.calculate(region, taxable)"
         ],
         "rescue": [
-            "result = calculate_order(",
-            '    items, "NY", tax_rates)',
-            "  total = items.sum { |i| i[:price] }",
-            "  tax = total * tax_rates[region]",
-            "  { total: total, tax: tax, ... }",
-            "final = apply_coupon(",
-            '    result, "SAVE10", coupons)',
-            "  discount = result[:total] * rate",
-            "  result.merge(discount: discount, ...)",
-        ],
+            "result = apply_coupon(",
+            "    items, \"SAVE10\", coupons)",
+            "  total = items.sum { |i| i[1] }",
+            "  discount = total * rate",
+            "  [total, discount, subtotal]",
+            "final = calculate_tax(",
+            "    result, \"NY\", tax_rates)",
+            "  tax = subtotal * tax_rates[region]",
+            "  [..., tax, grand_total]"
+        ]
     },
     "dart": {
         "crimeLabel": "☠ Dishonest — Dart Order class",
         "rescueLabel": "✦ Honest — Pure functions (Dart)",
         "crime": [
             "order.addItem(newItem);",
-            "  _items.add(item);",
-            "  _recalculateTotal();",
-            "    _total = _items.fold(0, ...);",
-            "  _recalculateDiscount();",
-            "    CouponRegistry.instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    _discount = coupon.apply();",
-            "  _recalculateTax();",
-            "    TaxService.instance",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    _tax = taxable * rate;",
-            "  _updatedAt = DateTime.now();",
-            'order.applyCoupon("SAVE10");',
-            "  _couponCode = code;",
-            "  _recalculateDiscount();",
-            "    CouponRegistry.instance",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    _discount = coupon.apply();",
-            "  _recalculateTax();",
-            "    TaxService.instance",
-            "      -> global lookup...",
-            "    _tax = taxable * rate;",
-            "  _updatedAt = DateTime.now();",
+            "  items.add(item);",
+            "  updatedAt = DateTime.now();",
+            "order.applyCoupon(\"SAVE10\");",
+            "  couponCode = code;",
+            "  updatedAt = DateTime.now();",
+            "order.calcTotal();",
+            "  total = items.fold(0.0, ...);",
+            "order.calcDiscount();",
+            "  CouponRegistry.instance",
+            "    .lookup(couponCode)",
+            "  discount = total * rate;",
+            "order.calcTax();",
+            "  TaxService.instance",
+            "  tax = svc.calculate(region, taxable);"
         ],
         "rescue": [
-            "final result = calculateOrder(",
-            '    items, "NY", taxRates);',
-            "  final total = items.fold(0, ...);",
-            "  final tax = total * taxRates[region];",
-            '  return {"total": total, ...};',
-            "final withCoupon = applyCoupon(",
-            '    result, "SAVE10", coupons);',
-            '  final discount = result["total"] * rate;',
-            '  return {...result, "discount": ...};',
-        ],
+            "final result = applyCoupon(",
+            "    items, \"SAVE10\", coupons);",
+            "  final total = items.fold(0.0, ...);",
+            "  final discount = total * rate;",
+            "  return OrderResult(total, discount, ...);",
+            "final fin = calculateTax(",
+            "    result, \"NY\", taxRates);",
+            "  final tax = subtotal * taxRates[region]!;",
+            "  return FinalResult(..., tax, grandTotal);"
+        ]
     },
     "cpp": {
         "crimeLabel": "☠ Dishonest — C++ Order class",
@@ -493,43 +370,31 @@ LANG_CODE = {
         "crime": [
             "order.addItem(newItem);",
             "  items_.push_back(item);",
-            "  recalculateTotal();",
-            "    total_ = std::accumulate(...);",
-            "  recalculateDiscount();",
-            "    CouponRegistry::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    discount_ = coupon->apply();",
-            "  recalculateTax();",
-            "    TaxService::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check...",
-            "    tax_ = taxable * rate;",
-            "  updatedAt_ = system_clock::now();",
-            'order.applyCoupon("SAVE10");',
+            "  updatedAt_ = now();",
+            "order.applyCoupon(\"SAVE10\");",
             "  couponCode_ = code;",
-            "  recalculateDiscount();",
-            "    CouponRegistry::getInstance()",
-            "      -> global lookup...",
-            "      -> cache check (stale?)...",
-            "    discount_ = coupon->apply();",
-            "  recalculateTax();",
-            "    TaxService::getInstance()",
-            "      -> global lookup...",
-            "    tax_ = taxable * rate;",
-            "  updatedAt_ = system_clock::now();",
+            "  updatedAt_ = now();",
+            "order.calcTotal();",
+            "  total_ = accumulate(items_...);",
+            "order.calcDiscount();",
+            "  CouponRegistry::getInstance()",
+            "    .lookup(couponCode_)",
+            "  discount_ = total_ * rate;",
+            "order.calcTax();",
+            "  TaxService::getInstance()",
+            "  tax_ = svc.calculate(region, taxable);"
         ],
         "rescue": [
-            "auto result = calculate_order(",
-            '    items, "NY", tax_rates);',
-            "  auto total = std::accumulate(...);",
-            "  auto tax = total * tax_rates.at(region);",
-            "  return OrderResult{total, tax, ...};",
-            "auto final = apply_coupon(",
-            '    result, "SAVE10", coupons);',
-            "  auto discount = result.total * rate;",
-            "  return FinalResult{total, discount, ...};",
-        ],
+            "auto result = applyCoupon(",
+            "    items, \"SAVE10\", coupons);",
+            "  double total = accumulate(items...);",
+            "  double discount = total * rate;",
+            "  return {total, discount, subtotal};",
+            "auto final = calculateTax(",
+            "    result, \"NY\", taxRates);",
+            "  double tax = subtotal * taxRates.at(region);",
+            "  return {..., tax, grandTotal};"
+        ]
     },
     "go": {
         "crimeLabel": "☠ Dishonest — Go Order struct",
@@ -537,142 +402,95 @@ LANG_CODE = {
         "crime": [
             "order.AddItem(newItem)",
             "  o.Items = append(o.Items, item)",
-            "  o.recalculateTotal()",
-            "    o.Total = sumItems(o.Items)",
-            "  o.recalculateDiscount()",
-            "    couponRegistry.GetInstance()",
-            "      -> global lookup...",
-            "      -> sync.Once check...",
-            "    o.Discount = coupon.Apply()",
-            "  o.recalculateTax()",
-            "    taxService.GetInstance()",
-            "      -> global lookup...",
-            "      -> sync.Once check...",
-            "    o.Tax = taxable * rate",
             "  o.UpdatedAt = time.Now()",
-            'order.ApplyCoupon("SAVE10")',
+            "order.ApplyCoupon(\"SAVE10\")",
             "  o.CouponCode = code",
-            "  o.recalculateDiscount()",
-            "    couponRegistry.GetInstance()",
-            "      -> global lookup...",
-            "      -> sync.Once check (stale?)...",
-            "    o.Discount = coupon.Apply()",
-            "  o.recalculateTax()",
-            "    taxService.GetInstance()",
-            "      -> global lookup...",
-            "    o.Tax = taxable * rate",
             "  o.UpdatedAt = time.Now()",
+            "order.CalcTotal()",
+            "  o.Total = sumPrices(o.Items)",
+            "order.CalcDiscount()",
+            "  getCouponRegistry()",
+            "    .Lookup(o.CouponCode)",
+            "  o.Discount = o.Total * rate",
+            "order.CalcTax()",
+            "  getTaxService()",
+            "  o.Tax = svc.Calculate(region, taxable)"
         ],
         "rescue": [
-            "result := CalculateOrder(",
-            '    items, "NY", taxRates)',
-            "  total := SumItems(items)",
-            "  tax := total * taxRates[region]",
-            "  return OrderResult{Total, Tax, ...}",
-            "final := ApplyCoupon(",
-            '    result, "SAVE10", coupons)',
-            "  discount := result.Total * rate",
-            "  return FinalResult{Total, Discount, ...}",
-        ],
-    },
-}
-
-# Surprise pairing: TypeScript crime + Python rescue
-# V8's JIT-compiled classes lose to CPython bytecode VM with pure functions
-SURPRISE = {
-    "crimeLabel": "☠ Dishonest — TypeScript Order class (V8 JIT)",
-    "rescueLabel": "✦ Honest — Pure functions (Python, CPython VM)",
-    "crime_lang": "typescript",
-    "rescue_lang": "python",
+            "result := ApplyCoupon(",
+            "    items, \"SAVE10\", coupons)",
+            "  total := sumPrices(items)",
+            "  discount := total * rate",
+            "  return OrderResult{total, discount, ...}",
+            "final := CalculateTax(",
+            "    result, \"NY\", taxRates)",
+            "  tax := subtotal * taxRates[region]",
+            "  return FinalResult{..., tax, ...}"
+        ]
+    }
 }
 
 
 def load_baseline(lang):
-    path = BASELINES_DIR / f"{lang}.json"
-    with open(path) as f:
+    with open(BASELINES_DIR / f"{lang}.json") as f:
         data = json.load(f)
-    # Normalize values to int
     crime = {k: int(round(v)) for k, v in data["crime"].items()}
     rescue = {k: int(round(v)) for k, v in data["rescue"].items()}
     return crime, rescue
 
 
 def build_crime_steps(crime_baseline, code_lines):
-    assert len(code_lines) == 27, f"Expected 27 crime code lines, got {len(code_lines)}"
-    steps = []
-    for i, op in enumerate(CRIME_OPS):
-        steps.append({
+    assert len(code_lines) == len(CRIME_OPS), f"Expected {len(CRIME_OPS)} crime lines, got {len(code_lines)}"
+    return [
+        {
             "code": code_lines[i],
             "ns": crime_baseline[op],
             "op": op,
             "mutations": CRIME_MUTATIONS.get(i, []),
             "singletons": CRIME_SINGLETONS.get(i, 0),
-        })
-    return steps
+        }
+        for i, op in enumerate(CRIME_OPS)
+    ]
 
 
 def build_rescue_steps(rescue_baseline, code_lines):
-    assert len(code_lines) == 9, f"Expected 9 rescue code lines, got {len(code_lines)}"
-    steps = []
-    for i, op in enumerate(RESCUE_OPS):
-        steps.append({
+    assert len(code_lines) == len(RESCUE_OPS), f"Expected {len(RESCUE_OPS)} rescue lines, got {len(code_lines)}"
+    return [
+        {
             "code": code_lines[i],
             "ns": rescue_baseline[op],
             "op": op,
             "results": RESCUE_RESULTS.get(i, []),
-        })
-    return steps
+        }
+        for i, op in enumerate(RESCUE_OPS)
+    ]
 
 
 def main():
     output = {}
-
     for lang, code in LANG_CODE.items():
         crime_baseline, rescue_baseline = load_baseline(lang)
         crime_steps = build_crime_steps(crime_baseline, code["crime"])
         rescue_steps = build_rescue_steps(rescue_baseline, code["rescue"])
-
-        crime_total = sum(s["ns"] for s in crime_steps)
-        rescue_total = sum(s["ns"] for s in rescue_steps)
-
         output[lang] = {
             "crimeLabel": code["crimeLabel"],
             "rescueLabel": code["rescueLabel"],
             "crime": crime_steps,
             "rescue": rescue_steps,
-            "crimeTotal": crime_total,
-            "rescueTotal": rescue_total,
+            "crimeTotal": sum(s["ns"] for s in crime_steps),
+            "rescueTotal": sum(s["ns"] for s in rescue_steps),
         }
-
-    # Surprise cross-language pairing
-    ts_crime, _ = load_baseline(SURPRISE["crime_lang"])
-    _, python_rescue = load_baseline(SURPRISE["rescue_lang"])
-    surprise_crime = build_crime_steps(ts_crime, LANG_CODE[SURPRISE["crime_lang"]]["crime"])
-    surprise_rescue = build_rescue_steps(python_rescue, LANG_CODE[SURPRISE["rescue_lang"]]["rescue"])
-
+    # The surprise pairing is built from these steps by normalize_traces.py.
     output["surprise"] = {
-        "crimeLabel": SURPRISE["crimeLabel"],
-        "rescueLabel": SURPRISE["rescueLabel"],
-        "crime": surprise_crime,
-        "rescue": surprise_rescue,
-        "crimeTotal": sum(s["ns"] for s in surprise_crime),
-        "rescueTotal": sum(s["ns"] for s in surprise_rescue),
+        **output["cpp"],
+        "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",
+        "rescueLabel": "\u2726 Honest \u2014 Pure functions (TypeScript, V8)",
+        "rescue": output["typescript"]["rescue"],
+        "rescueTotal": output["typescript"]["rescueTotal"],
     }
-
     OUTPUT.parent.mkdir(exist_ok=True)
-    with open(OUTPUT, "w") as f:
-        json.dump(output, f, indent=2)
-
-    # Print summary
-    print(f"Generated {OUTPUT}")
-    print(f"Languages: {len(output)}")
-    print()
-    print(f"{'Language':<13} {'Crime':>7} {'Rescue':>7} {'Ratio':>6}")
-    print("-" * 35)
-    for lang, data in output.items():
-        ct, rt = data["crimeTotal"], data["rescueTotal"]
-        ratio = f"{ct/rt:.1f}x" if rt > 0 else "n/a"
-        print(f"{lang:<13} {ct:>6}ns {rt:>6}ns {ratio:>6}")
+    OUTPUT.write_text(json.dumps(output, indent=2))
+    print(f"Wrote {OUTPUT} with {len(output)} entries")
 
 
 if __name__ == "__main__":

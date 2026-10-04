@@ -80,6 +80,9 @@ func getTaxService() *taxService {
 	return taxInstance
 }
 
+// Order has separate explicit calculation methods. Mutators only record data.
+// The caller must run CalcTotal, CalcDiscount, CalcTax in that order; calling
+// them out of order silently uses stale values.
 type Order struct {
 	Items      []Item
 	Total      float64
@@ -92,9 +95,6 @@ type Order struct {
 
 func (o *Order) AddItem(item Item) {
 	o.Items = append(o.Items, item)
-	o.recalculateTotal()
-	o.recalculateDiscount()
-	o.recalculateTax()
 	if o.stamp {
 		o.UpdatedAt = time.Now().UnixNano()
 	}
@@ -102,14 +102,12 @@ func (o *Order) AddItem(item Item) {
 
 func (o *Order) ApplyCoupon(code string) {
 	o.CouponCode = code
-	o.recalculateDiscount()
-	o.recalculateTax()
 	if o.stamp {
 		o.UpdatedAt = time.Now().UnixNano()
 	}
 }
 
-func (o *Order) recalculateTotal() {
+func (o *Order) CalcTotal() {
 	sum := 0.0
 	for _, i := range o.Items {
 		sum += i.Price
@@ -117,18 +115,20 @@ func (o *Order) recalculateTotal() {
 	o.Total = sum
 }
 
-func (o *Order) recalculateDiscount() {
+func (o *Order) CalcDiscount() {
 	registry := getCouponRegistry()
 	o.Discount = o.Total * registry.Lookup(o.CouponCode)
 }
 
-func (o *Order) recalculateTax() {
+func (o *Order) CalcTax() {
 	svc := getTaxService()
 	o.Tax = svc.Calculate("NY", o.Total-o.Discount)
 }
 
 func (o *Order) GrandTotal() float64 { return o.Total - o.Discount + o.Tax }
 
+// Order matters: add items, apply the coupon, then calculate total, discount
+// and tax in that order.
 func dishonestScenario(items []Item, stamp, prealloc bool) float64 {
 	order := &Order{stamp: stamp}
 	if prealloc {
@@ -138,6 +138,9 @@ func dishonestScenario(items []Item, stamp, prealloc bool) float64 {
 		order.AddItem(it)
 	}
 	order.ApplyCoupon("SAVE10")
+	order.CalcTotal()
+	order.CalcDiscount()
+	order.CalcTax()
 	return order.GrandTotal()
 }
 
@@ -146,34 +149,34 @@ func dishonestScenario(items []Item, stamp, prealloc bool) float64 {
 // ─────────────────────────────────────────────
 
 type OrderResult struct {
-	Total, Tax, Subtotal float64
+	Total, Discount, Subtotal float64
 }
 
 type FinalResult struct {
-	Total, Tax, Subtotal, Discount, GrandTotal float64
+	Total, Discount, Subtotal, Tax, GrandTotal float64
 }
 
-func CalculateOrder(items []Item, region string, taxRates map[string]float64) OrderResult {
+func ApplyCoupon(items []Item, code string, coupons map[string]float64) OrderResult {
 	total := 0.0
 	for _, i := range items {
 		total += i.Price
 	}
-	tax := total * taxRates[region]
-	return OrderResult{Total: total, Tax: tax, Subtotal: total + tax}
+	discount := total * coupons[code]
+	return OrderResult{Total: total, Discount: discount, Subtotal: total - discount}
 }
 
-func ApplyCoupon(o OrderResult, code string, coupons map[string]float64) FinalResult {
-	discount := o.Total * coupons[code]
+func CalculateTax(o OrderResult, region string, taxRates map[string]float64) FinalResult {
+	tax := o.Subtotal * taxRates[region]
 	return FinalResult{
-		Total: o.Total, Tax: o.Tax, Subtotal: o.Subtotal,
-		Discount: discount, GrandTotal: o.Subtotal - discount,
+		Total: o.Total, Discount: o.Discount, Subtotal: o.Subtotal,
+		Tax: tax, GrandTotal: o.Subtotal + tax,
 	}
 }
 
 func honestScenario(items []Item, region string,
 	taxRates, coupons map[string]float64) float64 {
-	result := CalculateOrder(items, region, taxRates)
-	final := ApplyCoupon(result, "SAVE10", coupons)
+	result := ApplyCoupon(items, "SAVE10", coupons)
+	final := CalculateTax(result, region, taxRates)
 	return final.GrandTotal
 }
 

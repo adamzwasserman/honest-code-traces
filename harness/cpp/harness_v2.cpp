@@ -69,7 +69,7 @@ static inline void doNotOptimize(T const& value) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Dishonest: mutable class, singleton lookups, timestamp writes
+// Dishonest: mutable class, separate calculation methods, singletons, stamps
 // ─────────────────────────────────────────────────────────────
 
 struct Item {
@@ -105,6 +105,11 @@ class TaxService {
 };
 std::shared_ptr<TaxService> TaxService::instance;
 
+// Order keeps its state in mutable fields and exposes separate, explicit
+// calculation methods. Mutating methods only record input. The caller must
+// run calcTotal, calcDiscount and calcTax in that order, because each reads
+// the field the one before it wrote. Order matters: calcDiscount before
+// calcTotal uses a stale total.
 class Order {
     std::vector<Item> items_;
     double total_ = 0;
@@ -121,43 +126,44 @@ class Order {
 
     void addItem(const Item& item) {
         items_.push_back(item);
-        recalculateTotal();
-        recalculateDiscount();
-        recalculateTax();
         if (stamp_) updatedAt_ = ns();
     }
 
     void applyCoupon(const std::string& code) {
         couponCode_ = code;
-        recalculateDiscount();
-        recalculateTax();
         if (stamp_) updatedAt_ = ns();
     }
 
-    double grandTotal() const { return total_ - discount_ + tax_; }
-
-  private:
-    void recalculateTotal() {
+    void calcTotal() {
         total_ = std::accumulate(
             items_.begin(), items_.end(), 0.0,
             [](double sum, const Item& i) { return sum + i.price; });
     }
-    void recalculateDiscount() {
+
+    void calcDiscount() {
         auto registry = CouponRegistry::getInstance();
         discount_ = total_ * registry->lookup(couponCode_);
     }
-    void recalculateTax() {
+
+    void calcTax() {
         auto taxService = TaxService::getInstance();
         tax_ = taxService->calculate("NY", total_ - discount_);
     }
+
+    double grandTotal() const { return total_ - discount_ + tax_; }
 };
 
+// The caller adds the items, applies the coupon, then runs the calculations
+// in dependency order: total, discount, tax.
 NOINLINE static double dishonestScenario(const std::vector<Item>& items,
                                          bool stamp, bool reserve) {
     doNotOptimize(items);
     Order order(stamp, reserve);
     for (size_t k = 0; k < items.size(); k++) order.addItem(items[k]);
     order.applyCoupon("SAVE10");
+    order.calcTotal();
+    order.calcDiscount();
+    order.calcTax();
     double g = order.grandTotal();
     doNotOptimize(g);
     return g;
@@ -168,32 +174,31 @@ NOINLINE static double dishonestScenario(const std::vector<Item>& items,
 // ─────────────────────────────────────────────────────────────
 
 struct OrderResult {
-    double total, tax, subtotal;
+    double total, discount, subtotal;
 };
 
 struct FinalResult {
-    double total, tax, subtotal, discount, grandTotal;
+    double total, discount, subtotal, tax, grandTotal;
 };
 
-static OrderResult calculateOrder(
-    const std::vector<Item>& items, const std::string& region,
-    const std::unordered_map<std::string, double>& taxRates) {
+static OrderResult applyCoupon(
+    const std::vector<Item>& items, const std::string& code,
+    const std::unordered_map<std::string, double>& coupons) {
     double total = std::accumulate(
         items.begin(), items.end(), 0.0,
         [](double sum, const Item& i) { return sum + i.price; });
-    auto it = taxRates.find(region);
-    double tax = total * (it != taxRates.end() ? it->second : 0.0);
-    return {total, tax, total + tax};
+    auto it = coupons.find(code);
+    double discount = total * (it != coupons.end() ? it->second : 0.0);
+    return {total, discount, total - discount};
 }
 
-static FinalResult applyCoupon(
-    const OrderResult& order, const std::string& code,
-    const std::unordered_map<std::string, double>& coupons) {
-    auto it = coupons.find(code);
-    double rate = (it != coupons.end() ? it->second : 0.0);
-    double discount = order.total * rate;
-    return {order.total, order.tax, order.subtotal, discount,
-            order.subtotal - discount};
+static FinalResult calculateTax(
+    const OrderResult& order, const std::string& region,
+    const std::unordered_map<std::string, double>& taxRates) {
+    auto it = taxRates.find(region);
+    double tax = order.subtotal * (it != taxRates.end() ? it->second : 0.0);
+    return {order.total, order.discount, order.subtotal, tax,
+            order.subtotal + tax};
 }
 
 NOINLINE static double honestScenario(
@@ -203,8 +208,8 @@ NOINLINE static double honestScenario(
     doNotOptimize(items);
     doNotOptimize(taxRates);
     doNotOptimize(coupons);
-    auto result = calculateOrder(items, region, taxRates);
-    auto final_ = applyCoupon(result, "SAVE10", coupons);
+    auto result = applyCoupon(items, "SAVE10", coupons);
+    auto final_ = calculateTax(result, region, taxRates);
     double g = final_.grandTotal;
     doNotOptimize(g);
     return g;

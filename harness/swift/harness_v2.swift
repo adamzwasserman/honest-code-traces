@@ -39,7 +39,7 @@ func ns() -> UInt64 {
 var sink: Double = 0
 
 // ─────────────────────────────────────────────
-// Dishonest: mutable class, singletons, stamps
+// Dishonest: mutable class, separate calculation methods, singletons, stamps
 // ─────────────────────────────────────────────
 
 struct Item {
@@ -59,6 +59,11 @@ final class TaxService {
     }
 }
 
+// Order keeps its state in mutable fields and exposes separate, explicit
+// calculation methods. Mutating methods only record input. The caller must
+// run calcTotal, calcDiscount and calcTax in that order, because each reads
+// the field the one before it wrote. Order matters: calcDiscount before
+// calcTotal uses a stale total.
 final class Order {
     private var items: [Item] = []
     private var total: Double = 0
@@ -75,41 +80,41 @@ final class Order {
 
     func addItem(_ item: Item) {
         items.append(item)
-        recalculateTotal()
-        recalculateDiscount()
-        recalculateTax()
         if stamp { updatedAt = Date() }
     }
 
     func applyCoupon(_ code: String) {
         couponCode = code
-        recalculateDiscount()
-        recalculateTax()
         if stamp { updatedAt = Date() }
     }
 
-    private func recalculateTotal() {
+    func calcTotal() {
         var t: Double = 0
         for i in items { t += i.price }
         total = t
     }
 
-    private func recalculateDiscount() {
+    func calcDiscount() {
         discount = total * CouponRegistry.shared.lookup(couponCode)
     }
 
-    private func recalculateTax() {
+    func calcTax() {
         tax = TaxService.shared.calculate("NY", total - discount)
     }
 
     func grandTotal() -> Double { total - discount + tax }
 }
 
+// The caller adds the items, applies the coupon, then runs the calculations
+// in dependency order: total, discount, tax.
 @inline(never)
 func dishonestScenario(_ items: [Item], stamp: Bool, prealloc: Bool) -> Double {
     let order = Order(stamp: stamp, prealloc: prealloc)
     for it in items { order.addItem(it) }
     order.applyCoupon("SAVE10")
+    order.calcTotal()
+    order.calcDiscount()
+    order.calcTax()
     return order.grandTotal()
 }
 
@@ -119,39 +124,41 @@ func dishonestScenario(_ items: [Item], stamp: Bool, prealloc: Bool) -> Double {
 
 struct OrderResult {
     let total: Double
-    let tax: Double
+    let discount: Double
     let subtotal: Double
 }
 
 struct FinalResult {
     let total: Double
-    let tax: Double
-    let subtotal: Double
     let discount: Double
+    let subtotal: Double
+    let tax: Double
     let grandTotal: Double
 }
 
-func calculateOrder(_ items: [Item], _ region: String,
-                    _ taxRates: [String: Double]) -> OrderResult {
+func applyCoupon(_ items: [Item], _ code: String,
+                 _ coupons: [String: Double]) -> OrderResult {
     var total: Double = 0
     for i in items { total += i.price }
-    let tax = total * (taxRates[region] ?? 0)
-    return OrderResult(total: total, tax: tax, subtotal: total + tax)
+    let discount = total * (coupons[code] ?? 0)
+    return OrderResult(total: total, discount: discount,
+                       subtotal: total - discount)
 }
 
-func applyCoupon(_ o: OrderResult, _ code: String,
-                 _ coupons: [String: Double]) -> FinalResult {
-    let discount = o.total * (coupons[code] ?? 0)
-    return FinalResult(total: o.total, tax: o.tax, subtotal: o.subtotal,
-                       discount: discount, grandTotal: o.subtotal - discount)
+func calculateTax(_ o: OrderResult, _ region: String,
+                  _ taxRates: [String: Double]) -> FinalResult {
+    let tax = o.subtotal * (taxRates[region] ?? 0)
+    return FinalResult(total: o.total, discount: o.discount,
+                       subtotal: o.subtotal, tax: tax,
+                       grandTotal: o.subtotal + tax)
 }
 
 @inline(never)
 func honestScenario(_ items: [Item], _ region: String,
                     _ taxRates: [String: Double],
                     _ coupons: [String: Double]) -> Double {
-    let result = calculateOrder(items, region, taxRates)
-    return applyCoupon(result, "SAVE10", coupons).grandTotal
+    let result = applyCoupon(items, "SAVE10", coupons)
+    return calculateTax(result, region, taxRates).grandTotal
 }
 
 // ─────────────────────────────────────────────

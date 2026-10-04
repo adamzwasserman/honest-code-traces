@@ -56,6 +56,9 @@ class TaxService
   end
 end
 
+# Order has separate, explicit calculation methods. add_item and apply_coupon
+# only record data. The caller must run calc_total, calc_discount and calc_tax
+# in that order, because each reads the result of the one before it.
 class Order
   def initialize(stamp)
     @items = []
@@ -69,44 +72,42 @@ class Order
 
   def add_item(item)
     @items << item
-    recalculate_total
-    recalculate_discount
-    recalculate_tax
     @updated_at = Time.now if @stamp
   end
 
   def apply_coupon(code)
     @coupon_code = code
-    recalculate_discount
-    recalculate_tax
     @updated_at = Time.now if @stamp
   end
 
-  def grand_total
-    @total - @discount + @tax
-  end
-
-  private
-
-  def recalculate_total
+  def calc_total
     t = 0.0
     @items.each { |i| t += i[1] }
     @total = t
   end
 
-  def recalculate_discount
+  def calc_discount
     @discount = @total * CouponRegistry.instance.lookup(@coupon_code)
   end
 
-  def recalculate_tax
+  def calc_tax
     @tax = TaxService.instance.calculate('NY', @total - @discount)
+  end
+
+  def grand_total
+    @total - @discount + @tax
   end
 end
 
+# Order matters: calc_total, then calc_discount, then calc_tax. Calling
+# calc_discount first would use a stale total.
 def dishonest_scenario(items, stamp)
   order = Order.new(stamp)
   items.each { |it| order.add_item(it) }
   order.apply_coupon('SAVE10')
+  order.calc_total
+  order.calc_discount
+  order.calc_tax
   order.grand_total
 end
 
@@ -114,22 +115,23 @@ end
 # Honest: pure functions, flat data
 # ─────────────────────────────────────────────
 
-def calculate_order(items, region, tax_rates)
+def apply_coupon(items, code, coupons)
   total = 0.0
   items.each { |i| total += i[1] }
-  tax = total * (tax_rates[region] || 0.0)
-  [total, tax, total + tax]
+  discount = total * (coupons[code] || 0.0)
+  [total, discount, total - discount]
 end
 
-def apply_coupon(order, code, coupons)
-  total, tax, subtotal = order
-  discount = total * (coupons[code] || 0.0)
-  [total, tax, subtotal, discount, subtotal - discount]
+def calculate_tax(order, region, tax_rates)
+  total, discount, subtotal = order
+  tax = subtotal * (tax_rates[region] || 0.0)
+  [total, discount, subtotal, tax, subtotal + tax]
 end
 
 def honest_scenario(items, region, tax_rates, coupons)
-  result = calculate_order(items, region, tax_rates)
-  apply_coupon(result, 'SAVE10', coupons)[4]
+  result = apply_coupon(items, 'SAVE10', coupons)
+  final = calculate_tax(result, region, tax_rates)
+  final[4]
 end
 
 # ─────────────────────────────────────────────

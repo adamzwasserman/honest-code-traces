@@ -67,6 +67,9 @@ class TaxService {
       taxable * (region == 'NY' ? 0.08 : 0.0725);
 }
 
+// Order has separate explicit calculation methods. Mutators only record data.
+// The caller must run calcTotal, calcDiscount, calcTax in that order; calling
+// them out of order silently uses stale values.
 class Order {
   final List<Item> _items;
   double _total = 0.0;
@@ -87,20 +90,15 @@ class Order {
 
   void addItem(Item item) {
     _items.add(item);
-    _recalculateTotal();
-    _recalculateDiscount();
-    _recalculateTax();
     if (_stamp) _updatedAt = DateTime.now();
   }
 
   void applyCoupon(String code) {
     _couponCode = code;
-    _recalculateDiscount();
-    _recalculateTax();
     if (_stamp) _updatedAt = DateTime.now();
   }
 
-  void _recalculateTotal() {
+  void calcTotal() {
     double t = 0.0;
     for (final i in _items) {
       t += i.price;
@@ -108,23 +106,28 @@ class Order {
     _total = t;
   }
 
-  void _recalculateDiscount() {
+  void calcDiscount() {
     _discount = _total * CouponRegistry.instance.lookup(_couponCode);
   }
 
-  void _recalculateTax() {
+  void calcTax() {
     _tax = TaxService.instance.calculate('NY', _total - _discount);
   }
 
   double grandTotal() => _total - _discount + _tax;
 }
 
+// Order matters: add items, apply the coupon, then calculate total, discount
+// and tax in that order.
 double dishonestScenario(List<Item> items, bool stamp, bool prealloc) {
   final order = Order(stamp, prealloc);
   for (final it in items) {
     order.addItem(it);
   }
   order.applyCoupon('SAVE10');
+  order.calcTotal();
+  order.calcDiscount();
+  order.calcTax();
   return order.grandTotal();
 }
 
@@ -133,37 +136,36 @@ double dishonestScenario(List<Item> items, bool stamp, bool prealloc) {
 // ─────────────────────────────────────────────
 
 class OrderResult {
-  final double total, tax, subtotal;
-  const OrderResult(this.total, this.tax, this.subtotal);
+  final double total, discount, subtotal;
+  const OrderResult(this.total, this.discount, this.subtotal);
 }
 
 class FinalResult {
-  final double total, tax, subtotal, discount, grandTotal;
+  final double total, discount, subtotal, tax, grandTotal;
   const FinalResult(
-      this.total, this.tax, this.subtotal, this.discount, this.grandTotal);
+      this.total, this.discount, this.subtotal, this.tax, this.grandTotal);
 }
 
-OrderResult calculateOrder(
-    List<Item> items, String region, Map<String, double> taxRates) {
+OrderResult applyCoupon(
+    List<Item> items, String code, Map<String, double> coupons) {
   double total = 0.0;
   for (final i in items) {
     total += i.price;
   }
-  final tax = total * (taxRates[region] ?? 0.0);
-  return OrderResult(total, tax, total + tax);
+  final discount = total * (coupons[code] ?? 0.0);
+  return OrderResult(total, discount, total - discount);
 }
 
-FinalResult applyCoupon(
-    OrderResult o, String code, Map<String, double> coupons) {
-  final discount = o.total * (coupons[code] ?? 0.0);
-  return FinalResult(
-      o.total, o.tax, o.subtotal, discount, o.subtotal - discount);
+FinalResult calculateTax(
+    OrderResult o, String region, Map<String, double> taxRates) {
+  final tax = o.subtotal * (taxRates[region] ?? 0.0);
+  return FinalResult(o.total, o.discount, o.subtotal, tax, o.subtotal + tax);
 }
 
 double honestScenario(List<Item> items, String region,
     Map<String, double> taxRates, Map<String, double> coupons) {
-  final result = calculateOrder(items, region, taxRates);
-  return applyCoupon(result, 'SAVE10', coupons).grandTotal;
+  final result = applyCoupon(items, 'SAVE10', coupons);
+  return calculateTax(result, region, taxRates).grandTotal;
 }
 
 // ─────────────────────────────────────────────
