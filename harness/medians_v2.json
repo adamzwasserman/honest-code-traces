@@ -15,8 +15,8 @@
  },
  "typescript": {
   "runs": 10,
-  "dishonest_full_ns": 405.5,
-  "honest_ns": 70.5,
+  "dishonest_full_ns": 390.9,
+  "honest_ns": 88.0,
   "dishonest_full_range": [
    364,
    431
@@ -25,7 +25,12 @@
    62,
    87
   ],
-  "dishonest_no_timestamp_ns": 136.5
+  "dishonest_no_timestamp_ns": 150.9,
+  "hand_written_harness": {
+   "dishonest_full_ns": 405.5,
+   "honest_ns": 70.5
+  },
+  "source": "mitata, median (p50)"
  },
  "ruby": {
   "runs": 10,
@@ -57,8 +62,8 @@
  },
  "go": {
   "runs": 10,
-  "dishonest_full_ns": 615.5,
-  "honest_ns": 26.5,
+  "dishonest_full_ns": 637.5,
+  "honest_ns": 41.4,
   "dishonest_full_range": [
    582,
    664
@@ -67,7 +72,12 @@
    23,
    28
   ],
-  "dishonest_no_timestamp_ns": 307.5
+  "dishonest_no_timestamp_ns": 312.2,
+  "hand_written_harness": {
+   "dishonest_full_ns": 615.5,
+   "honest_ns": 26.5
+  },
+  "source": "go test -bench with b.Loop, median of 10 counts"
  },
  "java": {
   "runs": 10,
@@ -172,8 +182,8 @@
  },
  "cpp": {
   "runs": 10,
-  "dishonest_full_ns": 292.0,
-  "honest_ns": 16.5,
+  "dishonest_full_ns": 286.9,
+  "honest_ns": 19.0,
   "dishonest_full_range": [
    258,
    317
@@ -182,6 +192,11 @@
    15,
    31
   ],
-  "dishonest_no_timestamp_ns": 149.5
+  "dishonest_no_timestamp_ns": 157.7,
+  "hand_written_harness": {
+   "dishonest_full_ns": 292.0,
+   "honest_ns": 16.5
+  },
+  "source": "Google Benchmark, median of 10 repetitions"
  }
 }

@@ -365,31 +365,31 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "  this.items.push(item);",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.recalculateTotal();",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "    this.total = this.items.reduce(..)",
-        "ns": 26.19,
+        "ns": 25.29,
         "op": "calc",
         "mutations": [
           [
@@ -398,43 +398,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 26.19
+        "animNs": 25.29
       },
       {
         "code": "  this.recalculateDiscount();",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 9.38,
+        "ns": 9.04,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 9.38
+        "animNs": 9.04
       },
       {
         "code": "      -> global lookup...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "      -> cache check...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "    this.discount = coupon.apply()",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [
           [
@@ -443,43 +443,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.recalculateTax();",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 9.38,
+        "ns": 9.04,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 9.38
+        "animNs": 9.04
       },
       {
         "code": "      -> global lookup...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "      -> cache check...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "    this.tax = taxable * rate;",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [
           [
@@ -488,11 +488,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.updatedAt = new Date();",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "time",
         "mutations": [
           [
@@ -501,19 +501,19 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "  this.couponCode = code;",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [
           [
@@ -522,43 +522,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.recalculateDiscount();",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "    CouponRegistry.getInstance()",
-        "ns": 9.38,
+        "ns": 9.04,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 9.38
+        "animNs": 9.04
       },
       {
         "code": "      -> global lookup...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "    this.discount = coupon.apply()",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [
           [
@@ -567,35 +567,35 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.recalculateTax();",
-        "ns": 15.06,
+        "ns": 14.51,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 15.06
+        "animNs": 14.51
       },
       {
         "code": "    TaxService.getInstance()",
-        "ns": 9.38,
+        "ns": 9.04,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 9.38
+        "animNs": 9.04
       },
       {
         "code": "      -> global lookup...",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       },
       {
         "code": "    this.tax = taxable * rate;",
-        "ns": 11.27,
+        "ns": 10.86,
         "op": "field",
         "mutations": [
           [
@@ -604,11 +604,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.27
+        "animNs": 10.86
       },
       {
         "code": "  this.updatedAt = new Date();",
-        "ns": 18.75,
+        "ns": 18.08,
         "op": "time",
         "mutations": [
           [
@@ -617,27 +617,27 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 18.75
+        "animNs": 18.08
       }
     ],
     "rescue": [
       {
         "code": "const result = calculateOrder(",
-        "ns": 3.02,
+        "ns": 3.77,
         "op": "call",
         "results": [],
-        "animNs": 3.02
+        "animNs": 3.77
       },
       {
         "code": "    items, \"NY\", taxRates);",
-        "ns": 2.99,
+        "ns": 3.73,
         "op": "arg",
         "results": [],
-        "animNs": 2.99
+        "animNs": 3.73
       },
       {
         "code": "  const total = items.reduce(...)",
-        "ns": 13.48,
+        "ns": 16.84,
         "op": "calc",
         "results": [
           [
@@ -645,11 +645,11 @@
             "89.97"
           ]
         ],
-        "animNs": 13.48
+        "animNs": 16.84
       },
       {
         "code": "  const tax = total * taxRates[region]",
-        "ns": 13.5,
+        "ns": 16.85,
         "op": "calc",
         "results": [
           [
@@ -657,11 +657,11 @@
             "7.20"
           ]
         ],
-        "animNs": 13.5
+        "animNs": 16.85
       },
       {
         "code": "  return { total, tax, subtotal };",
-        "ns": 9.0,
+        "ns": 11.23,
         "op": "ret",
         "results": [
           [
@@ -669,11 +669,11 @@
             "97.17"
           ]
         ],
-        "animNs": 9.0
+        "animNs": 11.23
       },
       {
         "code": "const final = applyCoupon(",
-        "ns": 3.02,
+        "ns": 3.77,
         "op": "call",
         "results": [
           [
@@ -681,18 +681,18 @@
             "\"SAVE10\""
           ]
         ],
-        "animNs": 3.02
+        "animNs": 3.77
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 2.99,
+        "ns": 3.73,
         "op": "arg",
         "results": [],
-        "animNs": 2.99
+        "animNs": 3.73
       },
       {
         "code": "  const discount = result.total * rate;",
-        "ns": 13.5,
+        "ns": 16.85,
         "op": "calc",
         "results": [
           [
@@ -700,11 +700,11 @@
             "9.00"
           ]
         ],
-        "animNs": 13.5
+        "animNs": 16.85
       },
       {
         "code": "  return { ...result, discount, grand };",
-        "ns": 9.0,
+        "ns": 11.23,
         "op": "ret",
         "results": [
           [
@@ -712,12 +712,12 @@
             "87.45"
           ]
         ],
-        "animNs": 9.0
+        "animNs": 11.23
       }
     ],
-    "crimeTotal": 405.5,
-    "rescueTotal": 70.5,
-    "crimeNoTimestampNs": 136.5
+    "crimeTotal": 390.9,
+    "rescueTotal": 88.0,
+    "crimeNoTimestampNs": 150.9
   },
   "csharp": {
     "crimeLabel": "\u2620 Dishonest \u2014 C# Order class",
@@ -3245,31 +3245,31 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 11.78,
+        "ns": 11.62,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.78
+        "animNs": 11.62
       },
       {
         "code": "  items_.push_back(item);",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTotal();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    total_ = std::accumulate(...);",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "calc",
         "mutations": [
           [
@@ -3278,43 +3278,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    CouponRegistry::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -3323,43 +3323,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTax();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    TaxService::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -3368,11 +3368,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  updatedAt_ = system_clock::now();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "time",
         "mutations": [
           [
@@ -3381,19 +3381,19 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  couponCode_ = code;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -3402,43 +3402,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    CouponRegistry::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -3447,35 +3447,35 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTax();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    TaxService::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -3484,11 +3484,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  updatedAt_ = system_clock::now();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "time",
         "mutations": [
           [
@@ -3497,27 +3497,27 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       }
     ],
     "rescue": [
       {
         "code": "auto result = calculate_order(",
-        "ns": 1.81,
+        "ns": 2.08,
         "op": "call",
         "results": [],
-        "animNs": 1.81
+        "animNs": 2.08
       },
       {
         "code": "    items, \"NY\", tax_rates);",
-        "ns": 1.81,
+        "ns": 2.08,
         "op": "arg",
         "results": [],
-        "animNs": 1.81
+        "animNs": 2.08
       },
       {
         "code": "  auto total = std::accumulate(...);",
-        "ns": 1.86,
+        "ns": 2.16,
         "op": "calc",
         "results": [
           [
@@ -3525,11 +3525,11 @@
             "89.97"
           ]
         ],
-        "animNs": 1.86
+        "animNs": 2.16
       },
       {
         "code": "  auto tax = total * tax_rates.at(region);",
-        "ns": 1.85,
+        "ns": 2.13,
         "op": "calc",
         "results": [
           [
@@ -3537,11 +3537,11 @@
             "7.20"
           ]
         ],
-        "animNs": 1.85
+        "animNs": 2.13
       },
       {
         "code": "  return OrderResult{total, tax, ...};",
-        "ns": 1.85,
+        "ns": 2.13,
         "op": "ret",
         "results": [
           [
@@ -3549,11 +3549,11 @@
             "97.17"
           ]
         ],
-        "animNs": 1.85
+        "animNs": 2.13
       },
       {
         "code": "auto final = apply_coupon(",
-        "ns": 1.81,
+        "ns": 2.08,
         "op": "call",
         "results": [
           [
@@ -3561,18 +3561,18 @@
             "\"SAVE10\""
           ]
         ],
-        "animNs": 1.81
+        "animNs": 2.08
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 1.81,
+        "ns": 2.08,
         "op": "arg",
         "results": [],
-        "animNs": 1.81
+        "animNs": 2.08
       },
       {
         "code": "  auto discount = result.total * rate;",
-        "ns": 1.85,
+        "ns": 2.13,
         "op": "calc",
         "results": [
           [
@@ -3580,11 +3580,11 @@
             "9.00"
           ]
         ],
-        "animNs": 1.85
+        "animNs": 2.13
       },
       {
         "code": "  return FinalResult{total, discount, ...};",
-        "ns": 1.85,
+        "ns": 2.13,
         "op": "ret",
         "results": [
           [
@@ -3592,12 +3592,12 @@
             "87.45"
           ]
         ],
-        "animNs": 1.85
+        "animNs": 2.13
       }
     ],
-    "crimeTotal": 292.0,
-    "rescueTotal": 16.5,
-    "crimeNoTimestampNs": 149.5
+    "crimeTotal": 286.9,
+    "rescueTotal": 19.0,
+    "crimeNoTimestampNs": 157.7
   },
   "go": {
     "crimeLabel": "\u2620 Dishonest \u2014 Go Order struct",
@@ -3605,11 +3605,11 @@
     "crime": [
       {
         "code": "order.AddItem(newItem)",
-        "ns": 59.29,
+        "ns": 61.43,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.29
+        "animNs": 61.43
       },
       {
         "code": "  o.Items = append(o.Items, item)",
@@ -3621,15 +3621,15 @@
       },
       {
         "code": "  o.recalculateTotal()",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "    o.Total = sumItems(o.Items)",
-        "ns": 2.66,
+        "ns": 2.75,
         "op": "calc",
         "mutations": [
           [
@@ -3638,27 +3638,27 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 2.66
+        "animNs": 2.75
       },
       {
         "code": "  o.recalculateDiscount()",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "    couponRegistry.GetInstance()",
-        "ns": 21.25,
+        "ns": 22.01,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 21.25
+        "animNs": 22.01
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3666,7 +3666,7 @@
       },
       {
         "code": "      -> sync.Once check...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3687,23 +3687,23 @@
       },
       {
         "code": "  o.recalculateTax()",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "    taxService.GetInstance()",
-        "ns": 21.25,
+        "ns": 22.01,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 21.25
+        "animNs": 22.01
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3711,7 +3711,7 @@
       },
       {
         "code": "      -> sync.Once check...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3732,7 +3732,7 @@
       },
       {
         "code": "  o.UpdatedAt = time.Now()",
-        "ns": 53.14,
+        "ns": 55.04,
         "op": "time",
         "mutations": [
           [
@@ -3741,15 +3741,15 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 53.14
+        "animNs": 55.04
       },
       {
         "code": "order.ApplyCoupon(\"SAVE10\")",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "  o.CouponCode = code",
@@ -3766,23 +3766,23 @@
       },
       {
         "code": "  o.recalculateDiscount()",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "    couponRegistry.GetInstance()",
-        "ns": 21.25,
+        "ns": 22.01,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 21.25
+        "animNs": 22.01
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3790,7 +3790,7 @@
       },
       {
         "code": "      -> sync.Once check (stale?)...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3811,23 +3811,23 @@
       },
       {
         "code": "  o.recalculateTax()",
-        "ns": 59.34,
+        "ns": 61.46,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 59.34
+        "animNs": 61.46
       },
       {
         "code": "    taxService.GetInstance()",
-        "ns": 21.25,
+        "ns": 22.01,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 21.25
+        "animNs": 22.01
       },
       {
         "code": "      -> global lookup...",
-        "ns": 0.89,
+        "ns": 0.92,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
@@ -3848,7 +3848,7 @@
       },
       {
         "code": "  o.UpdatedAt = time.Now()",
-        "ns": 53.14,
+        "ns": 55.04,
         "op": "time",
         "mutations": [
           [
@@ -3857,16 +3857,16 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 53.14
+        "animNs": 55.04
       }
     ],
     "rescue": [
       {
         "code": "result := CalculateOrder(",
-        "ns": 9.2,
+        "ns": 14.35,
         "op": "call",
         "results": [],
-        "animNs": 9.2
+        "animNs": 14.35
       },
       {
         "code": "    items, \"NY\", taxRates)",
@@ -3877,7 +3877,7 @@
       },
       {
         "code": "  total := SumItems(items)",
-        "ns": 1.56,
+        "ns": 2.44,
         "op": "calc",
         "results": [
           [
@@ -3885,11 +3885,11 @@
             "89.97"
           ]
         ],
-        "animNs": 1.56
+        "animNs": 2.44
       },
       {
         "code": "  tax := total * taxRates[region]",
-        "ns": 1.56,
+        "ns": 2.44,
         "op": "calc",
         "results": [
           [
@@ -3897,11 +3897,11 @@
             "7.20"
           ]
         ],
-        "animNs": 1.56
+        "animNs": 2.44
       },
       {
         "code": "  return OrderResult{Total, Tax, ...}",
-        "ns": 1.71,
+        "ns": 2.68,
         "op": "ret",
         "results": [
           [
@@ -3909,11 +3909,11 @@
             "97.17"
           ]
         ],
-        "animNs": 1.71
+        "animNs": 2.68
       },
       {
         "code": "final := ApplyCoupon(",
-        "ns": 9.2,
+        "ns": 14.37,
         "op": "call",
         "results": [
           [
@@ -3921,7 +3921,7 @@
             "\"SAVE10\""
           ]
         ],
-        "animNs": 9.2
+        "animNs": 14.37
       },
       {
         "code": "    result, \"SAVE10\", coupons)",
@@ -3932,7 +3932,7 @@
       },
       {
         "code": "  discount := result.Total * rate",
-        "ns": 1.56,
+        "ns": 2.44,
         "op": "calc",
         "results": [
           [
@@ -3940,11 +3940,11 @@
             "9.00"
           ]
         ],
-        "animNs": 1.56
+        "animNs": 2.44
       },
       {
         "code": "  return FinalResult{Total, Discount, ...}",
-        "ns": 1.71,
+        "ns": 2.68,
         "op": "ret",
         "results": [
           [
@@ -3952,12 +3952,12 @@
             "87.45"
           ]
         ],
-        "animNs": 1.71
+        "animNs": 2.68
       }
     ],
-    "crimeTotal": 615.5,
-    "rescueTotal": 26.5,
-    "crimeNoTimestampNs": 307.5
+    "crimeTotal": 637.5,
+    "rescueTotal": 41.4,
+    "crimeNoTimestampNs": 312.2
   },
   "surprise": {
     "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",
@@ -3965,31 +3965,31 @@
     "crime": [
       {
         "code": "order.addItem(newItem);",
-        "ns": 11.78,
+        "ns": 11.62,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.78
+        "animNs": 11.62
       },
       {
         "code": "  items_.push_back(item);",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTotal();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    total_ = std::accumulate(...);",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "calc",
         "mutations": [
           [
@@ -3998,43 +3998,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    CouponRegistry::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -4043,43 +4043,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTax();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    TaxService::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -4088,11 +4088,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  updatedAt_ = system_clock::now();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "time",
         "mutations": [
           [
@@ -4101,19 +4101,19 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "order.applyCoupon(\"SAVE10\");",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  couponCode_ = code;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -4122,43 +4122,43 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateDiscount();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    CouponRegistry::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "      -> cache check (stale?)...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    discount_ = coupon->apply();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -4167,35 +4167,35 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  recalculateTax();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "    TaxService::getInstance()",
-        "ns": 5.88,
+        "ns": 5.78,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 5.88
+        "animNs": 5.78
       },
       {
         "code": "      -> global lookup...",
-        "ns": 11.49,
+        "ns": 11.29,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 11.49
+        "animNs": 11.29
       },
       {
         "code": "    tax_ = taxable * rate;",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "field",
         "mutations": [
           [
@@ -4204,11 +4204,11 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       },
       {
         "code": "  updatedAt_ = system_clock::now();",
-        "ns": 11.77,
+        "ns": 11.56,
         "op": "time",
         "mutations": [
           [
@@ -4217,27 +4217,27 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 11.77
+        "animNs": 11.56
       }
     ],
     "rescue": [
       {
         "code": "const result = calculateOrder(",
-        "ns": 3.02,
+        "ns": 3.77,
         "op": "call",
         "results": [],
-        "animNs": 3.02
+        "animNs": 3.77
       },
       {
         "code": "    items, \"NY\", taxRates);",
-        "ns": 2.99,
+        "ns": 3.73,
         "op": "arg",
         "results": [],
-        "animNs": 2.99
+        "animNs": 3.73
       },
       {
         "code": "  const total = items.reduce(...)",
-        "ns": 13.48,
+        "ns": 16.84,
         "op": "calc",
         "results": [
           [
@@ -4245,11 +4245,11 @@
             "89.97"
           ]
         ],
-        "animNs": 13.48
+        "animNs": 16.84
       },
       {
         "code": "  const tax = total * taxRates[region]",
-        "ns": 13.5,
+        "ns": 16.85,
         "op": "calc",
         "results": [
           [
@@ -4257,11 +4257,11 @@
             "7.20"
           ]
         ],
-        "animNs": 13.5
+        "animNs": 16.85
       },
       {
         "code": "  return { total, tax, subtotal };",
-        "ns": 9.0,
+        "ns": 11.23,
         "op": "ret",
         "results": [
           [
@@ -4269,11 +4269,11 @@
             "97.17"
           ]
         ],
-        "animNs": 9.0
+        "animNs": 11.23
       },
       {
         "code": "const final = applyCoupon(",
-        "ns": 3.02,
+        "ns": 3.77,
         "op": "call",
         "results": [
           [
@@ -4281,18 +4281,18 @@
             "\"SAVE10\""
           ]
         ],
-        "animNs": 3.02
+        "animNs": 3.77
       },
       {
         "code": "    result, \"SAVE10\", coupons);",
-        "ns": 2.99,
+        "ns": 3.73,
         "op": "arg",
         "results": [],
-        "animNs": 2.99
+        "animNs": 3.73
       },
       {
         "code": "  const discount = result.total * rate;",
-        "ns": 13.5,
+        "ns": 16.85,
         "op": "calc",
         "results": [
           [
@@ -4300,11 +4300,11 @@
             "9.00"
           ]
         ],
-        "animNs": 13.5
+        "animNs": 16.85
       },
       {
         "code": "  return { ...result, discount, grand };",
-        "ns": 9.0,
+        "ns": 11.23,
         "op": "ret",
         "results": [
           [
@@ -4312,10 +4312,10 @@
             "87.45"
           ]
         ],
-        "animNs": 9.0
+        "animNs": 11.23
       }
     ],
-    "crimeTotal": 292.0,
-    "rescueTotal": 70.5
+    "crimeTotal": 286.9,
+    "rescueTotal": 88.0
   }
 }
