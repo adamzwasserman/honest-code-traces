@@ -1,234 +1,221 @@
 {
  "python": {
-  "runs": 10,
-  "dishonest_full_ns": 3727.9,
+  "dishonest_ns": 3479.7,
   "honest_ns": 669.5,
-  "dishonest_full_range": [
-   3655,
-   4258
-  ],
-  "honest_range": [
-   605,
-   680
-  ],
-  "dishonest_no_timestamp_ns": 3479.7,
-  "hand_written_harness": {
-   "dishonest_full_ns": 3868.0,
-   "honest_ns": 656.0
-  },
-  "source": "pyperf, median of 50 values from 10 processes"
+  "source": "pyperf",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 3494.5,
+    "honest_ns": 656.0,
+    "ratio": 5.33
+   },
+   "pyperf": {
+    "dishonest_ns": 3479.7,
+    "honest_ns": 669.5,
+    "ratio": 5.2
+   }
+  }
  },
  "typescript": {
-  "runs": 10,
-  "dishonest_full_ns": 390.9,
+  "dishonest_ns": 150.9,
   "honest_ns": 88.0,
-  "dishonest_full_range": [
-   364,
-   431
-  ],
-  "honest_range": [
-   62,
-   87
-  ],
-  "dishonest_no_timestamp_ns": 150.9,
-  "hand_written_harness": {
-   "dishonest_full_ns": 405.5,
-   "honest_ns": 70.5
-  },
-  "source": "mitata, median (p50)"
+  "source": "mitata",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 136.5,
+    "honest_ns": 70.5,
+    "ratio": 1.94
+   },
+   "mitata": {
+    "dishonest_ns": 150.9,
+    "honest_ns": 88.0,
+    "ratio": 1.71
+   }
+  }
  },
  "ruby": {
-  "runs": 10,
-  "dishonest_full_ns": 4819.0,
+  "dishonest_ns": 4168.5,
   "honest_ns": 1112.0,
-  "dishonest_full_range": [
-   4698,
-   5214
-  ],
-  "honest_range": [
-   1033,
-   1203
-  ],
-  "dishonest_no_timestamp_ns": 4168.5,
-  "source": "hand-written loop; benchmark-ips agrees within 1 percent (ratio 4.36 against 4.33), and the loop gives the smaller ratio",
-  "tool_check": {
-   "dishonest_full_ns": 4821,
-   "dishonest_no_timestamp_ns": 4259,
-   "honest_ns": 1106
+  "source": "hand-written loop",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 4168.5,
+    "honest_ns": 1112.0,
+    "ratio": 3.75
+   },
+   "benchmark-ips": {
+    "dishonest_ns": 4259.0,
+    "honest_ns": 1105.8,
+    "ratio": 3.85
+   }
   }
  },
  "php": {
-  "runs": 10,
-  "dishonest_full_ns": 2267.5,
+  "dishonest_ns": 2020.0,
   "honest_ns": 592.0,
-  "dishonest_full_range": [
-   2150,
-   2423
-  ],
-  "honest_range": [
-   569,
-   611
-  ],
-  "dishonest_no_timestamp_ns": 2020.0,
-  "source": "hand-written loop; PHPBench agrees within 3 percent (ratio 3.94 against 3.83), and the loop gives the smaller ratio",
-  "tool_check": {
-   "dishonest_full_ns": 2370,
-   "dishonest_no_timestamp_ns": 2092,
-   "honest_ns": 602
+  "source": "hand-written loop",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 2020.0,
+    "honest_ns": 592.0,
+    "ratio": 3.41
+   },
+   "PHPBench": {
+    "dishonest_ns": 2092.0,
+    "honest_ns": 602.0,
+    "ratio": 3.48
+   }
   }
  },
  "go": {
-  "runs": 10,
-  "dishonest_full_ns": 637.5,
+  "dishonest_ns": 312.2,
   "honest_ns": 41.4,
-  "dishonest_full_range": [
-   582,
-   664
-  ],
-  "honest_range": [
-   23,
-   28
-  ],
-  "dishonest_no_timestamp_ns": 312.2,
-  "hand_written_harness": {
-   "dishonest_full_ns": 615.5,
-   "honest_ns": 26.5
-  },
-  "source": "go test -bench with b.Loop, median of 10 counts"
+  "source": "go test -bench with b.Loop",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 307.5,
+    "honest_ns": 26.5,
+    "ratio": 11.6
+   },
+   "go test -bench with b.Loop": {
+    "dishonest_ns": 312.2,
+    "honest_ns": 41.4,
+    "ratio": 7.53
+   }
+  }
  },
  "java": {
-  "runs": 10,
-  "dishonest_full_ns": 201.4,
+  "dishonest_ns": 62.3,
   "honest_ns": 37.1,
-  "dishonest_full_range": [
-   189,
-   424
-  ],
-  "honest_range": [
-   17,
-   22
-  ],
-  "source": "JMH 1.37, tiered compilation off, 3 forks of 8 one-second iterations",
-  "hand_written_harness": {
-   "dishonest_full_ns": 239.5,
-   "honest_ns": 21.0
-  },
-  "dishonest_no_timestamp_ns": 62.3,
-  "dishonest_prealloc_ns": 47.0
+  "source": "JMH, tiered compilation off",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 123.0,
+    "honest_ns": 21.0,
+    "ratio": 5.86
+   },
+   "JMH, tiered compilation on": {
+    "dishonest_ns": 58.1,
+    "honest_ns": 24.5,
+    "ratio": 2.37
+   },
+   "JMH, tiered compilation off": {
+    "dishonest_ns": 62.3,
+    "honest_ns": 37.1,
+    "ratio": 1.68
+   }
+  }
  },
  "kotlin": {
-  "runs": 10,
-  "dishonest_full_ns": 196.4,
+  "dishonest_ns": 58.6,
   "honest_ns": 28.2,
-  "dishonest_full_range": [
-   177,
-   215
-  ],
-  "honest_range": [
-   15,
-   18
-  ],
-  "source": "JMH 1.37, tiered compilation off, 3 forks of 8 one-second iterations",
-  "hand_written_harness": {
-   "dishonest_full_ns": 194.0,
-   "honest_ns": 16.0
-  },
-  "dishonest_no_timestamp_ns": 58.6,
-  "dishonest_prealloc_ns": 43.0
+  "source": "JMH, tiered compilation off",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 106.0,
+    "honest_ns": 16.0,
+    "ratio": 6.62
+   },
+   "JMH, tiered compilation on": {
+    "dishonest_ns": 55.6,
+    "honest_ns": 22.8,
+    "ratio": 2.43
+   },
+   "JMH, tiered compilation off": {
+    "dishonest_ns": 58.6,
+    "honest_ns": 28.2,
+    "ratio": 2.08
+   }
+  }
  },
  "csharp": {
-  "runs": 10,
-  "dishonest_full_ns": 304.4,
-  "honest_ns": 49.6,
-  "dishonest_full_range": [
-   259,
-   353
-  ],
-  "honest_range": [
-   41,
-   64
-  ],
-  "source": "BenchmarkDotNet, tiered compilation off",
-  "hand_written_harness": {
-   "dishonest_full_ns": 290.0,
-   "honest_ns": 44.0
-  },
-  "dishonest_no_timestamp_ns": 145.4
+  "dishonest_ns": 108.2,
+  "honest_ns": 46.0,
+  "source": "BenchmarkDotNet, tiered compilation on",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 138.0,
+    "honest_ns": 44.0,
+    "ratio": 3.14
+   },
+   "BenchmarkDotNet, tiered compilation on": {
+    "dishonest_ns": 108.2,
+    "honest_ns": 46.0,
+    "ratio": 2.35
+   },
+   "BenchmarkDotNet, tiered compilation off": {
+    "dishonest_ns": 146.0,
+    "honest_ns": 49.4,
+    "ratio": 2.96
+   }
+  }
  },
  "swift": {
-  "runs": 10,
-  "dishonest_full_ns": 507,
+  "dishonest_ns": 351,
   "honest_ns": 111,
-  "dishonest_full_range": [
-   435,
-   543
-  ],
-  "honest_range": [
-   96,
-   113
-  ],
-  "dishonest_no_timestamp_ns": 351,
-  "hand_written_harness": {
-   "dishonest_full_ns": 501.0,
-   "honest_ns": 108.0
-  },
-  "source": "package-benchmark, 1,000 passes per sample, median sample"
+  "source": "Benchmark package, 1,000 passes per sample",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 371.5,
+    "honest_ns": 108.0,
+    "ratio": 3.44
+   },
+   "Benchmark package, 1,000 passes per sample": {
+    "dishonest_ns": 351,
+    "honest_ns": 111,
+    "ratio": 3.16
+   }
+  }
  },
  "dart": {
-  "runs": 10,
-  "dishonest_full_ns": 481.8,
+  "dishonest_ns": 123.4,
   "honest_ns": 73.3,
-  "dishonest_full_range": [
-   426,
-   500
-  ],
-  "honest_range": [
-   54,
-   72
-  ],
-  "dishonest_no_timestamp_ns": 123.4,
-  "hand_written_harness": {
-   "dishonest_full_ns": 467.5,
-   "honest_ns": 64.5
-  },
-  "source": "benchmark_harness, median of 10 measurements"
+  "source": "benchmark_harness",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 113.0,
+    "honest_ns": 64.5,
+    "ratio": 1.75
+   },
+   "benchmark_harness": {
+    "dishonest_ns": 123.4,
+    "honest_ns": 73.3,
+    "ratio": 1.68
+   }
+  }
  },
  "dart_aot": {
-  "runs": 10,
-  "dishonest_full_ns": 475.1,
-  "honest_ns": 121.1,
-  "dishonest_full_range": [
-   433,
-   524
-  ],
-  "honest_range": [
-   99,
-   113
-  ],
-  "dishonest_no_timestamp_ns": 188.2,
-  "hand_written_harness": {
-   "dishonest_full_ns": 489.0,
-   "honest_ns": 104.0
-  },
-  "source": "benchmark_harness on the precompiled program, median of 10 measurements"
+  "dishonest_ns": 159.5,
+  "honest_ns": 104.0,
+  "source": "hand-written loop",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 159.5,
+    "honest_ns": 104.0,
+    "ratio": 1.53
+   },
+   "benchmark_harness": {
+    "dishonest_ns": 188.2,
+    "honest_ns": 121.1,
+    "ratio": 1.55
+   }
+  }
  },
  "cpp": {
-  "runs": 10,
-  "dishonest_full_ns": 286.9,
+  "dishonest_ns": 157.7,
   "honest_ns": 19.0,
-  "dishonest_full_range": [
-   258,
-   317
-  ],
-  "honest_range": [
-   15,
-   31
-  ],
-  "dishonest_no_timestamp_ns": 157.7,
-  "hand_written_harness": {
-   "dishonest_full_ns": 292.0,
-   "honest_ns": 16.5
-  },
-  "source": "Google Benchmark, median of 10 repetitions"
+  "source": "Google Benchmark",
+  "candidates": {
+   "hand-written loop": {
+    "dishonest_ns": 149.5,
+    "honest_ns": 16.5,
+    "ratio": 9.06
+   },
+   "Google Benchmark": {
+    "dishonest_ns": 157.7,
+    "honest_ns": 19.0,
+    "ratio": 8.32
+   }
+  }
  }
 }
