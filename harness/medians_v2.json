@@ -1,220 +1,220 @@
 {
  "python": {
-  "dishonest_ns": 3479.7,
-  "honest_ns": 669.5,
+  "dishonest_ns": 1518.7,
+  "honest_ns": 693.3,
   "source": "pyperf",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 3494.5,
-    "honest_ns": 656.0,
-    "ratio": 5.33
+    "dishonest_ns": 1505.5,
+    "honest_ns": 663.0,
+    "ratio": 2.27
    },
    "pyperf": {
-    "dishonest_ns": 3479.7,
-    "honest_ns": 669.5,
-    "ratio": 5.2
+    "dishonest_ns": 1518.7,
+    "honest_ns": 693.3,
+    "ratio": 2.19
    }
   }
  },
  "typescript": {
-  "dishonest_ns": 150.9,
-  "honest_ns": 88.0,
-  "source": "mitata",
+  "dishonest_ns": 93.0,
+  "honest_ns": 69.5,
+  "source": "hand-written loop",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 136.5,
-    "honest_ns": 70.5,
-    "ratio": 1.94
+    "dishonest_ns": 93.0,
+    "honest_ns": 69.5,
+    "ratio": 1.34
    },
    "mitata": {
-    "dishonest_ns": 150.9,
-    "honest_ns": 88.0,
-    "ratio": 1.71
+    "dishonest_ns": 136.6,
+    "honest_ns": 99.0,
+    "ratio": 1.38
    }
   }
  },
  "ruby": {
-  "dishonest_ns": 4168.5,
-  "honest_ns": 1112.0,
-  "source": "hand-written loop",
+  "dishonest_ns": 2248.0,
+  "honest_ns": 1137.4,
+  "source": "benchmark-ips",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 4168.5,
-    "honest_ns": 1112.0,
-    "ratio": 3.75
+    "dishonest_ns": 2328.5,
+    "honest_ns": 1118.5,
+    "ratio": 2.08
    },
    "benchmark-ips": {
-    "dishonest_ns": 4259.0,
-    "honest_ns": 1105.8,
-    "ratio": 3.85
+    "dishonest_ns": 2248.0,
+    "honest_ns": 1137.4,
+    "ratio": 1.98
    }
   }
  },
  "php": {
-  "dishonest_ns": 2020.0,
-  "honest_ns": 592.0,
+  "dishonest_ns": 964.5,
+  "honest_ns": 599.5,
   "source": "hand-written loop",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 2020.0,
-    "honest_ns": 592.0,
-    "ratio": 3.41
+    "dishonest_ns": 964.5,
+    "honest_ns": 599.5,
+    "ratio": 1.61
    },
    "PHPBench": {
-    "dishonest_ns": 2092.0,
-    "honest_ns": 602.0,
-    "ratio": 3.48
+    "dishonest_ns": 1005.0,
+    "honest_ns": 596.0,
+    "ratio": 1.69
    }
   }
  },
  "go": {
-  "dishonest_ns": 312.2,
-  "honest_ns": 41.4,
+  "dishonest_ns": 311.2,
+  "honest_ns": 42.8,
   "source": "go test -bench with b.Loop",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 307.5,
-    "honest_ns": 26.5,
-    "ratio": 11.6
+    "dishonest_ns": 281.5,
+    "honest_ns": 26.0,
+    "ratio": 10.83
    },
    "go test -bench with b.Loop": {
-    "dishonest_ns": 312.2,
-    "honest_ns": 41.4,
-    "ratio": 7.53
+    "dishonest_ns": 311.2,
+    "honest_ns": 42.8,
+    "ratio": 7.28
    }
   }
  },
  "java": {
-  "dishonest_ns": 62.3,
-  "honest_ns": 37.1,
+  "dishonest_ns": 38.1,
+  "honest_ns": 36.2,
   "source": "JMH, tiered compilation off",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 123.0,
-    "honest_ns": 21.0,
-    "ratio": 5.86
+    "dishonest_ns": 66.5,
+    "honest_ns": 20.5,
+    "ratio": 3.24
    },
    "JMH, tiered compilation on": {
-    "dishonest_ns": 58.1,
-    "honest_ns": 24.5,
-    "ratio": 2.37
+    "dishonest_ns": 39.8,
+    "honest_ns": 23.4,
+    "ratio": 1.7
    },
    "JMH, tiered compilation off": {
-    "dishonest_ns": 62.3,
-    "honest_ns": 37.1,
-    "ratio": 1.68
+    "dishonest_ns": 38.1,
+    "honest_ns": 36.2,
+    "ratio": 1.05
    }
   }
  },
  "kotlin": {
-  "dishonest_ns": 58.6,
-  "honest_ns": 28.2,
+  "dishonest_ns": 42.0,
+  "honest_ns": 30.5,
   "source": "JMH, tiered compilation off",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 106.0,
-    "honest_ns": 16.0,
-    "ratio": 6.62
+    "dishonest_ns": 43.5,
+    "honest_ns": 17.0,
+    "ratio": 2.56
    },
    "JMH, tiered compilation on": {
-    "dishonest_ns": 55.6,
-    "honest_ns": 22.8,
-    "ratio": 2.43
+    "dishonest_ns": 39.6,
+    "honest_ns": 25.0,
+    "ratio": 1.58
    },
    "JMH, tiered compilation off": {
-    "dishonest_ns": 58.6,
-    "honest_ns": 28.2,
-    "ratio": 2.08
+    "dishonest_ns": 42.0,
+    "honest_ns": 30.5,
+    "ratio": 1.38
    }
   }
  },
  "csharp": {
-  "dishonest_ns": 108.2,
-  "honest_ns": 46.0,
+  "dishonest_ns": 88.2,
+  "honest_ns": 49.8,
   "source": "BenchmarkDotNet, tiered compilation on",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 138.0,
-    "honest_ns": 44.0,
-    "ratio": 3.14
+    "dishonest_ns": 98.5,
+    "honest_ns": 53.0,
+    "ratio": 1.86
    },
    "BenchmarkDotNet, tiered compilation on": {
-    "dishonest_ns": 108.2,
-    "honest_ns": 46.0,
-    "ratio": 2.35
+    "dishonest_ns": 88.2,
+    "honest_ns": 49.8,
+    "ratio": 1.77
    },
    "BenchmarkDotNet, tiered compilation off": {
-    "dishonest_ns": 146.0,
-    "honest_ns": 49.4,
-    "ratio": 2.96
+    "dishonest_ns": 107.6,
+    "honest_ns": 53.8,
+    "ratio": 2.0
    }
   }
  },
  "swift": {
-  "dishonest_ns": 351,
-  "honest_ns": 111,
+  "dishonest_ns": 282,
+  "honest_ns": 114,
   "source": "Benchmark package, 1,000 passes per sample",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 371.5,
-    "honest_ns": 108.0,
-    "ratio": 3.44
+    "dishonest_ns": 289.0,
+    "honest_ns": 112.0,
+    "ratio": 2.58
    },
    "Benchmark package, 1,000 passes per sample": {
-    "dishonest_ns": 351,
-    "honest_ns": 111,
-    "ratio": 3.16
+    "dishonest_ns": 282,
+    "honest_ns": 114,
+    "ratio": 2.47
    }
   }
  },
  "dart": {
-  "dishonest_ns": 123.4,
-  "honest_ns": 73.3,
+  "dishonest_ns": 75.4,
+  "honest_ns": 72.2,
   "source": "benchmark_harness",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 113.0,
-    "honest_ns": 64.5,
-    "ratio": 1.75
+    "dishonest_ns": 71.5,
+    "honest_ns": 60.5,
+    "ratio": 1.18
    },
    "benchmark_harness": {
-    "dishonest_ns": 123.4,
-    "honest_ns": 73.3,
-    "ratio": 1.68
+    "dishonest_ns": 75.4,
+    "honest_ns": 72.2,
+    "ratio": 1.04
    }
   }
  },
  "dart_aot": {
-  "dishonest_ns": 159.5,
-  "honest_ns": 104.0,
-  "source": "hand-written loop",
+  "dishonest_ns": 139.9,
+  "honest_ns": 120.1,
+  "source": "benchmark_harness",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 159.5,
-    "honest_ns": 104.0,
-    "ratio": 1.53
+    "dishonest_ns": 125.5,
+    "honest_ns": 105.5,
+    "ratio": 1.19
    },
    "benchmark_harness": {
-    "dishonest_ns": 188.2,
-    "honest_ns": 121.1,
-    "ratio": 1.55
+    "dishonest_ns": 139.9,
+    "honest_ns": 120.1,
+    "ratio": 1.17
    }
   }
  },
  "cpp": {
-  "dishonest_ns": 157.7,
-  "honest_ns": 19.0,
+  "dishonest_ns": 104.4,
+  "honest_ns": 19.5,
   "source": "Google Benchmark",
   "candidates": {
    "hand-written loop": {
-    "dishonest_ns": 149.5,
-    "honest_ns": 16.5,
-    "ratio": 9.06
+    "dishonest_ns": 102.0,
+    "honest_ns": 18.0,
+    "ratio": 5.67
    },
    "Google Benchmark": {
-    "dishonest_ns": 157.7,
-    "honest_ns": 19.0,
-    "ratio": 8.32
+    "dishonest_ns": 104.4,
+    "honest_ns": 19.5,
+    "ratio": 5.35
    }
   }
  }

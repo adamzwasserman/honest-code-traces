@@ -30,7 +30,7 @@ docker run --rm -e WHICH="$WHICH" -v "$ROOT/harness:/h" -v "$OUT:/out" honest-tr
         ln -sf /usr/lib/x86_64-linux-gnu/libxml2.so.16 /usr/lib/x86_64-linux-gnu/libxml2.so.2
         mkdir -p /tmp/swiftbench/Benchmarks/ScenarioBench && cd /tmp/swiftbench
         cp /h/checks/swift/Package.swift .
-        head -206 /h/swift/harness_v2.swift > Benchmarks/ScenarioBench/Scenario.swift
+        sed "/Input variants are built once/,\$d" /h/swift/harness_v2.swift > Benchmarks/ScenarioBench/Scenario.swift
         cp /h/checks/swift/ScenarioBench.swift Benchmarks/ScenarioBench/
         BENCHMARK_DISABLE_JEMALLOC=true swift package --allow-writing-to-package-directory benchmark > /out/swift.txt 2>&1
         ;;
@@ -52,7 +52,7 @@ docker run --rm -e WHICH="$WHICH" -v "$ROOT/harness:/h" -v "$OUT:/out" honest-tr
       ruby)
         gem install benchmark-ips --no-document >/dev/null 2>&1
         mkdir -p /tmp/rbbench && cd /tmp/rbbench
-        head -178 /h/ruby/harness_v2.rb > lib.rb
+        sed "/Input variants are built once/,\$d" /h/ruby/harness_v2.rb > lib.rb
         cp /h/checks/bench_rb.rb .
         for n in 1 2 3 4 5 6 7 8 9 10; do ruby bench_rb.rb; done > /out/ruby.txt 2>&1
         ;;
@@ -61,7 +61,7 @@ docker run --rm -e WHICH="$WHICH" -v "$ROOT/harness:/h" -v "$OUT:/out" honest-tr
         apt-get install -y -qq php-xml php-mbstring >/dev/null 2>&1
         mkdir -p /tmp/phpbench && cd /tmp/phpbench
         curl -sLo phpbench.phar https://github.com/phpbench/phpbench/releases/latest/download/phpbench.phar
-        head -183 /h/php/harness_v2.php > lib.php
+        sed "/Input variants are built once/,\$d" /h/php/harness_v2.php > lib.php
         cp /h/checks/bench_php.php ScenarioBench.php
         php phpbench.phar run ScenarioBench.php --revs=1000 --iterations=10 --warmup=3 --report=aggregate > /out/php.txt 2>&1
         ;;

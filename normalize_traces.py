@@ -22,6 +22,10 @@ OUTPUT = HERE / "traces" / "landing-page-v2.json"
 # measured value, and only the animation reads "animNs".
 NOMINAL_NS = 1.0
 
+# The surprise pairs dishonest code in the first language with honest code in the second.
+SURPRISE_PAIR = ("go", "typescript")
+LABELS = {"go": "Go", "swift": "Swift", "cpp": "C++", "typescript": "TypeScript"}
+
 
 def scale_steps(steps, target_total, uncharged_ops=()):
     weights = [0 if s["op"] in uncharged_ops else s["ns"] for s in steps]
@@ -54,27 +58,29 @@ def main():
             continue
         measured = medians[lang]
         output[lang] = normalize_language(entry, measured["dishonest_ns"], measured["honest_ns"])
-    crime_lang, rescue_lang = "cpp", "typescript"
+    # A cross-language pairing uses the conservative end of every figure: the
+    # smallest dishonest time we measured for the first language and the largest
+    # honest time we measured for the second.
+    crime_lang, rescue_lang = SURPRISE_PAIR
+    crime_total = min(c["dishonest_ns"] for c in medians[crime_lang]["candidates"].values())
+    rescue_total = max(c["honest_ns"] for c in medians[rescue_lang]["candidates"].values())
+    crime_steps = scale_steps(source[crime_lang]["crime"], crime_total, uncharged_ops=("time",))
+    rescue_steps = scale_steps(source[rescue_lang]["rescue"], rescue_total)
     output["surprise"] = {
         **source["surprise"],
-        "crimeLabel": "☠ Dishonest — C++ Order class (compiled ahead of time)",
-        "rescueLabel": "✦ Honest — Pure functions (TypeScript, V8)",
-        "crime": output[crime_lang]["crime"],
-        "rescue": output[rescue_lang]["rescue"],
-        "crimeTotal": output[crime_lang]["crimeTotal"],
-        "rescueTotal": output[rescue_lang]["rescueTotal"],
+        "crimeLabel": f"\u2620 Dishonest \u2014 {LABELS[crime_lang]} Order class (compiled ahead of time)",
+        "rescueLabel": f"\u2726 Honest \u2014 Pure functions ({LABELS[rescue_lang]}, V8)",
+        "crime": crime_steps,
+        "rescue": rescue_steps,
+        "crimeTotal": crime_total,
+        "rescueTotal": rescue_total,
     }
     OUTPUT.write_text(json.dumps(output, indent=2))
 
     print(f"{'Language':<12}{'Dishonest':>11}{'Honest':>9}{'Ratio':>8}")
     for lang, data in output.items():
         print(f"{lang:<12}{data['crimeTotal']:>9.1f}ns{data['rescueTotal']:>7.1f}ns{data['crimeTotal'] / data['rescueTotal']:>7.1f}x")
-    ts_honest = output["typescript"]["rescueTotal"]
-    print(f"\nHonest TypeScript takes {ts_honest:.1f} ns. Dishonest code in:")
-    for lang in sorted(["cpp", "swift", "go", "java", "kotlin", "csharp"], key=lambda k: output[k]["crimeTotal"]):
-        total = output[lang]["crimeTotal"]
-        verdict = f"{total / ts_honest:.1f}x slower" if total > ts_honest else f"{ts_honest / total:.1f}x FASTER than honest TypeScript"
-        print(f"  {lang:<8}{total:>7.1f} ns, {verdict}")
-
+    surprise = output["surprise"]
+    print(f"\nSurprise: dishonest {SURPRISE_PAIR[0]} {surprise['crimeTotal']:.1f} ns against honest {SURPRISE_PAIR[1]} {surprise['rescueTotal']:.1f} ns, {surprise['crimeTotal'] / surprise['rescueTotal']:.1f}x")
 
 main()

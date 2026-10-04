@@ -104,10 +104,13 @@ def phpbench_php():
 
 def bdn_csharp():
     out = {}
+    column = 4
     for line in open(M / "benchmarkdotnet.txt"):
         cells = [c.strip() for c in line.split("|")]
-        if len(cells) > 8 and cells[1] in ("DishonestNoTimestamp", "Honest"):
-            out[(cells[1], cells[2])] = float(cells[7].split()[0])
+        if "Method" in cells:
+            column = cells.index("Median") if "Median" in cells else cells.index("Mean")
+        elif len(cells) > column and cells[1] in ("DishonestNoTimestamp", "Honest"):
+            out[(cells[1], cells[2])] = float(cells[column].split()[0])
     return {
         "BenchmarkDotNet, tiered compilation on": (out[("DishonestNoTimestamp", "tiered-default")], out[("Honest", "tiered-default")]),
         "BenchmarkDotNet, tiered compilation off": (out[("DishonestNoTimestamp", "tiered-off")], out[("Honest", "tiered-off")]),
@@ -126,7 +129,7 @@ CANDIDATES = {
         "JMH, tiered compilation off": jmh_pair(M / "jmh-java-tiered-off.json"),
     },
     "kotlin": {
-        "hand-written loop": loop_pair("kotlin", str(M / "runs" / "kotlin_after_fix" / "*.json")),
+        "hand-written loop": loop_pair("kotlin"),
         "JMH, tiered compilation on": jmh_pair(M / "jmh-kotlin.json"),
         "JMH, tiered compilation off": jmh_pair(M / "jmh-kotlin-tiered-off.json"),
     },

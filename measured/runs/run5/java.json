@@ -1,0 +1,24 @@
+{
+  "language": "java",
+  "runtime": "OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 50000,
+  "clock_read_pair_ns": 56,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 193,
+    "dishonest_no_timestamp": 70,
+    "dishonest_no_timestamp_prealloc": 40,
+    "honest": 20
+  },
+  "ratios": {
+    "full_over_honest": 9.65,
+    "no_timestamp_over_honest": 3.50,
+    "no_timestamp_prealloc_over_honest": 2.00
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 232, "p25": 233, "p50": 238, "p75": 241, "p95": 249},
+    "honest":         {"p05": 105, "p25": 107, "p50": 111, "p75": 118, "p95": 199}
+  },
+  "sink": 88448309.627
+}

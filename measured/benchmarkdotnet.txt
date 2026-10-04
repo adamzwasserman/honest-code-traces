@@ -1,0 +1,12 @@
+BenchmarkDotNet v0.15.8, Linux Ubuntu 26.04.1 LTS (Resolute Raccoon)
+Intel Core Processor (Haswell, no TSX) 2.40GHz, 8 CPU, 8 logical and 8 physical cores
+.NET SDK 8.0.425
+| Method               | Job            | EnvironmentVariables       | Mean      | Error    | StdDev    |
+| DishonestFull        | tiered-default | Empty                      | 250.18 ns | 5.077 ns | 13.811 ns |
+| DishonestNoTimestamp | tiered-default | Empty                      |  88.17 ns | 2.325 ns |  6.744 ns |
+| DishonestPrealloc    | tiered-default | Empty                      |  78.66 ns | 2.911 ns |  8.445 ns |
+| Honest               | tiered-default | Empty                      |  49.77 ns | 0.732 ns |  0.612 ns |
+| DishonestFull        | tiered-off     | DOTNET_TieredCompilation=0 | 266.82 ns | 5.354 ns | 11.865 ns |
+| DishonestNoTimestamp | tiered-off     | DOTNET_TieredCompilation=0 | 107.62 ns | 4.621 ns | 13.481 ns |
+| DishonestPrealloc    | tiered-off     | DOTNET_TieredCompilation=0 |  91.41 ns | 2.965 ns |  8.648 ns |
+| Honest               | tiered-off     | DOTNET_TieredCompilation=0 |  53.79 ns | 0.984 ns |  1.589 ns |

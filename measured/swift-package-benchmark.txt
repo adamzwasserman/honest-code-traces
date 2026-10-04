@@ -1,0 +1,352 @@
+Fetching https://github.com/ordo-one/benchmark
+[1/7615] Fetching benchmark
+Fetched https://github.com/ordo-one/benchmark from cache (0.98s)
+Computing version for https://github.com/ordo-one/benchmark
+warning: 'benchmark': Jemalloc disabled through environment variable.
+Computed https://github.com/ordo-one/benchmark at 1.36.4 (2.87s)
+Fetching https://github.com/HdrHistogram/hdrhistogram-swift.git
+Fetching https://github.com/apple/swift-system.git
+Fetching https://github.com/apple/swift-atomics.git
+Fetching https://github.com/apple/swift-argument-parser.git
+Fetching https://github.com/ordo-one/TextTable.git
+[1/203] Fetching texttable
+[204/826] Fetching texttable, hdrhistogram-swift
+[787/2711] Fetching texttable, hdrhistogram-swift, swift-atomics
+Fetched https://github.com/ordo-one/TextTable.git from cache (0.21s)
+[850/2508] Fetching hdrhistogram-swift, swift-atomics
+Fetched https://github.com/HdrHistogram/hdrhistogram-swift.git from cache (0.24s)
+[604/1885] Fetching swift-atomics
+[1886/20932] Fetching swift-atomics, swift-argument-parser
+[2077/28036] Fetching swift-atomics, swift-argument-parser, swift-system
+Fetched https://github.com/apple/swift-atomics.git from cache (0.80s)
+Fetched https://github.com/apple/swift-system.git from cache (0.81s)
+Fetched https://github.com/apple/swift-argument-parser.git from cache (0.81s)
+Computing version for https://github.com/ordo-one/TextTable.git
+Computed https://github.com/ordo-one/TextTable.git at 0.0.2 (0.83s)
+Computing version for https://github.com/HdrHistogram/hdrhistogram-swift.git
+Computed https://github.com/HdrHistogram/hdrhistogram-swift.git at 0.2.0 (0.92s)
+Fetching https://github.com/apple/swift-numerics
+[1/6658] Fetching swift-numerics
+Fetched https://github.com/apple/swift-numerics from cache (0.59s)
+Computing version for https://github.com/apple/swift-numerics
+Computed https://github.com/apple/swift-numerics at 1.1.1 (0.83s)
+Computing version for https://github.com/apple/swift-atomics.git
+Computed https://github.com/apple/swift-atomics.git at 1.3.1 (0.79s)
+Computing version for https://github.com/apple/swift-argument-parser.git
+Computed https://github.com/apple/swift-argument-parser.git at 1.5.1 (0.82s)
+Computing version for https://github.com/apple/swift-system.git
+Computed https://github.com/apple/swift-system.git at 1.6.6 (0.90s)
+Creating working copy for https://github.com/HdrHistogram/hdrhistogram-swift.git
+Working copy of https://github.com/HdrHistogram/hdrhistogram-swift.git resolved at 0.2.0
+Creating working copy for https://github.com/apple/swift-system.git
+Working copy of https://github.com/apple/swift-system.git resolved at 1.6.6
+Creating working copy for https://github.com/apple/swift-numerics
+Working copy of https://github.com/apple/swift-numerics resolved at 1.1.1
+Creating working copy for https://github.com/apple/swift-atomics.git
+Working copy of https://github.com/apple/swift-atomics.git resolved at 1.3.1
+Creating working copy for https://github.com/apple/swift-argument-parser.git
+Working copy of https://github.com/apple/swift-argument-parser.git resolved at 1.5.1
+Creating working copy for https://github.com/ordo-one/TextTable.git
+Working copy of https://github.com/ordo-one/TextTable.git resolved at 0.0.2
+Creating working copy for https://github.com/ordo-one/benchmark
+Working copy of https://github.com/ordo-one/benchmark resolved at 1.36.4
+warning: 'benchmark': Jemalloc disabled through environment variable.
+Building for debugging...
+[0/12] Write sources
+[4/12] Compiling CSystem shims.c
+[5/12] Write swift-version--19B82002E0740327.txt
+[7/46] Emitting module SystemPackage
+[8/50] Compiling SystemPackage FilePath.swift
+[9/50] Compiling SystemPackage FilePathComponentView.swift
+[10/50] Compiling SystemPackage FilePathComponents.swift
+[11/50] Compiling SystemPackage FilePathParsing.swift
+[12/50] Compiling SystemPackage FilePathString.swift
+[13/50] Compiling SystemPackage Errno.swift
+[14/50] Compiling SystemPackage ErrnoWindows.swift
+[15/50] Compiling SystemPackage FileDescriptor.swift
+[16/50] Compiling SystemPackage FileHelpers.swift
+[17/50] Compiling SystemPackage FileOperations.swift
+[18/50] Compiling SystemPackage FilePermissions.swift
+[19/50] Compiling SystemPackage IOCompletion.swift
+[20/50] Compiling SystemPackage IORequest.swift
+[21/50] Compiling SystemPackage IORing.swift
+[22/50] Compiling SystemPackage WindowsSyscallAdapters.swift
+[23/50] Compiling SystemPackage MachPort.swift
+[24/50] Compiling SystemPackage PlatformString.swift
+[25/50] Compiling SystemPackage SystemString.swift
+[26/50] Compiling SystemPackage FilePathSyntax.swift
+[27/50] Compiling SystemPackage FilePathTemp.swift
+[28/50] Compiling SystemPackage FilePathTempPosix.swift
+[29/50] Compiling SystemPackage FilePathTempWindows.swift
+[30/50] Compiling SystemPackage FilePathWindows.swift
+[31/50] Emitting module ArgumentParserToolInfo
+[32/50] Compiling ArgumentParserToolInfo ToolInfo.swift
+[33/51] Compiling SystemPackage Util+StringArray.swift
+[34/51] Compiling SystemPackage Util.swift
+[35/51] Compiling SystemPackage UtilConsumers.swift
+[36/51] Compiling SystemPackage WinSDK+Overlay.swift
+[37/51] Wrapping AST for ArgumentParserToolInfo for debugging
+[39/89] Compiling ArgumentParser ParsableArgumentsValidation.swift
+[40/89] Compiling ArgumentParser ParsableCommand.swift
+[41/89] Compiling ArgumentParser ArgumentDecoder.swift
+[42/89] Compiling ArgumentParser Name.swift
+[43/89] Compiling ArgumentParser NameSpecification.swift
+[44/89] Compiling ArgumentParser Option.swift
+[45/89] Compiling ArgumentParser ExpressibleByArgument.swift
+[46/89] Compiling ArgumentParser ParsableArguments.swift
+[47/90] Wrapping AST for SystemPackage for debugging
+[49/90] Emitting module ArgumentParser
+[51/95] Compiling ArgumentParser Parsed.swift
+[52/95] Compiling ArgumentParser ParsedValues.swift
+[53/95] Compiling ArgumentParser ParserError.swift
+[54/95] Compiling ArgumentParser SplitArguments.swift
+[55/95] Compiling ArgumentParser BashCompletionsGenerator.swift
+[56/95] Compiling ArgumentParser CompletionsGenerator.swift
+[57/95] Compiling ArgumentParser FishCompletionsGenerator.swift
+[58/95] Compiling ArgumentParser ZshCompletionsGenerator.swift
+[59/95] Compiling ArgumentParser Argument.swift
+[60/95] Compiling ArgumentParser ArgumentHelp.swift
+[61/95] Compiling ArgumentParser CollectionExtensions.swift
+[62/95] Compiling ArgumentParser Platform.swift
+[63/95] Compiling ArgumentParser SequenceExtensions.swift
+[64/95] Compiling ArgumentParser StringExtensions.swift
+[65/95] Compiling ArgumentParser Tree.swift
+[66/95] Compiling ArgumentParser ArgumentVisibility.swift
+[67/95] Compiling ArgumentParser CompletionKind.swift
+[68/95] Compiling ArgumentParser Errors.swift
+[69/95] Compiling ArgumentParser Flag.swift
+[77/95] Compiling ArgumentParser DumpHelpGenerator.swift
+[78/95] Compiling ArgumentParser HelpCommand.swift
+[79/95] Compiling ArgumentParser HelpGenerator.swift
+[80/95] Compiling ArgumentParser MessageInfo.swift
+[81/95] Compiling ArgumentParser UsageGenerator.swift
+[82/95] Compiling ArgumentParser OptionGroup.swift
+[83/95] Compiling ArgumentParser AsyncParsableCommand.swift
+[84/95] Compiling ArgumentParser CommandConfiguration.swift
+[85/95] Compiling ArgumentParser CommandGroup.swift
+[86/95] Compiling ArgumentParser EnumerableFlag.swift
+[87/95] Compiling ArgumentParser ArgumentDefinition.swift
+[88/95] Compiling ArgumentParser ArgumentSet.swift
+[89/95] Compiling ArgumentParser CommandParser.swift
+[90/95] Compiling ArgumentParser InputKey.swift
+[91/95] Compiling ArgumentParser InputOrigin.swift
+[92/96] Wrapping AST for ArgumentParser for debugging
+[94/98] Emitting module BenchmarkBoilerplateGenerator
+[95/98] Compiling BenchmarkBoilerplateGenerator BenchmarkBoilerplateGenerator.swift
+[96/99] Wrapping AST for BenchmarkBoilerplateGenerator for debugging
+[97/99] Write Objects.LinkFileList
+[98/99] Linking BenchmarkBoilerplateGenerator-tool
+Build of product 'BenchmarkBoilerplateGenerator' complete! (13.02s)
+Building for debugging...
+[0/32] Write sources
+[12/32] Compiling _AtomicsShims.c
+[13/32] Compiling SwiftRuntimeHooks shims.c
+[14/32] Compiling CLinuxOperatingSystemStats CLinuxOperatingSystemStats.c
+[15/32] Compiling CSystem shims.c
+[16/32] Compiling _NumericsShims _NumericsShims.c
+[17/32] Write swift-version--19B82002E0740327.txt
+[19/109] Emitting module Atomics
+[20/111] Compiling SystemPackage Errno.swift
+[21/111] Compiling SystemPackage ErrnoWindows.swift
+[22/111] Compiling SystemPackage FileDescriptor.swift
+[23/111] Compiling SystemPackage FilePermissions.swift
+[24/111] Compiling SystemPackage IOCompletion.swift
+[25/111] Compiling SystemPackage IORequest.swift
+[26/111] Compiling SystemPackage IORing.swift
+[27/111] Compiling SystemPackage FilePathSyntax.swift
+[28/111] Compiling SystemPackage FilePathTemp.swift
+[29/111] Compiling SystemPackage FilePathTempPosix.swift
+[30/111] Compiling SystemPackage FilePathTempWindows.swift
+[31/111] Compiling SystemPackage FilePathWindows.swift
+[37/115] Compiling SystemPackage FileHelpers.swift
+[38/116] Emitting module RealModule
+[45/116] Compiling SystemPackage FileOperations.swift
+[50/116] Emitting module SystemPackage
+[53/116] Compiling RealModule RelaxedArithmetic.swift
+[54/116] Emitting module BenchmarkShared
+[55/116] Compiling BenchmarkShared Command+Helpers.swift
+[56/117] Compiling Atomics IntegerOperations.swift
+[57/117] Compiling Atomics Unmanaged extensions.swift
+[58/117] Compiling RealModule Float16+Real.swift
+[59/117] Compiling RealModule Real.swift
+[60/117] Compiling RealModule Float80+Real.swift
+[61/117] Compiling RealModule RealFunctions.swift
+[63/118] Compiling SystemPackage RawIORequest.swift
+[64/118] Compiling SystemPackage Backcompat.swift
+[65/118] Compiling SystemPackage CInterop.swift
+[69/119] Wrapping AST for BenchmarkShared for debugging
+[71/119] Wrapping AST for RealModule for debugging
+[73/119] Emitting module ArgumentParserToolInfo
+[74/119] Compiling ArgumentParserToolInfo ToolInfo.swift
+[74/120] Wrapping AST for Atomics for debugging
+[76/131] Wrapping AST for ArgumentParserToolInfo for debugging
+[78/131] Compiling SystemPackage Util+StringArray.swift
+[79/131] Compiling SystemPackage Util.swift
+[80/131] Compiling SystemPackage UtilConsumers.swift
+[81/131] Compiling SystemPackage WinSDK+Overlay.swift
+[82/131] Compiling ComplexModule Complex+Hashable.swift
+[83/131] Compiling ComplexModule Complex+IntegerLiteral.swift
+[84/132] Compiling ComplexModule Complex+Numeric.swift
+[85/132] Compiling ComplexModule Complex+StringConvertible.swift
+[86/132] Compiling ComplexModule Complex.swift
+[87/132] Compiling ComplexModule Polar.swift
+[88/170] Compiling ComplexModule Scale.swift
+[89/170] Compiling ArgumentParser CommandConfiguration.swift
+[90/170] Compiling ArgumentParser CommandGroup.swift
+[91/170] Compiling ArgumentParser EnumerableFlag.swift
+[92/170] Compiling ArgumentParser Name.swift
+[93/170] Compiling ArgumentParser Parsed.swift
+[94/170] Compiling ArgumentParser ParsedValues.swift
+[95/170] Compiling ArgumentParser ParserError.swift
+[96/170] Compiling ArgumentParser SplitArguments.swift
+[97/170] Compiling ArgumentParser ExpressibleByArgument.swift
+[98/170] Compiling ArgumentParser ParsableArguments.swift
+[99/170] Compiling ArgumentParser ParsableArgumentsValidation.swift
+[100/170] Compiling ArgumentParser ParsableCommand.swift
+[101/170] Compiling ArgumentParser DumpHelpGenerator.swift
+[102/170] Compiling ArgumentParser HelpCommand.swift
+[103/170] Compiling ArgumentParser HelpGenerator.swift
+[104/170] Compiling ArgumentParser MessageInfo.swift
+[105/170] Compiling ArgumentParser UsageGenerator.swift
+[107/171] Compiling TextTable SimpleFormat.swift
+[108/171] Compiling ArgumentParser ArgumentVisibility.swift
+[109/171] Compiling ArgumentParser CompletionKind.swift
+[110/172] Emitting module TextTable
+[111/172] Compiling TextTable String+Util.swift
+[112/172] Compiling TextTable RstFormat.swift
+[113/172] Compiling ArgumentParser FishCompletionsGenerator.swift
+[114/172] Compiling ArgumentParser ZshCompletionsGenerator.swift
+[115/172] Compiling ArgumentParser Argument.swift
+[116/172] Compiling ArgumentParser ArgumentHelp.swift
+[117/172] Compiling ArgumentParser BashCompletionsGenerator.swift
+[118/172] Compiling ArgumentParser CompletionsGenerator.swift
+[118/172] Wrapping AST for SystemPackage for debugging
+[120/172] Emitting module ComplexModule
+[125/173] Compiling TextTable TextTable.swift
+[127/174] Wrapping AST for ComplexModule for debugging
+[128/174] Wrapping AST for TextTable for debugging
+[130/176] Compiling Numerics Numerics.swift
+[131/176] Emitting module Numerics
+[134/177] Compiling ArgumentParser Errors.swift
+[135/177] Compiling ArgumentParser Flag.swift
+[136/177] Compiling ArgumentParser NameSpecification.swift
+[137/177] Compiling ArgumentParser Option.swift
+[139/182] Emitting module ArgumentParser
+[145/182] Wrapping AST for Numerics for debugging
+[147/184] Compiling ArgumentParser CollectionExtensions.swift
+[148/184] Compiling ArgumentParser Platform.swift
+[149/184] Compiling ArgumentParser SequenceExtensions.swift
+[150/184] Compiling ArgumentParser StringExtensions.swift
+[151/184] Compiling ArgumentParser Tree.swift
+[156/184] Compiling ArgumentParser ArgumentDecoder.swift
+[157/184] Compiling ArgumentParser ArgumentDefinition.swift
+[158/184] Compiling ArgumentParser ArgumentSet.swift
+[159/184] Compiling ArgumentParser CommandParser.swift
+[160/184] Compiling ArgumentParser InputKey.swift
+[161/184] Compiling ArgumentParser InputOrigin.swift
+[167/184] Compiling ArgumentParser OptionGroup.swift
+[168/184] Compiling ArgumentParser AsyncParsableCommand.swift
+[177/185] Wrapping AST for ArgumentParser for debugging
+[179/185] Emitting module Histogram
+[180/185] Compiling Histogram Histogram.swift
+[181/186] Wrapping AST for Histogram for debugging
+[183/215] Compiling Benchmark Diagnostics.swift
+[184/215] Compiling Benchmark Int+Extensions.swift
+[185/215] Compiling Benchmark MallocStats+jemalloc-support.swift
+[186/215] Compiling Benchmark MallocStats.swift
+[187/218] Emitting module Benchmark
+[188/218] Compiling Benchmark OperatingSystemStatsProducer+Darwin.swift
+[189/218] Compiling Benchmark OperatingSystemStatsProducer+Linux.swift
+[190/218] Compiling Benchmark OutputSuppressor.swift
+[191/218] Compiling Benchmark Progress.swift
+[192/218] Compiling Benchmark BenchmarkRunner.swift
+[193/218] Compiling Benchmark BenchmarkThresholds+Defaults.swift
+[194/218] Compiling Benchmark BenchmarkThresholds.swift
+[195/218] Compiling Benchmark Blackhole.swift
+[196/218] Compiling Benchmark ProgressElements.swift
+[197/218] Compiling Benchmark Utilities.swift
+[198/218] Compiling Benchmark Statistics.swift
+[199/218] Compiling Benchmark BenchmarkClock.swift
+[200/218] Compiling Benchmark BenchmarkExecutor+Extensions.swift
+[201/218] Compiling Benchmark BenchmarkExecutor.swift
+[202/218] Compiling Benchmark BenchmarkInternals.swift
+[203/218] Compiling Benchmark MallocStatsProducer+jemalloc.swift
+[204/218] Compiling Benchmark NIOLock.swift
+[205/218] Compiling Benchmark lock.swift
+[206/218] Compiling Benchmark OperatingSystemStats.swift
+[207/218] Compiling Benchmark ARCStats.swift
+[208/218] Compiling Benchmark ARCStatsProducer.swift
+[209/218] Compiling Benchmark Benchmark+ConvenienceInitializers.swift
+[210/218] Compiling Benchmark Benchmark.swift
+[211/218] Compiling Benchmark BenchmarkMetric+Defaults.swift
+[212/218] Compiling Benchmark BenchmarkMetric.swift
+[213/218] Compiling Benchmark BenchmarkResult.swift
+[214/218] Compiling Benchmark BenchmarkRunner+ReadWrite.swift
+[215/219] Wrapping AST for Benchmark for debugging
+[217/235] Compiling BenchmarkTool BenchmarkTool+JSON.swift
+[218/235] Compiling BenchmarkTool BenchmarkTool+Machine.swift
+[219/235] Compiling BenchmarkTool BenchmarkTool+Export+JSON.swift
+[220/235] Compiling BenchmarkTool BenchmarkTool+Export.swift
+[221/235] Compiling BenchmarkTool BenchmarkTool+ReadP90AbsoluteThresholds.swift
+[222/235] Compiling BenchmarkTool BenchmarkTool+Thresholds.swift
+[223/235] Compiling BenchmarkTool BenchmarkTool.swift
+[224/235] Compiling BenchmarkTool FilePath+Additions.swift
+[225/235] Compiling BenchmarkTool BenchmarkTool+Export+JMHElement.swift
+[226/235] Compiling BenchmarkTool BenchmarkTool+Export+JMHFormatter.swift
+[227/237] Compiling BenchmarkTool BenchmarkTool+Operations.swift
+[228/237] Compiling BenchmarkTool BenchmarkTool+PrettyPrinting.swift
+[229/237] Emitting module BenchmarkTool
+[230/237] Compiling BenchmarkTool BenchmarkTool+Baselines.swift
+[231/237] Compiling BenchmarkTool BenchmarkTool+CreateBenchmark.swift
+[232/237] Compiling BenchmarkTool BenchmarkTool+Export+InfluxCSVFormatter.swift
+[233/237] Compiling BenchmarkTool FilePath+DirectoryView.swift
+[234/237] Compiling BenchmarkTool String+Additions.swift
+[235/238] Wrapping AST for BenchmarkTool for debugging
+[236/238] Write Objects.LinkFileList
+[237/238] Linking BenchmarkTool-tool
+Build of product 'BenchmarkTool' complete! (37.02s)
+Build complete!
+Building BenchmarkTool in release mode...
+Building benchmark targets in release mode for benchmark run...
+Building ScenarioBench
+
+==================
+Running Benchmarks
+==================
+
+
+
+
+
+====================================================
+Baseline 'Current_run'
+====================================================
+
+Host '801c9e9845c2' with 8 'x86_64' processors with 22 GB memory, running:
+#1 SMP PREEMPT_DYNAMIC Debian 6.12.95-1 (2026-07-04)
+
+=============
+ScenarioBench
+=============
+
+dishonest_full
+╒══════════════════════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╕
+│ Metric                   │        p0 │       p25 │       p50 │       p75 │       p90 │       p99 │      p100 │   Samples │
+╞══════════════════════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ Time (wall clock) (ns) * │       310 │       397 │       424 │       455 │       521 │       835 │      4484 │     10000 │
+╘══════════════════════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╛
+
+dishonest_no_timestamp
+╒══════════════════════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╕
+│ Metric                   │        p0 │       p25 │       p50 │       p75 │       p90 │       p99 │      p100 │   Samples │
+╞══════════════════════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ Time (wall clock) (ns) * │       215 │       264 │       282 │       333 │       533 │       641 │     20393 │     10000 │
+╘══════════════════════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╛
+
+honest
+╒══════════════════════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╤═══════════╕
+│ Metric                   │        p0 │       p25 │       p50 │       p75 │       p90 │       p99 │      p100 │   Samples │
+╞══════════════════════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╪═══════════╡
+│ Time (wall clock) (ns) * │        86 │       106 │       114 │       126 │       152 │       260 │      1321 │     10000 │
+╘══════════════════════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╧═══════════╛
+
