@@ -2783,27 +2783,27 @@
     "rescueTotal": 42.8
   },
   "surprise": {
-    "crimeLabel": "\u2620 Dishonest \u2014 Go Order class (compiled ahead of time)",
+    "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",
     "rescueLabel": "\u2726 Honest \u2014 Pure functions (TypeScript, V8)",
     "crime": [
       {
-        "code": "order.AddItem(newItem)",
-        "ns": 48.71,
+        "code": "order.addItem(newItem);",
+        "ns": 8.56,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 48.71
+        "animNs": 8.56
       },
       {
-        "code": "  o.Items = append(o.Items, item)",
-        "ns": 0.0,
+        "code": "  items_.push_back(item);",
+        "ns": 8.53,
         "op": "field",
         "mutations": [],
         "singletons": 0,
-        "animNs": 1.0
+        "animNs": 8.53
       },
       {
-        "code": "  o.UpdatedAt = time.Now()",
+        "code": "  updatedAt_ = now();",
         "ns": 0.0,
         "op": "time",
         "mutations": [
@@ -2816,16 +2816,16 @@
         "animNs": 1.0
       },
       {
-        "code": "order.ApplyCoupon(\"SAVE10\")",
-        "ns": 48.74,
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 8.53,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 48.74
+        "animNs": 8.53
       },
       {
-        "code": "  o.CouponCode = code",
-        "ns": 0.0,
+        "code": "  couponCode_ = code;",
+        "ns": 8.53,
         "op": "field",
         "mutations": [
           [
@@ -2834,10 +2834,10 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 1.0
+        "animNs": 8.53
       },
       {
-        "code": "  o.UpdatedAt = time.Now()",
+        "code": "  updatedAt_ = now();",
         "ns": 0.0,
         "op": "time",
         "mutations": [
@@ -2850,16 +2850,16 @@
         "animNs": 1.0
       },
       {
-        "code": "order.CalcTotal()",
-        "ns": 48.74,
+        "code": "order.calcTotal();",
+        "ns": 8.53,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 48.74
+        "animNs": 8.53
       },
       {
-        "code": "  o.Total = sumPrices(o.Items)",
-        "ns": 2.18,
+        "code": "  total_ = accumulate(items_...);",
+        "ns": 8.33,
         "op": "calc",
         "mutations": [
           [
@@ -2868,35 +2868,35 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 2.18
+        "animNs": 8.33
       },
       {
-        "code": "order.CalcDiscount()",
-        "ns": 48.74,
+        "code": "order.calcDiscount();",
+        "ns": 8.53,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 48.74
+        "animNs": 8.53
       },
       {
-        "code": "  getCouponRegistry()",
-        "ns": 17.46,
+        "code": "  CouponRegistry::getInstance()",
+        "ns": 4.27,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 17.46
+        "animNs": 4.27
       },
       {
-        "code": "    .Lookup(o.CouponCode)",
-        "ns": 0.73,
+        "code": "    .lookup(couponCode_)",
+        "ns": 8.33,
         "op": "cache",
         "mutations": [],
         "singletons": 0,
-        "animNs": 1.0
+        "animNs": 8.33
       },
       {
-        "code": "  o.Discount = o.Total * rate",
-        "ns": 0.0,
+        "code": "  discount_ = total_ * rate;",
+        "ns": 8.53,
         "op": "field",
         "mutations": [
           [
@@ -2905,27 +2905,27 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 1.0
+        "animNs": 8.53
       },
       {
-        "code": "order.CalcTax()",
-        "ns": 48.74,
+        "code": "order.calcTax();",
+        "ns": 8.53,
         "op": "call",
         "mutations": [],
         "singletons": 0,
-        "animNs": 48.74
+        "animNs": 8.53
       },
       {
-        "code": "  getTaxService()",
-        "ns": 17.46,
+        "code": "  TaxService::getInstance()",
+        "ns": 4.27,
         "op": "single",
         "mutations": [],
         "singletons": 1,
-        "animNs": 17.46
+        "animNs": 4.27
       },
       {
-        "code": "  o.Tax = svc.Calculate(region, taxable)",
-        "ns": 0.0,
+        "code": "  tax_ = svc.calculate(region, taxable);",
+        "ns": 8.53,
         "op": "field",
         "mutations": [
           [
@@ -2934,7 +2934,7 @@
           ]
         ],
         "singletons": 0,
-        "animNs": 1.0
+        "animNs": 8.53
       }
     ],
     "rescue": [
@@ -3032,7 +3032,7 @@
         "animNs": 12.63
       }
     ],
-    "crimeTotal": 281.5,
+    "crimeTotal": 102.0,
     "rescueTotal": 99.0
   }
 }

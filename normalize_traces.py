@@ -23,7 +23,7 @@ OUTPUT = HERE / "traces" / "landing-page-v2.json"
 NOMINAL_NS = 1.0
 
 # The surprise pairs dishonest code in the first language with honest code in the second.
-SURPRISE_PAIR = ("go", "typescript")
+SURPRISE_PAIR = ("cpp", "typescript")
 LABELS = {"go": "Go", "swift": "Swift", "cpp": "C++", "typescript": "TypeScript"}
 
 
