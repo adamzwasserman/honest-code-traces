@@ -33,3 +33,20 @@ The server is a virtual machine that hides its real cache layout, and each timin
 | Node, loop over a `Float64Array` | 1.5 ns | 1.6 ns |
 
 With a built-in sum, even Ruby beats scattered C++ by 15 times at 1M elements and 34 times at 33.5M. With only its own loop, PHP beats scattered C++ at both sizes, Python beats it at 33.5M by 1.3 times with a list, and Ruby does not beat it at either size.
+
+## Raw element access, with no arithmetic
+
+The sum results above include each language's cost of adding. `others/raw.*` and `others/raw.cpp` time only the read: each loop reads one element and does nothing with it, and an empty loop of the same shape is timed beside it so the loop overhead can be subtracted. The comparison point is again C++ reading scattered heap objects, which costs 22.3 ns per element at 1M elements and 42.6 ns at 33.5M, against 0.4 and 0.9 ns for a contiguous array.
+
+| Language and idiom | 1M loop total | 33.5M loop total | Empty loop | Net read |
+|---|---|---|---|---|
+| Node, `Float64Array` loop | 1.4 ns | 1.6 ns | 1.2 ns | 0.3 to 0.4 ns |
+| PHP, `foreach` over a packed array | 7.5 ns | 7.7 ns | 4.2 to 4.5 ns | 3.2 to 3.4 ns |
+| PHP, `$a[$i]` in a `for` loop | 11.9 ns | 12.5 ns | 4.2 to 4.6 ns | 7.7 to 8.0 ns |
+| Python, `for x in array('q')` | 20.8 ns | 21.2 ns | 17.9 to 19.4 ns | 1.9 to 2.9 ns |
+| Python, `a[i]` over a list | 36.8 ns | 34.3 ns | 18.6 to 18.7 ns | 15.6 to 18.3 ns |
+| Python, `a[i]` over an array | 55.8 ns | 54.2 ns | 18.9 to 19.4 ns | 34.8 to 36.9 ns |
+| Ruby, `a[i]` in a `while` loop | 31.0 ns | 32.5 ns | 20.7 to 20.9 ns | 10.1 to 11.8 ns |
+| Ruby, `Array#each` | 63.5 ns | 63.7 ns | 57.1 to 58.2 ns | 5.5 to 6.4 ns |
+
+With each language's own loop and a contiguous array, Node, PHP and Python's plain iteration beat scattered C++ at both sizes (Python only by 1.07 times at 1M). Ruby's `while` loop beats it at 33.5M by 1.3 times and loses at 1M. Ruby's `each` loses at both sizes. In the slow languages the loop overhead is about the size of C++'s cache-miss penalty, 18 to 58 ns per iteration against 22 to 43 ns, and the net cost of reading a contiguous array is a small part of it.

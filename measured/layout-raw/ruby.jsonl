@@ -1,0 +1,4 @@
+{"language":"ruby","idiom":"a[i] in a while loop","n":1048576,"ns_per_element_median":30.978,"empty_loop":20.909,"net":10.069,"min":30.531,"max":31.663}
+{"language":"ruby","idiom":"Array#each","n":1048576,"ns_per_element_median":63.505,"empty_loop":57.07,"net":6.435,"min":63.383,"max":65.992}
+{"language":"ruby","idiom":"a[i] in a while loop","n":33554432,"ns_per_element_median":32.49,"empty_loop":20.684,"net":11.806,"min":31.433,"max":32.682}
+{"language":"ruby","idiom":"Array#each","n":33554432,"ns_per_element_median":63.671,"empty_loop":58.226,"net":5.445,"min":63.225,"max":64.946}

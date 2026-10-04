@@ -1,0 +1,4 @@
+{"language":"php","idiom":"$a[$i] in a for loop","n":1048576,"ns_per_element_median":11.853,"empty_loop":4.16,"net":7.693,"min":11.22,"max":11.89}
+{"language":"php","idiom":"foreach over a packed array","n":1048576,"ns_per_element_median":7.544,"empty_loop":4.184,"net":3.36,"min":7.358,"max":7.729}
+{"language":"php","idiom":"$a[$i] in a for loop","n":33554432,"ns_per_element_median":12.542,"empty_loop":4.583,"net":7.959,"min":12.451,"max":12.816}
+{"language":"php","idiom":"foreach over a packed array","n":33554432,"ns_per_element_median":7.701,"empty_loop":4.542,"net":3.159,"min":7.528,"max":7.811}
