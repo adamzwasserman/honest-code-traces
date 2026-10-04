@@ -49,3 +49,20 @@ The server is a virtual machine that hides the real cache topology, and other te
 ## Deviation recorded on 2026-10-04, before the full run
 
 The method section named JMH for Java, Google Benchmark for C++ and the Go testing package. Experiment 1 instead uses one hand-written timing loop in all three languages, with the same structure: two warm-up traversals, then five timed repetitions of at least 64 million element visits each, reporting the median and the range. The reason is that the data takes seconds to build at the larger sizes, and the benchmarking tools rebuild it on every call, which is impractical, and one loop makes the three languages directly comparable. Each traversal changes one element so that no compiler can hoist the work out of the loop, and the quick check confirmed that the timings scale with the layout. The cost is that the hand-written loop lacks the extra protection those tools give against dropped work. The decision rules above are unchanged.
+
+## Results for Experiments 1 and 2, recorded on 2026-10-04
+
+Raw data for Experiment 1 is in `measured/layout/*.jsonl`. R is the median time per element for L4 (heap objects visited in random order) divided by L1 (contiguous). In the "separate" column, yes means the ranges of the two layouts do not overlap.
+
+| Tier | C++ R | Java R | Go R |
+|---|---|---|---|
+| 16 KB | 1.21, separate | 1.32, not separate | 0.86, not separate |
+| 1 MB | 2.44, separate | 2.41, separate | 2.33, separate |
+| 32 MB | 7.20, separate | 4.00, separate | 4.28, separate |
+| 1 GB | 15.75, separate | 18.66, separate | 5.58, separate |
+
+Other layouts against L1: the linked list (L5) is 21 to 22 times slower at 1 MB, 34 to 45 times slower at 32 MB and 63 to 91 times slower at 1 GB in all three languages. Heap objects visited in allocation order (L3) are 1.6 to 2.0 times slower than L1 at 32 MB in C++ and Java, 1.19 times in Go, and 1.7, 1.9 and 1.07 times at 1 GB for C++, Java and Go. Summing one field from the struct of arrays (L2) is 3 to 6 times faster than from the array of structs at 32 MB and above.
+
+Experiment 2, Java order scenario without timestamps, JMH, 3 forks: with escape analysis on the dishonest class took 40.0 ± 4.2 ns and the honest functions 23.7 ± 3.0 ns. With escape analysis off they took 65.2 ± 2.8 ns and 42.0 ± 1.7 ns, so R = 1.63 for the dishonest class and 1.77 for the honest functions, and the ranges do not overlap. C++ at -O0 against -O2 is in `measured/optimizer-dial`.
+
+Applying the decision rules: R is above 1.25 with separate ranges at the 32 MB and 1 GB tiers in all three languages, and Experiment 2 shows two cases above 1.25. H1 is supported for traversal workloads. The effect also appears at the 1 MB tier in all three languages, so it is not limited to the largest sizes. It does not appear at the 16 KB tier, where the data fits in the first cache level: R is 1.21 in C++, 1.32 in Java without separate ranges, and 0.86 in Go. Experiment 3 has not been run, and the decision rules do not depend on it.
