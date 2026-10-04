@@ -1,0 +1,4 @@
+{"language":"ruby","idiom":"each loop over Array","n":1048576,"ns_per_element_median":76.511,"min":76.016,"max":88.444}
+{"language":"ruby","idiom":"Array#sum","n":1048576,"ns_per_element_median":1.601,"min":1.583,"max":2.193}
+{"language":"ruby","idiom":"each loop over Array","n":33554432,"ns_per_element_median":81.245,"min":78.467,"max":81.458}
+{"language":"ruby","idiom":"Array#sum","n":33554432,"ns_per_element_median":1.666,"min":1.634,"max":1.69}

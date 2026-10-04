@@ -1,0 +1,6 @@
+{"language": "python", "idiom": "for loop over array('q')", "n": 1048576, "ns_per_element_median": 54.981, "min": 54.87, "max": 57.809}
+{"language": "python", "idiom": "sum(array('q'))", "n": 1048576, "ns_per_element_median": 14.966, "min": 14.86, "max": 15.835}
+{"language": "python", "idiom": "for loop over list of ints", "n": 1048576, "ns_per_element_median": 44.516, "min": 43.892, "max": 45.133}
+{"language": "python", "idiom": "for loop over array('q')", "n": 33554432, "ns_per_element_median": 56.193, "min": 55.664, "max": 56.414}
+{"language": "python", "idiom": "sum(array('q'))", "n": 33554432, "ns_per_element_median": 15.087, "min": 14.949, "max": 15.649}
+{"language": "python", "idiom": "for loop over list of ints", "n": 33554432, "ns_per_element_median": 44.845, "min": 43.693, "max": 48.129}

@@ -16,3 +16,20 @@ On the rented eight-core server we use for every other measurement, visiting hea
 A linked list at random addresses took 63 to 91 times longer at 1 GB. At 16 KB the data fits in the first cache level, and the layout does not matter. Java with a contiguous array visited 1 GB of records at 3.2 ns each, and C++ with scattered objects took 56 ns each, so layout moved the cost more than the language did.
 
 The server is a virtual machine that hides its real cache layout, and each timing is a median of five repetitions from one hand-written loop. Treat the figures as a demonstration of the effect's size, not as a precise measurement of any one machine.
+
+## Slower languages with a contiguous array
+
+`others/` sums a contiguous array of N integers in Python, Ruby, PHP and Node on the same pinned core, once with the language's own loop and once with its built-in sum, which is a loop written in C. The comparison point is C++ visiting scattered heap objects in random order: 23.6 ns per element at 1,048,576 elements and 56.3 ns at 33,554,432.
+
+| Language and idiom | 1M elements | 33.5M elements |
+|---|---|---|
+| Ruby, `Array#sum` | 1.6 ns | 1.7 ns |
+| Ruby, `each` loop | 76.5 ns | 81.3 ns |
+| Python, `sum(array('q'))` | 15.0 ns | 15.1 ns |
+| Python, `for` loop over an array | 55.0 ns | 56.2 ns |
+| Python, `for` loop over a list | 44.5 ns | 44.8 ns |
+| PHP, `array_sum` | 3.4 ns | 3.0 ns |
+| PHP, `foreach` over a packed array | 14.4 ns | 13.3 ns |
+| Node, loop over a `Float64Array` | 1.5 ns | 1.6 ns |
+
+With a built-in sum, even Ruby beats scattered C++ by 15 times at 1M elements and 34 times at 33.5M. With only its own loop, PHP beats scattered C++ at both sizes, Python beats it at 33.5M by 1.3 times with a list, and Ruby does not beat it at either size.

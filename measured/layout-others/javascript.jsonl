@@ -1,0 +1,4 @@
+{"language":"javascript","idiom":"loop over Float64Array","n":1048576,"ns_per_element_median":1.462,"min":1.336,"max":1.675}
+{"language":"javascript","idiom":"loop over plain Array of integers","n":1048576,"ns_per_element_median":2.272,"min":1.851,"max":2.504}
+{"language":"javascript","idiom":"loop over Float64Array","n":33554432,"ns_per_element_median":1.613,"min":1.588,"max":1.633}
+{"language":"javascript","idiom":"loop over plain Array of integers","n":33554432,"ns_per_element_median":1.994,"min":1.892,"max":2.199}
