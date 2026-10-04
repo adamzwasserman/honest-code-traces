@@ -71,8 +71,8 @@
  },
  "java": {
   "runs": 10,
-  "dishonest_full_ns": 194.7,
-  "honest_ns": 24.5,
+  "dishonest_full_ns": 201.4,
+  "honest_ns": 37.1,
   "dishonest_full_range": [
    189,
    424
@@ -81,17 +81,18 @@
    17,
    22
   ],
-  "source": "JMH 1.37, 3 forks of 8 one-second iterations",
+  "source": "JMH 1.37, tiered compilation off, 3 forks of 8 one-second iterations",
   "hand_written_harness": {
    "dishonest_full_ns": 239.5,
    "honest_ns": 21.0
   },
-  "dishonest_no_timestamp_ns": 58.1
+  "dishonest_no_timestamp_ns": 62.3,
+  "dishonest_prealloc_ns": 47.0
  },
  "kotlin": {
   "runs": 10,
-  "dishonest_full_ns": 195.6,
-  "honest_ns": 22.8,
+  "dishonest_full_ns": 196.4,
+  "honest_ns": 28.2,
   "dishonest_full_range": [
    177,
    215
@@ -100,12 +101,13 @@
    15,
    18
   ],
-  "source": "JMH 1.37, 3 forks of 8 one-second iterations",
+  "source": "JMH 1.37, tiered compilation off, 3 forks of 8 one-second iterations",
   "hand_written_harness": {
    "dishonest_full_ns": 194.0,
    "honest_ns": 16.0
   },
-  "dishonest_no_timestamp_ns": 55.6
+  "dishonest_no_timestamp_ns": 58.6,
+  "dishonest_prealloc_ns": 43.0
  },
  "csharp": {
   "runs": 10,
