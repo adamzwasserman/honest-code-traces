@@ -45,3 +45,7 @@ Any other pattern is reported as mixed, with the full table.
 ## Known limits
 
 The server is a virtual machine that hides the real cache topology, and other tenants share the host. The measurements come from one machine with one processor family. Hardware prefetching can hide a scattered layout when the access pattern is regular, which is why L3 and L4 are separate. The hypothesis speaks of code execution in general, and these experiments test traversal workloads only, so every other workload is outside the claim they can support or refute. The three-item order scenario cannot test H1, because its data fits in the first cache level.
+
+## Deviation recorded on 2026-10-04, before the full run
+
+The method section named JMH for Java, Google Benchmark for C++ and the Go testing package. Experiment 1 instead uses one hand-written timing loop in all three languages, with the same structure: two warm-up traversals, then five timed repetitions of at least 64 million element visits each, reporting the median and the range. The reason is that the data takes seconds to build at the larger sizes, and the benchmarking tools rebuild it on every call, which is impractical, and one loop makes the three languages directly comparable. Each traversal changes one element so that no compiler can hoist the work out of the loop, and the quick check confirmed that the timings scale with the layout. The cost is that the hand-written loop lacks the extra protection those tools give against dropped work. The decision rules above are unchanged.
