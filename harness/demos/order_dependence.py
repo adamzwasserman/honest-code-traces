@@ -72,6 +72,56 @@ def function_result(order_of_calls):
     return results["calc_total"] - results["apply_coupon"] + results["calc_tax"]
 
 
+class BenchmarkOrder:
+    """The class the timings measure: mutators only record, and each calc method
+    reads what the one before it wrote."""
+
+    def __init__(self):
+        self.items = []
+        self.total = 0.0
+        self.discount = 0.0
+        self.tax = 0.0
+        self.coupon_code = ""
+
+    def add_item(self, price):
+        self.items.append(price)
+
+    def apply_coupon(self, code):
+        self.coupon_code = code
+
+    def calc_total(self):
+        self.total = sum(self.items)
+
+    def calc_discount(self):
+        self.discount = self.total * (COUPON_RATE if self.coupon_code == "SAVE10" else 0.0)
+
+    def calc_tax(self):
+        self.tax = (self.total - self.discount) * TAX_RATE
+
+    def grand_total(self):
+        return self.total - self.discount + self.tax
+
+
+def benchmark_orderings():
+    prices = (29.99, 39.99, 19.99)
+    operations = [lambda o, p=p: o.add_item(p) for p in prices] + [
+        lambda o: o.apply_coupon("SAVE10"),
+        lambda o: o.calc_total(),
+        lambda o: o.calc_discount(),
+        lambda o: o.calc_tax(),
+    ]
+    correct = None
+    totals = []
+    for order_of_calls in permutations(range(len(operations))):
+        order = BenchmarkOrder()
+        for index in order_of_calls:
+            operations[index](order)
+        totals.append(round(order.grand_total(), 6))
+        if order_of_calls == tuple(range(len(operations))):
+            correct = totals[-1]
+    return len(totals), sum(1 for t in totals if t == correct), len(set(totals)), correct
+
+
 def main():
     correct = class_result(("addItem", "applyCoupon", "calcTax"))
     class_orders = list(permutations(("addItem", "applyCoupon", "calcTax")))
@@ -88,6 +138,11 @@ def main():
     print(f"\nclass methods matching the correct total: {class_matches}/6")
     print(f"pure functions matching the correct total: {function_matches}/6")
     assert class_matches == 1 and function_matches == 6
+
+    orderings, right, distinct, correct = benchmark_orderings()
+    print(f"\nbenchmark class, 7 calls (3 addItem, applyCoupon, calcTotal, calcDiscount, calcTax):")
+    print(f"  {orderings} orderings, {right} give the correct total {correct}, {distinct} different totals")
+    print("honest functions: applyCoupon, then calculateTax. calculateTax needs the result of applyCoupon, so 1 order exists.")
 
 
 main()
