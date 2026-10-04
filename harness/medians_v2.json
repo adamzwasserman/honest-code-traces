@@ -1,8 +1,8 @@
 {
  "python": {
   "runs": 10,
-  "dishonest_full_ns": 3868.0,
-  "honest_ns": 656.0,
+  "dishonest_full_ns": 3727.9,
+  "honest_ns": 669.5,
   "dishonest_full_range": [
    3655,
    4258
@@ -11,7 +11,12 @@
    605,
    680
   ],
-  "dishonest_no_timestamp_ns": 3494.5
+  "dishonest_no_timestamp_ns": 3479.7,
+  "hand_written_harness": {
+   "dishonest_full_ns": 3868.0,
+   "honest_ns": 656.0
+  },
+  "source": "pyperf, median of 50 values from 10 processes"
  },
  "typescript": {
   "runs": 10,
@@ -44,7 +49,13 @@
    1033,
    1203
   ],
-  "dishonest_no_timestamp_ns": 4168.5
+  "dishonest_no_timestamp_ns": 4168.5,
+  "source": "hand-written loop; benchmark-ips agrees within 1 percent (ratio 4.36 against 4.33), and the loop gives the smaller ratio",
+  "tool_check": {
+   "dishonest_full_ns": 4821,
+   "dishonest_no_timestamp_ns": 4259,
+   "honest_ns": 1106
+  }
  },
  "php": {
   "runs": 10,
@@ -58,7 +69,13 @@
    569,
    611
   ],
-  "dishonest_no_timestamp_ns": 2020.0
+  "dishonest_no_timestamp_ns": 2020.0,
+  "source": "hand-written loop; PHPBench agrees within 3 percent (ratio 3.94 against 3.83), and the loop gives the smaller ratio",
+  "tool_check": {
+   "dishonest_full_ns": 2370,
+   "dishonest_no_timestamp_ns": 2092,
+   "honest_ns": 602
+  }
  },
  "go": {
   "runs": 10,
@@ -178,8 +195,8 @@
  },
  "dart_aot": {
   "runs": 10,
-  "dishonest_full_ns": 489.0,
-  "honest_ns": 104.0,
+  "dishonest_full_ns": 475.1,
+  "honest_ns": 121.1,
   "dishonest_full_range": [
    433,
    524
@@ -188,7 +205,12 @@
    99,
    113
   ],
-  "dishonest_no_timestamp_ns": 159.5
+  "dishonest_no_timestamp_ns": 188.2,
+  "hand_written_harness": {
+   "dishonest_full_ns": 489.0,
+   "honest_ns": 104.0
+  },
+  "source": "benchmark_harness on the precompiled program, median of 10 measurements"
  },
  "cpp": {
   "runs": 10,

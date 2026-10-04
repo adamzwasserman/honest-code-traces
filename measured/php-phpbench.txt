@@ -1,0 +1,18 @@
+PHPBench (1.7.0) running benchmarks... #standwithukraine
+with PHP version 8.5.4, xdebug ❌, opcache ❌
+
+\ScenarioBench
+
+[0G    benchDishonestFull......................I0 [0G    benchDishonestFull......................I1 [0G    benchDishonestFull......................I2 [0G    benchDishonestFull......................I3 [0G    benchDishonestFull......................I4 [0G    benchDishonestFull......................I5 [0G    benchDishonestFull......................I6 [0G    benchDishonestFull......................I7 [0G    benchDishonestFull......................I8 [0G    benchDishonestFull......................I9 - Mo2.370μs (±47.82%)
+[0G    benchDishonestNoTimestamp...............I0 [0G    benchDishonestNoTimestamp...............I1 [0G    benchDishonestNoTimestamp...............I2 [0G    benchDishonestNoTimestamp...............I3 [0G    benchDishonestNoTimestamp...............I4 [0G    benchDishonestNoTimestamp...............I5 [0G    benchDishonestNoTimestamp...............I6 [0G    benchDishonestNoTimestamp...............I7 [0G    benchDishonestNoTimestamp...............I8 [0G    benchDishonestNoTimestamp...............I9 - Mo2.092μs (±12.99%)
+[0G    benchHonest.............................I0 [0G    benchHonest.............................I1 [0G    benchHonest.............................I2 [0G    benchHonest.............................I3 [0G    benchHonest.............................I4 [0G    benchHonest.............................I5 [0G    benchHonest.............................I6 [0G    benchHonest.............................I7 [0G    benchHonest.............................I8 [0G    benchHonest.............................I9 - Mo0.602μs (±25.24%)
+
+Subjects: 3, Assertions: 0, Failures: 0, Errors: 0
++---------------+---------------------------+-----+------+-----+-----------+---------+---------+
+| benchmark     | subject                   | set | revs | its | mem_peak  | mode    | rstdev  |
++---------------+---------------------------+-----+------+-----+-----------+---------+---------+
+| ScenarioBench | benchDishonestFull        |     | 1000 | 10  | 639.640kb | 2.370μs | ±47.82% |
+| ScenarioBench | benchDishonestNoTimestamp |     | 1000 | 10  | 639.648kb | 2.092μs | ±12.99% |
+| ScenarioBench | benchHonest               |     | 1000 | 10  | 639.576kb | 0.602μs | ±25.24% |
++---------------+---------------------------+-----+------+-----+-----------+---------+---------+
+
