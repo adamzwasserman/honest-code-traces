@@ -140,8 +140,8 @@
  },
  "swift": {
   "runs": 10,
-  "dishonest_full_ns": 501.0,
-  "honest_ns": 108.0,
+  "dishonest_full_ns": 507,
+  "honest_ns": 111,
   "dishonest_full_range": [
    435,
    543
@@ -150,12 +150,17 @@
    96,
    113
   ],
-  "dishonest_no_timestamp_ns": 371.5
+  "dishonest_no_timestamp_ns": 351,
+  "hand_written_harness": {
+   "dishonest_full_ns": 501.0,
+   "honest_ns": 108.0
+  },
+  "source": "package-benchmark, 1,000 passes per sample, median sample"
  },
  "dart": {
   "runs": 10,
-  "dishonest_full_ns": 467.5,
-  "honest_ns": 64.5,
+  "dishonest_full_ns": 481.8,
+  "honest_ns": 73.3,
   "dishonest_full_range": [
    426,
    500
@@ -164,7 +169,12 @@
    54,
    72
   ],
-  "dishonest_no_timestamp_ns": 113.0
+  "dishonest_no_timestamp_ns": 123.4,
+  "hand_written_harness": {
+   "dishonest_full_ns": 467.5,
+   "honest_ns": 64.5
+  },
+  "source": "benchmark_harness, median of 10 measurements"
  },
  "dart_aot": {
   "runs": 10,

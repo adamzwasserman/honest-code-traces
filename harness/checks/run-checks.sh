@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Runs the benchmarking-tool checks for C++, Go and TypeScript inside the
 # honest-traces-v2 image. Needs network for apt, the Go toolchain and npm.
-# Usage (from the repo root): bash harness/checks/run-checks.sh [cpp|go|ts ...]
+# Usage (from the repo root): bash harness/checks/run-checks.sh [cpp|go|ts|swift|dart ...]
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT="${OUT:-$HOME/checks-out}"
@@ -22,6 +22,25 @@ docker run --rm -e WHICH="$WHICH" -v "$ROOT/harness:/h" -v "$OUT:/out" honest-tr
         cp /h/go/harness_v2.go /h/checks/bench_go_test.go .
         printf "module bench\n\ngo 1.24\n" > go.mod
         go test -run "^\$" -bench . -count 10 -benchtime 1s > /out/go.txt
+        ;;
+      swift)
+        # The Swift 6.0.3 toolchain wants libxml2.so.2, and Ubuntu 26.04 ships .so.16.
+        apt-get update -qq >/dev/null
+        apt-get install -y -qq git >/dev/null 2>&1
+        ln -sf /usr/lib/x86_64-linux-gnu/libxml2.so.16 /usr/lib/x86_64-linux-gnu/libxml2.so.2
+        mkdir -p /tmp/swiftbench/Benchmarks/ScenarioBench && cd /tmp/swiftbench
+        cp /h/checks/swift/Package.swift .
+        head -206 /h/swift/harness_v2.swift > Benchmarks/ScenarioBench/Scenario.swift
+        cp /h/checks/swift/ScenarioBench.swift Benchmarks/ScenarioBench/
+        BENCHMARK_DISABLE_JEMALLOC=true swift package --allow-writing-to-package-directory benchmark > /out/swift.txt 2>&1
+        ;;
+      dart)
+        mkdir -p /tmp/dartbench && cd /tmp/dartbench
+        printf "name: bench\nenvironment:\n  sdk: ^3.5.0\n" > pubspec.yaml
+        dart pub add benchmark_harness >/dev/null
+        sed "s/^void main()/void harnessMain()/" /h/dart/harness_v2.dart > lib.dart
+        cp /h/checks/bench_dart.dart .
+        dart run bench_dart.dart > /out/dart.txt
         ;;
       ts)
         mkdir -p /tmp/tsbench && cd /tmp/tsbench
