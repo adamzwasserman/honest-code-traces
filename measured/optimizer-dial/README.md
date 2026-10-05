@@ -11,3 +11,5 @@ The same program at different optimizer settings, from `harness/dial/run-dial.sh
 `python-pypy.json` is the same pyperf harness under PyPy 7.3.20 (Python 3.11.13, Ubuntu `pypy3` package), ten processes of five values each. Medians: class code without timestamps 270 ns (spread 202 to 467), plain functions 135 ns (spread 126 to 168).
 
 `cpp-O1.json` and `cpp-O3.json` repeat the C++ run at -O1 and -O3 with Google Benchmark, five repetitions. Medians for class code without timestamps and plain functions: -O0 2,027 and 562 ns, -O1 162 and 37, -O2 106 and 25, -O3 120 and 19.
+
+`v8-summary.json` holds mitata medians (p50, in ns) for the TypeScript harness under Node 22 with three V8 settings, from `harness/dial/run-v8.sh`: default, `--jitless` (no machine code at all) and `--no-opt` (no optimizing compiler). One process per setting. Class code without timestamps: 124 ns default, 1,699 ns `--jitless`, 1,226 ns `--no-opt`. Plain functions: 99, 856 and 587 ns.
