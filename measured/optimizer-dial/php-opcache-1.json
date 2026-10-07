@@ -1,0 +1,34 @@
+{
+    "language": "php",
+    "runtime": "PHP 8.5.4",
+    "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+    "warmup_iterations": 5000,
+    "clock_read_pair_ns": 44,
+    "batched_ns_per_iteration": {
+        "dishonest_full": 1078,
+        "dishonest_no_timestamp": 866,
+        "honest": 512
+    },
+    "ratios": {
+        "full_over_honest": 2.11,
+        "no_timestamp_over_honest": 1.69
+    },
+    "per_iteration_ns": {
+        "note": "each sample includes one clock_read_pair_ns of instrument cost",
+        "dishonest_full": {
+            "p05": 929,
+            "p25": 958,
+            "p50": 1001,
+            "p75": 1067,
+            "p95": 1137
+        },
+        "honest": {
+            "p05": 467,
+            "p25": 481,
+            "p50": 494,
+            "p75": 511,
+            "p95": 575
+        }
+    },
+    "sink": 54732567.964
+}

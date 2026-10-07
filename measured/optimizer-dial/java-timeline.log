@@ -1,0 +1,141 @@
+# JMH version: 1.37
+# VM version: JDK 21.0.12.1, OpenJDK 64-Bit Server VM, 21.0.12.1+1-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: <none>
+# Measurement: 40 iterations, 100 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: harness.JavaBench.dishonestNoTimestamp
+
+# Run progress: 0.00% complete, ETA 00:00:08
+# Fork: 1 of 1
+Iteration   1: 74.371 ns/op
+Iteration   2: 62.833 ns/op
+Iteration   3: 65.606 ns/op
+Iteration   4: 45.648 ns/op
+Iteration   5: 40.854 ns/op
+Iteration   6: 39.261 ns/op
+Iteration   7: 39.888 ns/op
+Iteration   8: 39.375 ns/op
+Iteration   9: 61.970 ns/op
+Iteration  10: 43.086 ns/op
+Iteration  11: 45.180 ns/op
+Iteration  12: 39.895 ns/op
+Iteration  13: 40.976 ns/op
+Iteration  14: 43.133 ns/op
+Iteration  15: 48.697 ns/op
+Iteration  16: 40.994 ns/op
+Iteration  17: 38.881 ns/op
+Iteration  18: 40.167 ns/op
+Iteration  19: 39.344 ns/op
+Iteration  20: 81.927 ns/op
+Iteration  21: 55.644 ns/op
+Iteration  22: 39.087 ns/op
+Iteration  23: 40.799 ns/op
+Iteration  24: 38.188 ns/op
+Iteration  25: 40.843 ns/op
+Iteration  26: 38.524 ns/op
+Iteration  27: 38.657 ns/op
+Iteration  28: 39.587 ns/op
+Iteration  29: 38.415 ns/op
+Iteration  30: 40.683 ns/op
+Iteration  31: 37.517 ns/op
+Iteration  32: 37.188 ns/op
+Iteration  33: 39.583 ns/op
+Iteration  34: 39.371 ns/op
+Iteration  35: 54.891 ns/op
+Iteration  36: 38.201 ns/op
+Iteration  37: 38.525 ns/op
+Iteration  38: 39.274 ns/op
+Iteration  39: 38.406 ns/op
+Iteration  40: 40.507 ns/op
+
+
+Result "harness.JavaBench.dishonestNoTimestamp":
+  44.649 ±(99.9%) 5.973 ns/op [Average]
+  (min, avg, max) = (37.188, 44.649, 81.927), stdev = 10.617
+  CI (99.9%): [38.677, 50.622] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 21.0.12.1, OpenJDK 64-Bit Server VM, 21.0.12.1+1-LTS
+# VM invoker: /opt/java/openjdk/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: <none>
+# Measurement: 40 iterations, 100 ms each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: harness.JavaBench.honest
+
+# Run progress: 50.00% complete, ETA 00:00:04
+# Fork: 1 of 1
+Iteration   1: 59.689 ns/op
+Iteration   2: 28.951 ns/op
+Iteration   3: 22.881 ns/op
+Iteration   4: 23.041 ns/op
+Iteration   5: 22.224 ns/op
+Iteration   6: 22.299 ns/op
+Iteration   7: 23.554 ns/op
+Iteration   8: 25.485 ns/op
+Iteration   9: 24.510 ns/op
+Iteration  10: 32.185 ns/op
+Iteration  11: 23.779 ns/op
+Iteration  12: 23.302 ns/op
+Iteration  13: 23.634 ns/op
+Iteration  14: 32.775 ns/op
+Iteration  15: 23.864 ns/op
+Iteration  16: 23.352 ns/op
+Iteration  17: 23.052 ns/op
+Iteration  18: 24.628 ns/op
+Iteration  19: 23.252 ns/op
+Iteration  20: 23.869 ns/op
+Iteration  21: 23.084 ns/op
+Iteration  22: 23.301 ns/op
+Iteration  23: 22.858 ns/op
+Iteration  24: 22.966 ns/op
+Iteration  25: 28.370 ns/op
+Iteration  26: 23.728 ns/op
+Iteration  27: 23.725 ns/op
+Iteration  28: 23.276 ns/op
+Iteration  29: 22.494 ns/op
+Iteration  30: 24.302 ns/op
+Iteration  31: 23.302 ns/op
+Iteration  32: 23.547 ns/op
+Iteration  33: 22.718 ns/op
+Iteration  34: 27.044 ns/op
+Iteration  35: 25.304 ns/op
+Iteration  36: 23.048 ns/op
+Iteration  37: 23.214 ns/op
+Iteration  38: 23.178 ns/op
+Iteration  39: 28.305 ns/op
+Iteration  40: 25.451 ns/op
+
+
+Result "harness.JavaBench.honest":
+  25.339 ±(99.9%) 3.426 ns/op [Average]
+  (min, avg, max) = (22.224, 25.339, 59.689), stdev = 6.090
+  CI (99.9%): [21.913, 28.765] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:00:08
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                       Mode  Cnt   Score   Error  Units
+JavaBench.dishonestNoTimestamp  avgt   40  44.649 ± 5.973  ns/op
+JavaBench.honest                avgt   40  25.339 ± 3.426  ns/op

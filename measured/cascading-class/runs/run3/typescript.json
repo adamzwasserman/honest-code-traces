@@ -1,0 +1,33 @@
+{
+  "language": "typescript",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 5000,
+  "clock_read_pair_ns": 195,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 393,
+    "dishonest_no_timestamp": 136,
+    "honest": 80
+  },
+  "ratios": {
+    "full_over_honest": 4.91,
+    "no_timestamp_over_honest": 1.7
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {
+      "p05": 487,
+      "p25": 505,
+      "p50": 516,
+      "p75": 532,
+      "p95": 576
+    },
+    "honest": {
+      "p05": 187,
+      "p25": 195,
+      "p50": 202,
+      "p75": 215,
+      "p95": 392
+    }
+  },
+  "sink": 54883927.179
+}

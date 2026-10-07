@@ -1,0 +1,24 @@
+{
+  "language": "cpp",
+  "runtime": "g++ -O2 -std=c++17",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 5000,
+  "clock_read_pair_ns": 27,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 282,
+    "dishonest_no_timestamp": 149,
+    "dishonest_no_timestamp_reserved": 111,
+    "honest": 17
+  },
+  "ratios": {
+    "full_over_honest": 16.59,
+    "no_timestamp_over_honest": 8.76,
+    "no_timestamp_reserved_over_honest": 6.53
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 256, "p25": 258, "p50": 265, "p75": 281, "p95": 568},
+    "honest":         {"p05": 40, "p25": 40, "p50": 41, "p75": 42, "p95": 43}
+  },
+  "sink": 72836205.887
+}

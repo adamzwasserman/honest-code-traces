@@ -1,0 +1,4 @@
+{"language":"php","idiom":"foreach over packed array","n":1048576,"ns_per_element_median":14.392,"min":14.235,"max":16.309}
+{"language":"php","idiom":"array_sum","n":1048576,"ns_per_element_median":3.387,"min":3.159,"max":3.551}
+{"language":"php","idiom":"foreach over packed array","n":33554432,"ns_per_element_median":13.265,"min":12.922,"max":13.358}
+{"language":"php","idiom":"array_sum","n":33554432,"ns_per_element_median":3.032,"min":2.981,"max":3.508}

@@ -1,0 +1,24 @@
+{
+  "language": "kotlin",
+  "runtime": "OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 50000,
+  "clock_read_pair_ns": 55,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 215,
+    "dishonest_no_timestamp": 138,
+    "dishonest_no_timestamp_prealloc": 86,
+    "honest": 17
+  },
+  "ratios": {
+    "full_over_honest": 12.65,
+    "no_timestamp_over_honest": 8.12,
+    "no_timestamp_prealloc_over_honest": 5.06
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 244, "p25": 260, "p50": 275, "p75": 300, "p95": 322},
+    "honest":         {"p05": 100, "p25": 102, "p50": 104, "p75": 105, "p95": 109}
+  },
+  "sink": 88632103.951
+}

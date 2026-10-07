@@ -1,0 +1,36 @@
+goos: linux
+goarch: amd64
+pkg: bench
+cpu: Intel Core Processor (Haswell, no TSX)
+BenchmarkDishonestFull-8          	 1937302	       632.3 ns/op
+BenchmarkDishonestFull-8          	 1955218	       601.1 ns/op
+BenchmarkDishonestFull-8          	 2180662	       622.7 ns/op
+BenchmarkDishonestFull-8          	 1718277	       704.0 ns/op
+BenchmarkDishonestFull-8          	 1870390	       619.5 ns/op
+BenchmarkDishonestFull-8          	 1895698	       620.4 ns/op
+BenchmarkDishonestFull-8          	 2078708	       593.7 ns/op
+BenchmarkDishonestFull-8          	 1890834	       652.5 ns/op
+BenchmarkDishonestFull-8          	 1999225	       607.1 ns/op
+BenchmarkDishonestFull-8          	 1965780	       667.0 ns/op
+BenchmarkDishonestNoTimestamp-8   	 3906597	       281.4 ns/op
+BenchmarkDishonestNoTimestamp-8   	 3315093	       306.4 ns/op
+BenchmarkDishonestNoTimestamp-8   	 3801811	       269.6 ns/op
+BenchmarkDishonestNoTimestamp-8   	 4373672	       259.5 ns/op
+BenchmarkDishonestNoTimestamp-8   	 5057792	       250.3 ns/op
+BenchmarkDishonestNoTimestamp-8   	 4090974	       323.8 ns/op
+BenchmarkDishonestNoTimestamp-8   	 4203321	       355.1 ns/op
+BenchmarkDishonestNoTimestamp-8   	 3690705	       333.2 ns/op
+BenchmarkDishonestNoTimestamp-8   	 3499344	       316.1 ns/op
+BenchmarkDishonestNoTimestamp-8   	 4263082	       339.7 ns/op
+BenchmarkHonest-8                 	28428379	        42.01 ns/op
+BenchmarkHonest-8                 	28706395	        41.62 ns/op
+BenchmarkHonest-8                 	25242441	        42.16 ns/op
+BenchmarkHonest-8                 	30023184	        43.00 ns/op
+BenchmarkHonest-8                 	25470847	        42.55 ns/op
+BenchmarkHonest-8                 	25838262	        43.31 ns/op
+BenchmarkHonest-8                 	28864645	        41.65 ns/op
+BenchmarkHonest-8                 	28118697	        45.00 ns/op
+BenchmarkHonest-8                 	27131624	        43.84 ns/op
+BenchmarkHonest-8                 	26765984	        44.63 ns/op
+PASS
+ok  	bench	36.283s

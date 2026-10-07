@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jdk@sha256:3e3c176ffed168beb42c607be9bc1639b466cf00261a0fb04425562c9d0c5c2b
 
 ARG TARGETARCH
 
@@ -30,14 +30,15 @@ RUN wget -q https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh && \
     rm /tmp/dotnet-install.sh
 ENV PATH="/usr/share/dotnet:${PATH}"
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Swift (needs libncurses, etc.)
 RUN apt-get install -y libncurses6 libcurl4-openssl-dev libxml2-dev && \
-    if [ "$TARGETARCH" = "arm64" ]; then SWARCH=aarch64; else SWARCH=x86_64; fi && \
-    wget -q "https://download.swift.org/swift-6.0.3-release/ubuntu2404-${SWARCH}/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE-ubuntu24.04-${SWARCH}.tar.gz" -O /tmp/swift.tar.gz && \
+    if [ "$TARGETARCH" = "arm64" ]; then SWDIR=ubuntu2404-aarch64; SWNAME=swift-6.0.3-RELEASE-ubuntu24.04-aarch64; else SWDIR=ubuntu2404; SWNAME=swift-6.0.3-RELEASE-ubuntu24.04; fi && \
+    wget -q "https://download.swift.org/swift-6.0.3-release/${SWDIR}/swift-6.0.3-RELEASE/${SWNAME}.tar.gz" -O /tmp/swift.tar.gz && \
     tar -xzf /tmp/swift.tar.gz -C /opt && rm /tmp/swift.tar.gz && \
-    ln -s /opt/swift-6.0.3-RELEASE-ubuntu24.04-${SWARCH}/usr/bin/swift /usr/local/bin/swift && \
-    ln -s /opt/swift-6.0.3-RELEASE-ubuntu24.04-${SWARCH}/usr/bin/swiftc /usr/local/bin/swiftc \
+    ln -s /opt/${SWNAME}/usr/bin/swift /usr/local/bin/swift && \
+    ln -s /opt/${SWNAME}/usr/bin/swiftc /usr/local/bin/swiftc \
     || echo "Swift install failed, skipping"
 
 # PHP
@@ -72,6 +73,14 @@ RUN cd harness/csharp && dotnet build -c Release --nologo -v q
 
 # Pre-compile Swift (may not be available)
 RUN cd harness/swift && (swiftc -O harness.swift -o harness 2>/dev/null || echo "Swift compile skipped")
+
+# Pre-compile the v2 harnesses
+RUN cd harness/java && javac HarnessV2.java
+RUN cd harness/kotlin && kotlinc harness_v2.kt -include-runtime -d harness_v2.jar 2>/dev/null
+RUN cd harness/cpp && g++ -O2 -std=c++17 harness_v2.cpp -o harness_v2
+RUN cd harness/dart && dart compile exe harness_v2.dart -o harness_v2_aot
+RUN cd harness/csharp_v2 && dotnet build -c Release --nologo -v q
+RUN cd harness/swift && (swiftc -O harness_v2.swift -o harness_v2 2>/dev/null || echo "Swift v2 compile skipped")
 
 RUN mkdir -p results
 VOLUME ["/traces/results"]

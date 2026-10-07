@@ -1,0 +1,23 @@
+{
+  "language": "go",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 5000,
+  "clock_read_pair_ns": 35,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 577,
+    "dishonest_no_timestamp": 280,
+    "dishonest_no_timestamp_prealloc": 99,
+    "honest": 25
+  },
+  "ratios": {
+    "full_over_honest": 23.08,
+    "no_timestamp_over_honest": 11.20,
+    "no_timestamp_prealloc_over_honest": 3.96
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {"p05": 443, "p25": 455, "p50": 475, "p75": 503, "p95": 571},
+    "honest":         {"p05": 52, "p25": 54, "p50": 56, "p75": 60, "p95": 66}
+  },
+  "sink": 72684846.672
+}

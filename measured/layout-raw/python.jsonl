@@ -1,0 +1,6 @@
+{"language": "python", "idiom": "a[i] over array('q')", "n": 1048576, "ns_per_element_median": 55.824, "empty_loop": 18.944, "net": 36.879, "min": 53.744, "max": 56.018}
+{"language": "python", "idiom": "for x in array('q')", "n": 1048576, "ns_per_element_median": 20.792, "empty_loop": 17.939, "net": 2.853, "min": 19.948, "max": 21.564}
+{"language": "python", "idiom": "a[i] over list of ints", "n": 1048576, "ns_per_element_median": 36.827, "empty_loop": 18.565, "net": 18.262, "min": 33.532, "max": 36.923}
+{"language": "python", "idiom": "a[i] over array('q')", "n": 33554432, "ns_per_element_median": 54.168, "empty_loop": 19.35, "net": 34.818, "min": 52.698, "max": 54.624}
+{"language": "python", "idiom": "for x in array('q')", "n": 33554432, "ns_per_element_median": 21.232, "empty_loop": 19.368, "net": 1.864, "min": 20.839, "max": 21.532}
+{"language": "python", "idiom": "a[i] over list of ints", "n": 33554432, "ns_per_element_median": 34.309, "empty_loop": 18.718, "net": 15.59, "min": 32.999, "max": 35.73}

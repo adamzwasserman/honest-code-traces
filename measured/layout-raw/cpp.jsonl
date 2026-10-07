@@ -1,0 +1,4 @@
+{"language":"cpp","idiom":"contiguous array","n":1048576,"ns_per_element_median":0.368,"empty_loop":0.204,"net":0.165,"min":0.324,"max":0.486}
+{"language":"cpp","idiom":"scattered heap objects","n":1048576,"ns_per_element_median":22.320,"empty_loop":0.204,"net":22.116,"min":21.279,"max":23.738}
+{"language":"cpp","idiom":"contiguous array","n":33554432,"ns_per_element_median":0.872,"empty_loop":0.219,"net":0.653,"min":0.818,"max":0.992}
+{"language":"cpp","idiom":"scattered heap objects","n":33554432,"ns_per_element_median":42.636,"empty_loop":0.219,"net":42.417,"min":39.585,"max":44.982}

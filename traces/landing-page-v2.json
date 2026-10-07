@@ -1,0 +1,3038 @@
+{
+  "java": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Java Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Java)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem);",
+        "ns": 2.4,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  this.items.add(item);",
+        "ns": 2.35,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.35
+      },
+      {
+        "code": "  this.updatedAt = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 2.4,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  this.couponCode = code;",
+        "ns": 2.35,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.35
+      },
+      {
+        "code": "  this.updatedAt = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal();",
+        "ns": 2.4,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  this.total = items.stream()...",
+        "ns": 11.95,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 11.95
+      },
+      {
+        "code": "order.calcDiscount();",
+        "ns": 2.4,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  CouponRegistry.getInstance()",
+        "ns": 1.2,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.2
+      },
+      {
+        "code": "    .lookup(couponCode)",
+        "ns": 2.35,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.35
+      },
+      {
+        "code": "  this.discount = total * rate;",
+        "ns": 2.35,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.35
+      },
+      {
+        "code": "order.calcTax();",
+        "ns": 2.4,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  TaxService.getInstance()",
+        "ns": 1.2,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.2
+      },
+      {
+        "code": "  this.tax = svc.calculate(region, taxable);",
+        "ns": 2.35,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.35
+      }
+    ],
+    "rescue": [
+      {
+        "code": "var result = applyCoupon(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  var total = items.stream()...",
+        "ns": 9.02,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 9.02
+      },
+      {
+        "code": "  var discount = total * rate;",
+        "ns": 9.02,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 9.02
+      },
+      {
+        "code": "  return new Priced(total, discount, ...);",
+        "ns": 4.57,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 4.57
+      },
+      {
+        "code": "var final = calculateTax(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  var tax = subtotal * taxRates.get(region);",
+        "ns": 9.02,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 9.02
+      },
+      {
+        "code": "  return new Final(..., tax, grandTotal);",
+        "ns": 4.57,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 4.57
+      }
+    ],
+    "crimeTotal": 38.1,
+    "rescueTotal": 36.2
+  },
+  "typescript": {
+    "crimeLabel": "\u2620 Dishonest \u2014 TypeScript Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (TypeScript)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem);",
+        "ns": 7.61,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 7.61
+      },
+      {
+        "code": "  this.items.push(item);",
+        "ns": 5.69,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 5.69
+      },
+      {
+        "code": "  this.updatedAt = new Date();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 7.61,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 7.61
+      },
+      {
+        "code": "  this.couponCode = code;",
+        "ns": 5.69,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 5.69
+      },
+      {
+        "code": "  this.updatedAt = new Date();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal();",
+        "ns": 7.61,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 7.61
+      },
+      {
+        "code": "  this.total = this.items.reduce(...)",
+        "ns": 13.24,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 13.24
+      },
+      {
+        "code": "order.calcDiscount();",
+        "ns": 7.61,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 7.61
+      },
+      {
+        "code": "  CouponRegistry.getInstance()",
+        "ns": 4.74,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.74
+      },
+      {
+        "code": "    .lookup(this.couponCode)",
+        "ns": 9.47,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.47
+      },
+      {
+        "code": "  this.discount = this.total * rate;",
+        "ns": 5.69,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 5.69
+      },
+      {
+        "code": "order.calcTax();",
+        "ns": 7.61,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 7.61
+      },
+      {
+        "code": "  TaxService.getInstance()",
+        "ns": 4.74,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.74
+      },
+      {
+        "code": "  this.tax = svc.calculate(region, taxable);",
+        "ns": 5.69,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 5.69
+      }
+    ],
+    "rescue": [
+      {
+        "code": "const result = applyCoupon(",
+        "ns": 2.98,
+        "op": "call",
+        "results": [],
+        "animNs": 2.98
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 2.94,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 2.94
+      },
+      {
+        "code": "  const total = items.reduce(...)",
+        "ns": 13.32,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 13.32
+      },
+      {
+        "code": "  const discount = total * rate;",
+        "ns": 13.3,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 13.3
+      },
+      {
+        "code": "  return { total, discount, subtotal };",
+        "ns": 8.87,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 8.87
+      },
+      {
+        "code": "const final = calculateTax(",
+        "ns": 2.98,
+        "op": "call",
+        "results": [],
+        "animNs": 2.98
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 2.94,
+        "op": "arg",
+        "results": [],
+        "animNs": 2.94
+      },
+      {
+        "code": "  const tax = subtotal * taxRates[region];",
+        "ns": 13.3,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 13.3
+      },
+      {
+        "code": "  return { ...result, tax, grandTotal };",
+        "ns": 8.87,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 8.87
+      }
+    ],
+    "crimeTotal": 93.0,
+    "rescueTotal": 69.5
+  },
+  "csharp": {
+    "crimeLabel": "\u2620 Dishonest \u2014 C# Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (C#)",
+    "crime": [
+      {
+        "code": "order.AddItem(newItem);",
+        "ns": 9.77,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.77
+      },
+      {
+        "code": "  _items.Add(item);",
+        "ns": 2.4,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  UpdatedAt = DateTime.Now;",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.ApplyCoupon(\"SAVE10\");",
+        "ns": 9.77,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.77
+      },
+      {
+        "code": "  CouponCode = code;",
+        "ns": 2.4,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "  UpdatedAt = DateTime.Now;",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.CalcTotal();",
+        "ns": 9.77,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.77
+      },
+      {
+        "code": "  Total = _items.Sum(i => i.Price);",
+        "ns": 22.85,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 22.85
+      },
+      {
+        "code": "order.CalcDiscount();",
+        "ns": 9.77,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.77
+      },
+      {
+        "code": "  CouponRegistry.Instance",
+        "ns": 2.7,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 2.7
+      },
+      {
+        "code": "    .Lookup(CouponCode)",
+        "ns": 1.5,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.5
+      },
+      {
+        "code": "  Discount = Total * rate;",
+        "ns": 2.4,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.4
+      },
+      {
+        "code": "order.CalcTax();",
+        "ns": 9.77,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 9.77
+      },
+      {
+        "code": "  TaxService.Instance",
+        "ns": 2.7,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 2.7
+      },
+      {
+        "code": "  Tax = svc.Calculate(region, taxable);",
+        "ns": 2.4,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.4
+      }
+    ],
+    "rescue": [
+      {
+        "code": "var result = ApplyCoupon(",
+        "ns": 3.31,
+        "op": "call",
+        "results": [],
+        "animNs": 3.31
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 0.38,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  var total = items.Sum(i => i.Price);",
+        "ns": 13.24,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 13.24
+      },
+      {
+        "code": "  var discount = total * rate;",
+        "ns": 13.24,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 13.24
+      },
+      {
+        "code": "  return new Priced(total, discount, ...);",
+        "ns": 1.35,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 1.35
+      },
+      {
+        "code": "var final = CalculateTax(",
+        "ns": 3.31,
+        "op": "call",
+        "results": [],
+        "animNs": 3.31
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 0.38,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  var tax = subtotal * taxRates[region];",
+        "ns": 13.24,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 13.24
+      },
+      {
+        "code": "  return new Final(..., tax, grandTotal);",
+        "ns": 1.35,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 1.35
+      }
+    ],
+    "crimeTotal": 88.2,
+    "rescueTotal": 49.8
+  },
+  "python": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Python Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Python)",
+    "crime": [
+      {
+        "code": "order.add_item(new_item)",
+        "ns": 69.48,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    self._items.append(item)",
+        "ns": 69.48,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    self._updated_at = now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.apply_coupon(\"SAVE10\")",
+        "ns": 69.48,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    self._coupon_code = code",
+        "ns": 69.48,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    self._updated_at = now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calc_total()",
+        "ns": 69.48,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    self._total = sum(i.price for i in self._items)",
+        "ns": 481.45,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 481.45
+      },
+      {
+        "code": "order.calc_discount()",
+        "ns": 69.48,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    CouponRegistry.get_instance()",
+        "ns": 137.31,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 137.31
+      },
+      {
+        "code": "        .lookup(self._coupon_code)",
+        "ns": 137.31,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 137.31
+      },
+      {
+        "code": "    self._discount = self._total * rate",
+        "ns": 69.48,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "order.calc_tax()",
+        "ns": 69.48,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 69.48
+      },
+      {
+        "code": "    TaxService.get_instance()",
+        "ns": 137.31,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 137.31
+      },
+      {
+        "code": "    self._tax = svc.calculate(region, taxable)",
+        "ns": 69.48,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 69.48
+      }
+    ],
+    "rescue": [
+      {
+        "code": "result = apply_coupon(",
+        "ns": 20.55,
+        "op": "call",
+        "results": [],
+        "animNs": 20.55
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons)",
+        "ns": 20.55,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 20.55
+      },
+      {
+        "code": "    total = sum(price for ...)",
+        "ns": 162.92,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 162.92
+      },
+      {
+        "code": "    discount = total * rate",
+        "ns": 162.93,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 162.93
+      },
+      {
+        "code": "    return (total, discount, subtotal)",
+        "ns": 61.16,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 61.16
+      },
+      {
+        "code": "final = calculate_tax(",
+        "ns": 20.55,
+        "op": "call",
+        "results": [],
+        "animNs": 20.55
+      },
+      {
+        "code": "    result, \"NY\", tax_rates)",
+        "ns": 20.55,
+        "op": "arg",
+        "results": [],
+        "animNs": 20.55
+      },
+      {
+        "code": "    tax = subtotal * tax_rates[region]",
+        "ns": 162.93,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 162.93
+      },
+      {
+        "code": "    return (..., tax, grand_total)",
+        "ns": 61.16,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 61.16
+      }
+    ],
+    "crimeTotal": 1518.7,
+    "rescueTotal": 693.3
+  },
+  "kotlin": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Kotlin Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Kotlin)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem)",
+        "ns": 3.51,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.51
+      },
+      {
+        "code": "  items.add(item)",
+        "ns": 3.45,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.45
+      },
+      {
+        "code": "  updatedAt = now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\")",
+        "ns": 3.54,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.54
+      },
+      {
+        "code": "  couponCode = code",
+        "ns": 3.45,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 3.45
+      },
+      {
+        "code": "  updatedAt = now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal()",
+        "ns": 3.54,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.54
+      },
+      {
+        "code": "  total = items.sumOf { it.price }",
+        "ns": 3.54,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 3.54
+      },
+      {
+        "code": "order.calcDiscount()",
+        "ns": 3.54,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.54
+      },
+      {
+        "code": "  CouponRegistry.instance",
+        "ns": 1.77,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.77
+      },
+      {
+        "code": "    .lookup(couponCode)",
+        "ns": 3.45,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.45
+      },
+      {
+        "code": "  discount = total * rate",
+        "ns": 3.45,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 3.45
+      },
+      {
+        "code": "order.calcTax()",
+        "ns": 3.54,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 3.54
+      },
+      {
+        "code": "  TaxService.instance",
+        "ns": 1.77,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.77
+      },
+      {
+        "code": "  tax = svc.calculate(region, taxable)",
+        "ns": 3.45,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 3.45
+      }
+    ],
+    "rescue": [
+      {
+        "code": "val result = applyCoupon(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  val total = items.sumOf { it.price }",
+        "ns": 7.64,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 7.64
+      },
+      {
+        "code": "  val discount = total * rate",
+        "ns": 7.62,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 7.62
+      },
+      {
+        "code": "  return Priced(total, discount, ...)",
+        "ns": 3.81,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 3.81
+      },
+      {
+        "code": "val final = calculateTax(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    result, \"NY\", taxRates)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  val tax = subtotal * taxRates[region]",
+        "ns": 7.62,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 7.62
+      },
+      {
+        "code": "  return Final(..., tax, grandTotal)",
+        "ns": 3.81,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 3.81
+      }
+    ],
+    "crimeTotal": 42.0,
+    "rescueTotal": 30.5
+  },
+  "swift": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Swift Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Swift)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem)",
+        "ns": 49.16,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 49.16
+      },
+      {
+        "code": "  items.append(item)",
+        "ns": 2.95,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 2.95
+      },
+      {
+        "code": "  updatedAt = Date()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\")",
+        "ns": 49.19,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 49.19
+      },
+      {
+        "code": "  couponCode = code",
+        "ns": 2.95,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.95
+      },
+      {
+        "code": "  updatedAt = Date()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal()",
+        "ns": 49.19,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 49.19
+      },
+      {
+        "code": "  total = items.reduce(0) { $0 + $1.price }",
+        "ns": 0.66,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcDiscount()",
+        "ns": 49.19,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 49.19
+      },
+      {
+        "code": "  CouponRegistry.shared",
+        "ns": 11.48,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 11.48
+      },
+      {
+        "code": "    .lookup(couponCode)",
+        "ns": 0.66,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  discount = total * rate",
+        "ns": 2.95,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.95
+      },
+      {
+        "code": "order.calcTax()",
+        "ns": 49.19,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 49.19
+      },
+      {
+        "code": "  TaxService.shared",
+        "ns": 11.48,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 11.48
+      },
+      {
+        "code": "  tax = svc.calculate(region, taxable)",
+        "ns": 2.95,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.95
+      }
+    ],
+    "rescue": [
+      {
+        "code": "let result = applyCoupon(",
+        "ns": 11.92,
+        "op": "call",
+        "results": [],
+        "animNs": 11.92
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  let total = items.reduce(0) { $0 + $1.price }",
+        "ns": 16.58,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 16.58
+      },
+      {
+        "code": "  let discount = total * rate",
+        "ns": 16.58,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 16.58
+      },
+      {
+        "code": "  return Priced(total: total, ...)",
+        "ns": 20.21,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 20.21
+      },
+      {
+        "code": "let final = calculateTax(",
+        "ns": 11.92,
+        "op": "call",
+        "results": [],
+        "animNs": 11.92
+      },
+      {
+        "code": "    result, \"NY\", taxRates)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  let tax = subtotal * taxRates[region]!",
+        "ns": 16.58,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 16.58
+      },
+      {
+        "code": "  return Final(..., tax: tax, ...)",
+        "ns": 20.21,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 20.21
+      }
+    ],
+    "crimeTotal": 282,
+    "rescueTotal": 114
+  },
+  "php": {
+    "crimeLabel": "\u2620 Dishonest \u2014 PHP Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (PHP)",
+    "crime": [
+      {
+        "code": "$order->addItem($newItem);",
+        "ns": 62.92,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  $this->items[] = $item;",
+        "ns": 62.92,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  $this->updatedAt = time();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "$order->applyCoupon(\"SAVE10\");",
+        "ns": 62.92,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  $this->couponCode = $code;",
+        "ns": 62.92,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  $this->updatedAt = time();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "$order->calcTotal();",
+        "ns": 62.92,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  $this->total = array_sum(...);",
+        "ns": 125.89,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 125.89
+      },
+      {
+        "code": "$order->calcDiscount();",
+        "ns": 62.92,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  CouponRegistry::getInstance()",
+        "ns": 94.13,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 94.13
+      },
+      {
+        "code": "    ->lookup($this->couponCode)",
+        "ns": 84.07,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 84.07
+      },
+      {
+        "code": "  $this->discount = $this->total * $rate;",
+        "ns": 62.92,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "$order->calcTax();",
+        "ns": 62.92,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 62.92
+      },
+      {
+        "code": "  TaxService::getInstance()",
+        "ns": 94.13,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 94.13
+      },
+      {
+        "code": "  $this->tax = $svc->calculate($region, $taxable);",
+        "ns": 62.92,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 62.92
+      }
+    ],
+    "rescue": [
+      {
+        "code": "$result = applyCoupon(",
+        "ns": 24.88,
+        "op": "call",
+        "results": [],
+        "animNs": 24.88
+      },
+      {
+        "code": "    $items, \"SAVE10\", $coupons);",
+        "ns": 24.88,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 24.88
+      },
+      {
+        "code": "  $total = array_sum(...);",
+        "ns": 100.1,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 100.1
+      },
+      {
+        "code": "  $discount = $total * $rate;",
+        "ns": 100.12,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 100.12
+      },
+      {
+        "code": "  return [$total, $discount, $subtotal];",
+        "ns": 99.82,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 99.82
+      },
+      {
+        "code": "$final = calculateTax(",
+        "ns": 24.88,
+        "op": "call",
+        "results": [],
+        "animNs": 24.88
+      },
+      {
+        "code": "    $result, \"NY\", $taxRates);",
+        "ns": 24.88,
+        "op": "arg",
+        "results": [],
+        "animNs": 24.88
+      },
+      {
+        "code": "  $tax = $subtotal * $taxRates[$region];",
+        "ns": 100.12,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 100.12
+      },
+      {
+        "code": "  return [..., $tax, $grandTotal];",
+        "ns": 99.82,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 99.82
+      }
+    ],
+    "crimeTotal": 964.5,
+    "rescueTotal": 599.5
+  },
+  "ruby": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Ruby Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Ruby)",
+    "crime": [
+      {
+        "code": "order.add_item(new_item)",
+        "ns": 160.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @items << item",
+        "ns": 160.57,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @updated_at = Time.now",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.apply_coupon(\"SAVE10\")",
+        "ns": 160.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @coupon_code = code",
+        "ns": 160.57,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @updated_at = Time.now",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calc_total",
+        "ns": 160.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @total = @items.sum(&:price)",
+        "ns": 267.2,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 267.2
+      },
+      {
+        "code": "order.calc_discount",
+        "ns": 160.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  CouponRegistry.instance",
+        "ns": 187.55,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 187.55
+      },
+      {
+        "code": "    .lookup(@coupon_code)",
+        "ns": 160.57,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  @discount = @total * rate",
+        "ns": 160.57,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "order.calc_tax",
+        "ns": 160.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 160.57
+      },
+      {
+        "code": "  TaxService.instance",
+        "ns": 187.55,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 187.55
+      },
+      {
+        "code": "  @tax = svc.calculate(region, taxable)",
+        "ns": 160.57,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 160.57
+      }
+    ],
+    "rescue": [
+      {
+        "code": "result = apply_coupon(",
+        "ns": 26.66,
+        "op": "call",
+        "results": [],
+        "animNs": 26.66
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons)",
+        "ns": 52.68,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 52.68
+      },
+      {
+        "code": "  total = items.sum { |i| i[1] }",
+        "ns": 185.34,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 185.34
+      },
+      {
+        "code": "  discount = total * rate",
+        "ns": 185.34,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 185.34
+      },
+      {
+        "code": "  [total, discount, subtotal]",
+        "ns": 211.34,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 211.34
+      },
+      {
+        "code": "final = calculate_tax(",
+        "ns": 26.66,
+        "op": "call",
+        "results": [],
+        "animNs": 26.66
+      },
+      {
+        "code": "    result, \"NY\", tax_rates)",
+        "ns": 52.68,
+        "op": "arg",
+        "results": [],
+        "animNs": 52.68
+      },
+      {
+        "code": "  tax = subtotal * tax_rates[region]",
+        "ns": 185.34,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 185.34
+      },
+      {
+        "code": "  [..., tax, grand_total]",
+        "ns": 211.36,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 211.36
+      }
+    ],
+    "crimeTotal": 2248.0,
+    "rescueTotal": 1137.4
+  },
+  "dart": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Dart Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Dart)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem);",
+        "ns": 12.55,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 12.55
+      },
+      {
+        "code": "  items.add(item);",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  updatedAt = DateTime.now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 12.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 12.57
+      },
+      {
+        "code": "  couponCode = code;",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  updatedAt = DateTime.now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal();",
+        "ns": 12.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 12.57
+      },
+      {
+        "code": "  total = items.fold(0.0, ...);",
+        "ns": 12.57,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 12.57
+      },
+      {
+        "code": "order.calcDiscount();",
+        "ns": 12.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 12.57
+      },
+      {
+        "code": "  CouponRegistry.instance",
+        "ns": 0.0,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.0
+      },
+      {
+        "code": "    .lookup(couponCode)",
+        "ns": 0.0,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  discount = total * rate;",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTax();",
+        "ns": 12.57,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 12.57
+      },
+      {
+        "code": "  TaxService.instance",
+        "ns": 0.0,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 1.0
+      },
+      {
+        "code": "  tax = svc.calculate(region, taxable);",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      }
+    ],
+    "rescue": [
+      {
+        "code": "final result = applyCoupon(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  final total = items.fold(0.0, ...);",
+        "ns": 19.7,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 19.7
+      },
+      {
+        "code": "  final discount = total * rate;",
+        "ns": 19.69,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 19.69
+      },
+      {
+        "code": "  return OrderResult(total, discount, ...);",
+        "ns": 6.56,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 6.56
+      },
+      {
+        "code": "final fin = calculateTax(",
+        "ns": 0.0,
+        "op": "call",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  final tax = subtotal * taxRates[region]!;",
+        "ns": 19.69,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 19.69
+      },
+      {
+        "code": "  return FinalResult(..., tax, grandTotal);",
+        "ns": 6.56,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 6.56
+      }
+    ],
+    "crimeTotal": 75.4,
+    "rescueTotal": 72.2
+  },
+  "cpp": {
+    "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (C++)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem);",
+        "ns": 8.76,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.76
+      },
+      {
+        "code": "  items_.push_back(item);",
+        "ns": 8.73,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  updatedAt_ = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 8.73,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  couponCode_ = code;",
+        "ns": 8.73,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  updatedAt_ = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal();",
+        "ns": 8.73,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  total_ = accumulate(items_...);",
+        "ns": 8.53,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "order.calcDiscount();",
+        "ns": 8.73,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  CouponRegistry::getInstance()",
+        "ns": 4.37,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.37
+      },
+      {
+        "code": "    .lookup(couponCode_)",
+        "ns": 8.53,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  discount_ = total_ * rate;",
+        "ns": 8.73,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "order.calcTax();",
+        "ns": 8.73,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.73
+      },
+      {
+        "code": "  TaxService::getInstance()",
+        "ns": 4.37,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.37
+      },
+      {
+        "code": "  tax_ = svc.calculate(region, taxable);",
+        "ns": 8.73,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.73
+      }
+    ],
+    "rescue": [
+      {
+        "code": "auto result = applyCoupon(",
+        "ns": 2.14,
+        "op": "call",
+        "results": [],
+        "animNs": 2.14
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 2.14,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 2.14
+      },
+      {
+        "code": "  double total = accumulate(items...);",
+        "ns": 2.18,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 2.18
+      },
+      {
+        "code": "  double discount = total * rate;",
+        "ns": 2.19,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 2.19
+      },
+      {
+        "code": "  return {total, discount, subtotal};",
+        "ns": 2.19,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 2.19
+      },
+      {
+        "code": "auto final = calculateTax(",
+        "ns": 2.14,
+        "op": "call",
+        "results": [],
+        "animNs": 2.14
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 2.14,
+        "op": "arg",
+        "results": [],
+        "animNs": 2.14
+      },
+      {
+        "code": "  double tax = subtotal * taxRates.at(region);",
+        "ns": 2.19,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 2.19
+      },
+      {
+        "code": "  return {..., tax, grandTotal};",
+        "ns": 2.19,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 2.19
+      }
+    ],
+    "crimeTotal": 104.4,
+    "rescueTotal": 19.5
+  },
+  "go": {
+    "crimeLabel": "\u2620 Dishonest \u2014 Go Order struct",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (Go)",
+    "crime": [
+      {
+        "code": "order.AddItem(newItem)",
+        "ns": 53.87,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 53.87
+      },
+      {
+        "code": "  o.Items = append(o.Items, item)",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  o.UpdatedAt = time.Now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.ApplyCoupon(\"SAVE10\")",
+        "ns": 53.88,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 53.88
+      },
+      {
+        "code": "  o.CouponCode = code",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  o.UpdatedAt = time.Now()",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.CalcTotal()",
+        "ns": 53.88,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 53.88
+      },
+      {
+        "code": "  o.Total = sumPrices(o.Items)",
+        "ns": 2.41,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 2.41
+      },
+      {
+        "code": "order.CalcDiscount()",
+        "ns": 53.88,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 53.88
+      },
+      {
+        "code": "  getCouponRegistry()",
+        "ns": 19.3,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 19.3
+      },
+      {
+        "code": "    .Lookup(o.CouponCode)",
+        "ns": 0.8,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "  o.Discount = o.Total * rate",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.CalcTax()",
+        "ns": 53.88,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 53.88
+      },
+      {
+        "code": "  getTaxService()",
+        "ns": 19.3,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 19.3
+      },
+      {
+        "code": "  o.Tax = svc.Calculate(region, taxable)",
+        "ns": 0.0,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      }
+    ],
+    "rescue": [
+      {
+        "code": "result := ApplyCoupon(",
+        "ns": 14.85,
+        "op": "call",
+        "results": [],
+        "animNs": 14.85
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 1.0
+      },
+      {
+        "code": "  total := sumPrices(items)",
+        "ns": 2.52,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 2.52
+      },
+      {
+        "code": "  discount := total * rate",
+        "ns": 2.52,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 2.52
+      },
+      {
+        "code": "  return OrderResult{total, discount, ...}",
+        "ns": 2.77,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 2.77
+      },
+      {
+        "code": "final := CalculateTax(",
+        "ns": 14.85,
+        "op": "call",
+        "results": [],
+        "animNs": 14.85
+      },
+      {
+        "code": "    result, \"NY\", taxRates)",
+        "ns": 0.0,
+        "op": "arg",
+        "results": [],
+        "animNs": 1.0
+      },
+      {
+        "code": "  tax := subtotal * taxRates[region]",
+        "ns": 2.52,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 2.52
+      },
+      {
+        "code": "  return FinalResult{..., tax, ...}",
+        "ns": 2.77,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 2.77
+      }
+    ],
+    "crimeTotal": 311.2,
+    "rescueTotal": 42.8
+  },
+  "surprise": {
+    "crimeLabel": "\u2620 Dishonest \u2014 C++ Order class (compiled ahead of time)",
+    "rescueLabel": "\u2726 Honest \u2014 Pure functions (TypeScript, V8)",
+    "crime": [
+      {
+        "code": "order.addItem(newItem);",
+        "ns": 8.56,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.56
+      },
+      {
+        "code": "  items_.push_back(item);",
+        "ns": 8.53,
+        "op": "field",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  updatedAt_ = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.4"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.applyCoupon(\"SAVE10\");",
+        "ns": 8.53,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  couponCode_ = code;",
+        "ns": 8.53,
+        "op": "field",
+        "mutations": [
+          [
+            "s-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  updatedAt_ = now();",
+        "ns": 0.0,
+        "op": "time",
+        "mutations": [
+          [
+            "s-updated",
+            "14:23:07.5"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 1.0
+      },
+      {
+        "code": "order.calcTotal();",
+        "ns": 8.53,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  total_ = accumulate(items_...);",
+        "ns": 8.33,
+        "op": "calc",
+        "mutations": [
+          [
+            "s-total",
+            "89.97"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.33
+      },
+      {
+        "code": "order.calcDiscount();",
+        "ns": 8.53,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  CouponRegistry::getInstance()",
+        "ns": 4.27,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.27
+      },
+      {
+        "code": "    .lookup(couponCode_)",
+        "ns": 8.33,
+        "op": "cache",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.33
+      },
+      {
+        "code": "  discount_ = total_ * rate;",
+        "ns": 8.53,
+        "op": "field",
+        "mutations": [
+          [
+            "s-discount",
+            "9.00"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "order.calcTax();",
+        "ns": 8.53,
+        "op": "call",
+        "mutations": [],
+        "singletons": 0,
+        "animNs": 8.53
+      },
+      {
+        "code": "  TaxService::getInstance()",
+        "ns": 4.27,
+        "op": "single",
+        "mutations": [],
+        "singletons": 1,
+        "animNs": 4.27
+      },
+      {
+        "code": "  tax_ = svc.calculate(region, taxable);",
+        "ns": 8.53,
+        "op": "field",
+        "mutations": [
+          [
+            "s-tax",
+            "6.48"
+          ]
+        ],
+        "singletons": 0,
+        "animNs": 8.53
+      }
+    ],
+    "rescue": [
+      {
+        "code": "const result = applyCoupon(",
+        "ns": 4.25,
+        "op": "call",
+        "results": [],
+        "animNs": 4.25
+      },
+      {
+        "code": "    items, \"SAVE10\", coupons);",
+        "ns": 4.19,
+        "op": "arg",
+        "results": [
+          [
+            "r-coupon",
+            "\"SAVE10\""
+          ]
+        ],
+        "animNs": 4.19
+      },
+      {
+        "code": "  const total = items.reduce(...)",
+        "ns": 18.96,
+        "op": "calc",
+        "results": [
+          [
+            "r-total",
+            "89.97"
+          ]
+        ],
+        "animNs": 18.96
+      },
+      {
+        "code": "  const discount = total * rate;",
+        "ns": 18.95,
+        "op": "calc",
+        "results": [
+          [
+            "r-discount",
+            "9.00"
+          ]
+        ],
+        "animNs": 18.95
+      },
+      {
+        "code": "  return { total, discount, subtotal };",
+        "ns": 12.63,
+        "op": "ret",
+        "results": [
+          [
+            "r-subtotal",
+            "80.97"
+          ]
+        ],
+        "animNs": 12.63
+      },
+      {
+        "code": "const final = calculateTax(",
+        "ns": 4.25,
+        "op": "call",
+        "results": [],
+        "animNs": 4.25
+      },
+      {
+        "code": "    result, \"NY\", taxRates);",
+        "ns": 4.19,
+        "op": "arg",
+        "results": [],
+        "animNs": 4.19
+      },
+      {
+        "code": "  const tax = subtotal * taxRates[region];",
+        "ns": 18.95,
+        "op": "calc",
+        "results": [
+          [
+            "r-tax",
+            "6.48"
+          ]
+        ],
+        "animNs": 18.95
+      },
+      {
+        "code": "  return { ...result, tax, grandTotal };",
+        "ns": 12.63,
+        "op": "ret",
+        "results": [
+          [
+            "r-grand",
+            "87.45"
+          ]
+        ],
+        "animNs": 12.63
+      }
+    ],
+    "crimeTotal": 102.0,
+    "rescueTotal": 99.0
+  }
+}

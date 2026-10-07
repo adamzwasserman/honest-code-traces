@@ -1,0 +1,100 @@
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    33.793k i/100ms
+dishonest_no_timestamp    43.777k i/100ms
+                honest    89.685k i/100ms
+Calculating -------------------------------------
+        dishonest_full    325.136k (± 6.5%) i/s    (3.08 μs/i) -      1.656M in   5.092806s
+dishonest_no_timestamp    442.666k (± 3.1%) i/s    (2.26 μs/i) -      2.233M in   5.043598s
+                honest    870.505k (± 6.9%) i/s    (1.15 μs/i) -      4.395M in   5.048293s
+sink 1001710956.2655548
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    34.860k i/100ms
+dishonest_no_timestamp    44.308k i/100ms
+                honest    91.039k i/100ms
+Calculating -------------------------------------
+        dishonest_full    339.313k (± 4.9%) i/s    (2.95 μs/i) -      1.708M in   5.034119s
+dishonest_no_timestamp    423.642k (± 5.1%) i/s    (2.36 μs/i) -      2.127M in   5.020240s
+                honest    861.435k (± 5.7%) i/s    (1.16 μs/i) -      4.370M in   5.072783s
+sink 1006004566.187168
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    34.613k i/100ms
+dishonest_no_timestamp    39.951k i/100ms
+                honest    70.715k i/100ms
+Calculating -------------------------------------
+        dishonest_full    343.075k (± 6.9%) i/s    (2.91 μs/i) -      1.731M in   5.044518s
+dishonest_no_timestamp    440.960k (± 3.3%) i/s    (2.27 μs/i) -      2.237M in   5.073602s
+                honest    863.904k (± 5.9%) i/s    (1.16 μs/i) -      4.384M in   5.075020s
+sink 982139833.3001442
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    32.471k i/100ms
+dishonest_no_timestamp    42.308k i/100ms
+                honest    90.459k i/100ms
+Calculating -------------------------------------
+        dishonest_full    322.009k (± 8.8%) i/s    (3.11 μs/i) -      1.624M in   5.041936s
+dishonest_no_timestamp    447.053k (± 4.4%) i/s    (2.24 μs/i) -      2.242M in   5.015791s
+                honest    860.084k (± 8.2%) i/s    (1.16 μs/i) -      4.342M in   5.048380s
+sink 999614322.6593883
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    35.106k i/100ms
+dishonest_no_timestamp    40.098k i/100ms
+                honest    91.855k i/100ms
+Calculating -------------------------------------
+        dishonest_full    340.825k (± 5.9%) i/s    (2.93 μs/i) -      1.720M in   5.047145s
+dishonest_no_timestamp    460.023k (± 3.2%) i/s    (2.17 μs/i) -      2.326M in   5.055584s
+                honest    900.072k (± 3.8%) i/s    (1.11 μs/i) -      4.593M in   5.102649s
+sink 1039420738.8622434
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    36.410k i/100ms
+dishonest_no_timestamp    43.256k i/100ms
+                honest    89.639k i/100ms
+Calculating -------------------------------------
+        dishonest_full    333.787k (± 4.7%) i/s    (3.00 μs/i) -      1.675M in   5.017748s
+dishonest_no_timestamp    435.614k (± 3.4%) i/s    (2.30 μs/i) -      2.206M in   5.064242s
+                honest    875.911k (± 4.1%) i/s    (1.14 μs/i) -      4.392M in   5.014565s
+sink 1006514427.3320885
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    34.402k i/100ms
+dishonest_no_timestamp    41.305k i/100ms
+                honest    80.903k i/100ms
+Calculating -------------------------------------
+        dishonest_full    341.893k (± 4.6%) i/s    (2.92 μs/i) -      1.720M in   5.031109s
+dishonest_no_timestamp    451.656k (± 4.5%) i/s    (2.21 μs/i) -      2.272M in   5.029884s
+                honest    882.972k (± 8.1%) i/s    (1.13 μs/i) -      4.450M in   5.039416s
+sink 1017080147.4833006
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    37.472k i/100ms
+dishonest_no_timestamp    45.698k i/100ms
+                honest    88.409k i/100ms
+Calculating -------------------------------------
+        dishonest_full    347.032k (± 5.6%) i/s    (2.88 μs/i) -      1.761M in   5.074993s
+dishonest_no_timestamp    428.877k (±10.4%) i/s    (2.33 μs/i) -      2.148M in   5.007977s
+                honest    882.579k (± 5.1%) i/s    (1.13 μs/i) -      4.420M in   5.008560s
+sink 1025078001.3774543
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    36.053k i/100ms
+dishonest_no_timestamp    46.755k i/100ms
+                honest    90.218k i/100ms
+Calculating -------------------------------------
+        dishonest_full    346.075k (± 6.4%) i/s    (2.89 μs/i) -      1.731M in   5.000488s
+dishonest_no_timestamp    455.160k (± 2.9%) i/s    (2.20 μs/i) -      2.291M in   5.033387s
+                honest    884.010k (± 4.4%) i/s    (1.13 μs/i) -      4.511M in   5.102772s
+sink 1040783664.7117913
+ruby 3.3.8 (2025-04-09 revision b200bad6cd) [x86_64-linux-gnu]
+Warming up --------------------------------------
+        dishonest_full    33.112k i/100ms
+dishonest_no_timestamp    42.890k i/100ms
+                honest    86.917k i/100ms
+Calculating -------------------------------------
+        dishonest_full    344.375k (± 2.6%) i/s    (2.90 μs/i) -      1.722M in   4.999853s
+dishonest_no_timestamp    447.057k (± 3.1%) i/s    (2.24 μs/i) -      2.273M in   5.084743s
+                honest    899.820k (± 3.4%) i/s    (1.11 μs/i) -      4.520M in   5.022875s
+sink 1023934099.9824803

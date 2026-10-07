@@ -1,0 +1,2 @@
+{"language":"javascript","idiom":"loop over Float64Array","n":1048576,"ns_per_element_median":1.432,"empty_loop":1.175,"net":0.257,"min":1.21,"max":1.509}
+{"language":"javascript","idiom":"loop over Float64Array","n":33554432,"ns_per_element_median":1.622,"empty_loop":1.2,"net":0.422,"min":1.523,"max":1.669}

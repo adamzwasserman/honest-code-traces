@@ -1,0 +1,34 @@
+{
+  "language": "ruby",
+  "runtime": "ruby 3.3.8",
+  "method": "whole scenario, 1000 iterations between two clock reads, median of 200 batches",
+  "warmup_iterations": 5000,
+  "clock_read_pair_ns": 151,
+  "batched_ns_per_iteration": {
+    "dishonest_full": 5214,
+    "dishonest_no_timestamp": 4466,
+    "honest": 1142
+  },
+  "ratios": {
+    "full_over_honest": 4.57,
+    "no_timestamp_over_honest": 3.91
+  },
+  "per_iteration_ns": {
+    "note": "each sample includes one clock_read_pair_ns of instrument cost",
+    "dishonest_full": {
+      "p05": 3981,
+      "p25": 4154,
+      "p50": 4298,
+      "p75": 4373,
+      "p95": 8115
+    },
+    "honest": {
+      "p05": 1066,
+      "p25": 1112,
+      "p50": 1127,
+      "p75": 1153,
+      "p95": 1801
+    }
+  },
+  "sink": 54883927.179
+}
