@@ -152,6 +152,17 @@ ch03-data-is-just-data/         # (coming soon)
 ch13-the-monday-morning-chapter/
 ```
 
+## Corrections
+
+The first version of the harnesses measured the wrong thing. We got it wrong in four ways, and all eleven numbers changed when we fixed them.
+
+- The old harnesses timed the dishonest path in six pieces and the honest path in four. Each piece sits between two clock reads, so the dishonest side paid for two more pairs of clock reads than the honest side did. On the benchmark machine a pair of clock reads costs 28 nanoseconds in C++ and 60 in Python, against totals of a few hundred.
+- The honest "call" row had two clock reads back to back and no function call between them.
+- `CouponRegistry::reset()` and `TaxService::reset()` ran right before the timed singleton section, so every pass paid to build two objects.
+- Some labels did not match the code under them.
+
+The rewritten harnesses time the whole scenario once per pass, build the singletons before timing starts, and report batched numbers with percentiles. On 4 October 2026 we also rebuilt the dishonest class so that its methods must run in order. The corrected ratios came out higher than the old ones. That is not why we changed the method. We changed it because the old numbers did not measure what we said they did. The earlier class measurements stay in `measured/cascading-class`, and the commit `240167e` records the change in full.
+
 ## The Book
 
 [*Honest Code*](https://honestcode.software) covers 13 chapters on replacing dishonest patterns with honest ones. Every chapter has a crime scene and a rescue, with interactive demos on the companion site. A [free sampler](https://adamzwasserman.gumroad.com/l/honest-code-sampler) is available with the first two chapters and the cheat sheet.
